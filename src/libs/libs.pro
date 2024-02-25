@@ -7,10 +7,11 @@ SUBDIRS += \
     IfFace \
     IfFrame \
     eIRbase \
-	 \
     eIRcore \
     eIRcv \
     eIRexe \
     eIRgui \
-    eIRphoto
-	
+    eIRphoto \
+
+
+
