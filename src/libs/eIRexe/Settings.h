@@ -1,6 +1,7 @@
 #pragma once
+#include "eIRexe.h"
 
-#include <QObject>
+#include <QSettings>
 
 #include <QMap>
 #include <QVariant>
@@ -10,7 +11,7 @@ class Setting;
 class SettingProperty;
 class SettingsScanner;
 
-class Settings : public QSettings
+class EIREXE_EXPORT Settings : public QSettings
 {
     Q_OBJECT
 public: // types
@@ -38,11 +39,12 @@ public: // ctors
     ~Settings();
 
 public: // overrides
-    QVariant value(const QString & key, const QVariant &defaultValue=QVariant()) const;
-    void setValue(const QString & key, const QVariant &newValue) const;
+    QVariant value(const QString & key, const QVariant &defalt=QVariant()) const;
+    void setValue(const QString & key, const QVariant &newValue);
 
 public: // const
     const QString pollCountKey() const;
+    const QString updateMsecKey() const;
 
 public slots:
     void startTimers(void);
@@ -73,11 +75,11 @@ signals:
 
 
 private:
-    QMap<QString, Setting *> vars;
-    QMap<QString, SettingProperty *> properties;
-    QMap<QString, QString> opts;
-    QString keyForUpdateMsec;
-    QString m_pollCountKey;
+    QMap<QString, Setting *> mVars;
+    QMap<QString, SettingProperty *> mProps;
+    QMap<QString, QString> mOpts;
+    QString mPollCountKey;
+    QString mUpdateMsecKey;
 
     SettingsScanner * scanner=nullptr;
     QTimer * timerUpdate=nullptr;
@@ -114,7 +116,12 @@ Q_DECLARE_OPERATORS_FOR_FLAGS(Settings::Flags);
 
 inline const QString Settings::pollCountKey() const
 {
-    return m_pollCountKey;
+    return mPollCountKey;
+}
+
+inline const QString Settings::updateMsecKey() const
+{
+    return mUpdateMsecKey;
 }
 
 inline bool Settings::advancedMode() const

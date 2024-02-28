@@ -1,10 +1,11 @@
 #pragma once
+#include"eIRexe.h"
 
 #include <QVariant>
 
 #include "Settings.h"
 
-class Setting : public QVariant
+class EIREXE_EXPORT Setting : public QVariant
 {
 public:
     Setting(Settings * Parent,

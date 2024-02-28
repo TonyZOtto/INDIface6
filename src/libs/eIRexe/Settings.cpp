@@ -8,7 +8,7 @@
 #include "SettingsScanner.h"
 
 Settings::Settings(QObject * parent)
-    : QObject(parent)
+    : QSettings(parent)
 {
     setObjectName("Settings");
 }
@@ -27,22 +27,23 @@ Settings::~Settings()
     }
 }
 
-QVariant Settings::value(const QString &key, const QVariant &defaultValue) const
+QVariant Settings::value(const QString &key, const QVariant &defalt) const
 {
-    if (vars.contains(key)) return *vars[key];
-    if (properties.contains(key)) return *properties[key];
+    if (mVars.contains(key)) return *mVars[key];
+    if (mProps.contains(key)) return mProps[key]->value();
+    return defalt;
 }
 
-void Settings::setValue(const QString &key, const QVariant &newValue) const
+void Settings::setValue(const QString &key, const QVariant &newValue)
 {
-    if (vars.contains(key))
+    if (mVars.contains(key))
     {
-        Setting * var = vars[key];
+        Setting * var = mVars[key];
         *(QVariant *)var = newValue;
     }
-    else if (properties.contains(key))
+    else if (mProps.contains(key))
     {
-        SettingProperty * prop = properties.value(key);
+        SettingProperty * prop = mProps.value(key);
         *(QVariant *)prop = newValue;
     }
     QSettings::setValue(key, newValue);
@@ -79,7 +80,7 @@ void Settings::startTimers(void)
 
 void Settings::scanForUpdate()
 {
-    const int tUpdateMsec = QSettings::value(keyForUpdateMsec());
+    const int tUpdateMsec = QSettings::value(updateMsecKey()).toInt();
     if (m_updateMsec != tUpdateMsec)
     {
         m_updateMsec = tUpdateMsec;
@@ -90,29 +91,28 @@ void Settings::scanForUpdate()
 
 void Settings::scan()
 {
-    foreach (QString tKey, vars.keys())
+    foreach (QString tKey, mVars.keys())
     {
-        Setting * pSetting = vars.value(tKey);
+        Setting * pSetting = mVars.value(tKey);
         const QString cOldValue = pSetting->toString();
         const QString cNewValue = value(tKey).toString();
         if (cNewValue != cOldValue)
         {
             emitValueChanged(tKey);
-            vars[tKey] = cNewValue;
+            pSetting->setValue(cNewValue);
         }
     }
-
-    foreach (QString tKey, properties.keys())
+    foreach (QString tKey, mProps.keys())
     {
-        SettingProperty * pSetting = properties.value(tKey);
-        const QString cValue = QSettings::value(tKey).toString();
-        if (vars.value(tKey) != cValue)
+        SettingProperty * pSetting = mProps.value(tKey);
+        const QString cOldValue = pSetting->value().toString();
+        const QString cNewValue = value(tKey).toString();
+        if (cNewValue != cOldValue)
         {
-            emitValueChanged(tKey);
-            vars[tKey] = cValue;
+            emitPropertyChanged(tKey);
+            pSetting->setValue(cNewValue);
         }
     }
-
     updatePollCount();
 }
 
@@ -132,14 +132,14 @@ void Settings::setPollCountKey(const QString & key, int count)
         disconnect(this, SIGNAL(scanFinish()), this, SLOT(updatePollCount()));
     else
         connect(this, SIGNAL(scanFinish()), this, SLOT(updatePollCount()));
-    m_pollCountKey = key;
+    mPollCountKey = key;
     m_pollCount = count;
     updatePollCount();
 }
 
 void Settings::updatePollCount(void)
 {
-    this->setValue(m_pollCountKey, QString::number(m_pollCount));
+    this->setValue(mPollCountKey, QString::number(m_pollCount));
     ++m_pollCount;
 }
 
@@ -156,52 +156,51 @@ void Settings::objectProperty(QObject * Object, const QString & BaseKey,
     objectProperty(key, Object, PropertyName, f);
 }
 
-void Settings::objectProperty(const QString & Key, QObject * Object,
-                    const QString & PropertyName, Settings::Flags f)
+void Settings::objectProperty(const QString & Key,
+                              QObject * Object,
+                              const QString & PropertyName,
+                              Settings::Flags f)
 {
     SettingProperty * child = new SettingProperty(this, Object, Key, PropertyName, f);
-    properties.insert(Key.toLower(), child);
-    QVariant def = Object->property(qPrintable(PropertyName));
-    QVariant var = value(Key, def);
-    child->value = var;
-    if (var != def)
-        Object->setProperty(qPrintable(PropertyName), var);
+    mProps.insert(Key.toLower(), child);
+    QVariant tDef = Object->property(qPrintable(PropertyName));
+    QVariant tVar = value(Key, tDef);
+    child->setValue(tVar);
+    if (tVar != tDef)
+        Object->setProperty(qPrintable(PropertyName), tVar);
     QString mapKey = Key.toLower();
-    if (opts.contains(mapKey))
+    if (mOpts.contains(mapKey))
     {
-        Object->setProperty(qPrintable(PropertyName), opts.value(mapKey));
-        opts.remove(mapKey);
+        Object->setProperty(qPrintable(PropertyName), mOpts.value(mapKey));
+        mOpts.remove(mapKey);
         child->mFlags |= Settings::Dirty | Settings::Changed;
     }
     if (this == Object && 0 == PropertyName.compare(tr("UpdateMsec", "config"), Qt::CaseInsensitive))
-        keyForUpdateMsec = Key;
+        mUpdateMsecKey = Key;
 }
 
 void Settings::construct(Setting * child)
 {
-    vars[child->keyName().toLower()] = child;
-    QVariant def = *child;
-    QVariant var = value(child->keyName(), def);
-    *(QVariant *)child = var;
+    mVars[child->keyName().toLower()] = child;
+    QVariant tDef = *child;
+    QVariant tVar = value(child->keyName(), tDef);
+    child->setValue(tVar);
     QString key = child->keyName().toLower();
-    if (opts.contains(child->keyName()))
+    if (mOpts.contains(child->keyName()))
     {
-        *(QVariant *)child = opts.value(child->keyName());
-        opts.remove(child->keyName());
+        *(QVariant *)child = mOpts.value(child->keyName());
+        mOpts.remove(child->keyName());
         child->flags() |= Settings::Dirty | Settings::Changed;
     }
-
 }
 
 void Settings::destruct(Setting * child)
 {
-    if (writeBack()
-        && ! child->flags.testFlag(ReadOnly)
-        && child->flags.testFlag(Dirty))
+    if ( ! child->flags().testFlag(ReadOnly)
+        && child->flags().testFlag(Dirty))
     {
         QVariant var = *child;
         setValue(child->keyName(), var.toString());
     }
-    vars.remove(child->keyName().toLower());
-
+    mVars.remove(child->keyName().toLower());
 }

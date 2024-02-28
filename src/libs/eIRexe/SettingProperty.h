@@ -1,4 +1,5 @@
 #pragma once
+#include"eIRexe.h"
 
 #include <QObject>
 
@@ -6,7 +7,7 @@
 
 #include "Settings.h"
 
-class SettingProperty : public QObject
+class EIREXE_EXPORT SettingProperty : public QObject
 {
     Q_OBJECT
 public:

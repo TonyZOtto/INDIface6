@@ -1,8 +1,9 @@
 #pragma once
+#include"eIRexe.h"
 
 #include <QObject>
 
-class CommandLine : public QObject
+class EIREXE_EXPORT CommandLine : public QObject
 {
 public:
     CommandLine(QObject * parent=nullptr);

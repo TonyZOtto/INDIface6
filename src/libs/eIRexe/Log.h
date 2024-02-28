@@ -1,8 +1,9 @@
 #pragma once
+#include"eIRexe.h"
 
 #include <QObject>
 
-class Log : public QObject
+class EIREXE_EXPORT Log : public QObject
 {
     Q_OBJECT
 public:

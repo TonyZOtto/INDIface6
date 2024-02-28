@@ -1,11 +1,13 @@
 #pragma once
+#include"eIRexe.h"
 
-#include <QObject>
 #include <QThread>
+
+#include <QVariant>
 
 class Settings;
 
-class SettingsScanner : public QThread
+class EIREXE_EXPORT SettingsScanner : public QThread
 {
     Q_OBJECT
 public:
@@ -24,4 +26,9 @@ private:
     Settings * mpSettings=nullptr;
     bool mDone=false;
 };
+
+inline void SettingsScanner::done(const bool is)
+{
+    mDone = is;
+}
 
