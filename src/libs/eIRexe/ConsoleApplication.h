@@ -11,7 +11,7 @@ public: // ctors
     explicit ConsoleApplication(int argc, char *argv[]);
 
 public: // const
-    QStringList arguments();
+    QStringList arguments() const;
 
 public: // non const
 
@@ -21,7 +21,7 @@ private:
     QStringList mArguments;
 };
 
-inline QStringList ConsoleApplication::arguments()
+inline QStringList ConsoleApplication::arguments() const
 {
     return mArguments;
 }

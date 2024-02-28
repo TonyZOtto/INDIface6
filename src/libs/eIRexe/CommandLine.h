@@ -1,7 +1,9 @@
 #pragma once
 
-class CommandLine
+#include <QObject>
+
+class CommandLine : public QObject
 {
 public:
-    CommandLine();
+    CommandLine(QObject * parent=nullptr);
 };

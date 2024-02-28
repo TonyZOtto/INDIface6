@@ -11,7 +11,10 @@ SOURCES += \
     CommandLine.cpp \
     ConsoleApplication.cpp \
     Log.cpp \
+    Setting.cpp \
+    SettingProperty.cpp \
     Settings.cpp \
+    SettingsScanner.cpp \
     eIRexe.cpp
 
 HEADERS += \
@@ -19,7 +22,10 @@ HEADERS += \
     CommandLine.h \
     ConsoleApplication.h \
     Log.h \
+    Setting.h \
+    SettingProperty.h \
     Settings.h \
+    SettingsScanner.h \
     eIRexe_global.h \
     eIRexe.h
 
