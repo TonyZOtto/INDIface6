@@ -7,6 +7,7 @@ include(../../useBase.pri)
 include(../../useExe.pri)
 
 SOURCES += \
+        ConsoleInitializer.cpp \
         IfConsoleApp.cpp \
         main.cpp
 
@@ -16,4 +17,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    ConsoleInitializer.h \
     IfConsoleApp.h

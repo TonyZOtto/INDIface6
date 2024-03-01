@@ -13,6 +13,14 @@ Settings::Settings(QObject * parent)
     setObjectName("Settings");
 }
 
+Settings::Settings(const QString & organization,
+                   const QString & application,
+                   QObject * parent)
+    : QSettings(organization, application, parent)
+{
+    setObjectName("Settings:" + organization + ":" + application);
+}
+
 Settings::~Settings()
 {
     delete timerScan;
@@ -47,6 +55,15 @@ void Settings::setValue(const QString &key, const QVariant &newValue)
         *(QVariant *)prop = newValue;
     }
     QSettings::setValue(key, newValue);
+}
+
+void Settings::insert(const SettingsMap &map)
+{
+    foreach(const QString cKey, map.keys())
+    {
+        const QVariant cValue = map.value(cKey);
+        setValue(cKey, cValue);
+    }
 }
 
 void Settings::startTimers(void)

@@ -32,7 +32,7 @@ public: // types
 public: // ctors
     Settings(QObject * parent=nullptr);
     Settings(const QString & organization,
-             const QString & application = QString(),
+             const QString & application,
              QObject * parent = 0);
     Settings(const QString & iniFilename,
              QObject * parent);
@@ -45,6 +45,9 @@ public: // overrides
 public: // const
     const QString pollCountKey() const;
     const QString updateMsecKey() const;
+
+public: // non-const
+    void insert(const QSettings::SettingsMap &map);
 
 public slots:
     void startTimers(void);

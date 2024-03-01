@@ -7,12 +7,22 @@ include(../libs.pri)
 
 SOURCES += \
     AText.cpp \
+    Key.cpp \
+    KeyMap.cpp \
+    KeySeg.cpp \
+    KeySegList.cpp \
+    Uid.cpp \
     VersionInfo.cpp \
     eirBase.cpp
 
 HEADERS += \
     AText.h \
+    Key.h \
+    KeyMap.h \
+    KeySeg.h \
+    KeySegList.h \
     Types.h \
+    Uid.h \
     VersionInfo.h \
     eirBase_global.h \
     eirBase.h

@@ -3,13 +3,13 @@
 #include <QCoreApplication>
 
 #include "CommandLine.h"
-#include "Log.h"
+#include "Logger.h"
 #include "Settings.h"
 
 BaseExecutable::BaseExecutable(QObject *parent)
     : QObject{parent}
     , mpCommandLine(new CommandLine(this))
-    , mpLog(new Log(this))
+    , mpLog(new Logger(this))
     , mpSettings(new Settings(this))
 {
     setObjectName("BaseExecutable:CoreApplication");
@@ -33,7 +33,14 @@ QString BaseExecutable::idString() const
     return QString("%1:%2:v%3")
         .arg(core()->organizationName(),
             core()->applicationName(),
-            core()->applicationVersion());
+             core()->applicationVersion());
+}
+
+void BaseExecutable::initialize()
+{
+    commandLine()->process();
+    newSettings(commandLine()->appName(), commandLine()->orgName());
+    settings()->insert(commandLine()->settingsMap());
 }
 
 void BaseExecutable::newCore(int argc, char **argv)
@@ -47,6 +54,16 @@ void BaseExecutable::newCore(int argc, char **argv)
         mpCoreApp = nullptr;
     }
     mpCoreApp = result;
+}
+
+void BaseExecutable::newSettings(const QString &orgName, const QString &appName)
+{
+    if (mpSettings)
+    {
+        mpSettings->deleteLater();
+        mpSettings = nullptr;
+    }
+    mpSettings = new Settings(orgName, appName, this);
 }
 
 

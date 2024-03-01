@@ -5,12 +5,18 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000
 CONFIG += c++17
 
 include(../libs.pri)
+include(../../useBase.pri)
+include(../../useCore.pri)
 
 SOURCES += \
     BaseExecutable.cpp \
     CommandLine.cpp \
     ConsoleApplication.cpp \
-    Log.cpp \
+    Context.cpp \
+    FunctionInfo.cpp \
+    LogItem.cpp \
+    LogObject.cpp \
+    Logger.cpp \
     Setting.cpp \
     SettingProperty.cpp \
     Settings.cpp \
@@ -21,7 +27,13 @@ HEADERS += \
     BaseExecutable.h \
     CommandLine.h \
     ConsoleApplication.h \
+    Context.h \
+    FunctionInfo.h \
     Log.h \
+    LogItem.h \
+    LogMacros.h \
+    LogObject.h \
+    Logger.h \
     Setting.h \
     SettingProperty.h \
     Settings.h \

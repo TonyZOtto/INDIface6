@@ -6,7 +6,7 @@
 class QCoreApplication;
 
 class CommandLine;
-class Log;
+class Logger;
 class Settings;
 
 class EIREXE_EXPORT BaseExecutable : public QObject
@@ -24,18 +24,26 @@ public: // const
 public: // pointers
     QCoreApplication *core() const;
     CommandLine *commandLine() const;
-    Log *log() const;
+    Logger *logger() const;
     Settings *settings() const;
+
+public: // non-const
+
+public slots:
+    void initialize();
 
 signals:
 
 protected: // non-const
     void newCore(int argc, char **argv);
 
+protected: // non-const
+    void newSettings(const QString &orgName, const QString & appName);
+
 private:
     QCoreApplication * mpCoreApp=nullptr;
     CommandLine * mpCommandLine=nullptr;
-    Log * mpLog=nullptr;
+    Logger * mpLog=nullptr;
     Settings * mpSettings=nullptr;
 };
 
@@ -49,7 +57,7 @@ inline CommandLine *BaseExecutable::commandLine() const
     Q_CHECK_PTR(mpCommandLine); return mpCommandLine;
 }
 
-inline Log *BaseExecutable::log() const
+inline Logger *BaseExecutable::logger() const
 {
     Q_CHECK_PTR(mpLog); return mpLog;
 }
