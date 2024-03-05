@@ -8,7 +8,7 @@ class Log : public QObject
 public: // types
     enum Level
     {
-        $null = 0,
+        $nullLevel = 0,
         Level01,        // 01
         TFnArg,         // 02
         TFnLeave,       // 03
@@ -40,12 +40,14 @@ public: // types
         TFatal,         // 29
         Fatal,          // 30
         System,         // 31
+        $minLevel = Level01,
+        $maxLevel = System,
     };
     Q_ENUM(Level);
 
     enum LevelFlag
     {
-        FlagNull        = 1 << $null,
+        FlagNull        = 1 << $nullLevel,
         FlagLevel01     = 1 << Level01,
         FlagTFnArg      = 1 << TFnArg,
         FlagTFnLeave    = 1 << TFnLeave,
@@ -80,6 +82,19 @@ public: // types
     };
     Q_DECLARE_FLAGS(LevelFlags, LevelFlag);
     Q_ENUM(LevelFlag);
+
+    enum Compare
+    {
+        $nullCompare        = 0,
+        EqualityMask        = 0x30000000,
+        Equals              = 0x20000000,
+        NotEqual            = 0x10000000,
+        ValueMask           = 0x03000000,
+        GreaterThan         = 0x02000000,
+        LessThan            = 0x01000000,
+        GreaterEqual        = Equals | GreaterThan,
+        LessEqual           = Equals | LessThan,
+    };
 
 public:
     explicit Log(QObject *parent = nullptr);

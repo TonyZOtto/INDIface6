@@ -7,6 +7,7 @@ include(../libs.pri)
 
 SOURCES += \
     AText.cpp \
+    Boolean.cpp \
     Key.cpp \
     KeyMap.cpp \
     KeySeg.cpp \
@@ -17,6 +18,7 @@ SOURCES += \
 
 HEADERS += \
     AText.h \
+    Boolean.h \
     Key.h \
     KeyMap.h \
     KeySeg.h \
