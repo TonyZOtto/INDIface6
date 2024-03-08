@@ -3,11 +3,12 @@
 
 #include <QObject>
 
+#include <QQueue>
 #include <QUrl>
 class QVariant;
 
 #include "../eIRbase/Boolean.h"
-#include "LogObject.h"
+#include "Log.h"
 
 class EIREXE_EXPORT Logger : public QObject
 {
@@ -28,6 +29,7 @@ public: // non-const
     bool open(const QUrl &url, const Log::LevelFlags flags);
     bool hookTrollIn();
     bool hookTrollOut();
+    void add(const LogItem &li);
 
 private: // static
     static Boolean compare(const Log::Compare c, const QVariant &expected, const QVariant &actual);
@@ -36,4 +38,10 @@ private: // static
     static bool greater(const QPartialOrdering qpo);
 
 signals:
+    void queued(const LogItem &li);
+    void queueCount(const Count k);
+    void queueEmpty();
+
+private:
+    QQueue<LogItem> mInputItemQueue;
 };

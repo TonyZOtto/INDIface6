@@ -36,6 +36,7 @@ public: // const
                    const QTimeZone &tz=QTimeZone::LocalTime);
 
 public: // non-const
+    void set(const QQFileInfo &fi);
     QFileInfo & it();
 
 private: // const

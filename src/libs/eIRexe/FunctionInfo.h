@@ -43,6 +43,7 @@ public: // ctors
     FunctionInfo(const QString &qFileInfo) { parse(qFileInfo); }
 
 public: // non-const
+    void set(const FunctionInfo &other);
     void parse(const QString &qFileInfo);
 
 private:
