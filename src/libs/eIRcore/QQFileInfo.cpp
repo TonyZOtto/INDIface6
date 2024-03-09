@@ -44,6 +44,11 @@ QString QQFileInfo::permissionsString() const
     return result;
 }
 
+void QQFileInfo::set(const QQFileInfo &fi)
+{
+    *this = fi;
+}
+
 QString QQFileInfo::flagString(const bool isSet) const
 {
     QString result;
