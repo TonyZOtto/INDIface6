@@ -1,4 +1,4 @@
-#include "LogItem.h"
+#include "Log.h"
 
 #include "../eIRbase/Types.h"
 

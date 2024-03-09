@@ -1,8 +1,9 @@
 #pragma once
+#include "eIRbase.h"
 
 #include <QUuid>
 
-class Uid
+class EIRBASE_EXPORT Uid
 {
 public:
     Uid(); // null

@@ -13,7 +13,7 @@
 #include "../eIRbase/Uid.h"
 #include "Context.h"
 #include "FunctionInfo.h"
-#include "Log.h"
+#include "LogObject.h"
 
 class EIREXE_EXPORT LogItem : public QObject
 {

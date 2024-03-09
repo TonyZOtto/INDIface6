@@ -5,6 +5,7 @@
 
 #include <QVariant>
 
+//#include "Log.h"
 class Settings;
 
 class EIREXE_EXPORT SettingsScanner : public QThread

@@ -6,6 +6,7 @@ SUBDIRS += \
     IfBase \
     IfFace \
     IfFrame \
+    IfResource \
     eIRbase \
     eIRcore \
     eIRcv \

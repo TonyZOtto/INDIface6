@@ -1,4 +1,4 @@
-#include "Logger.h"
+//#include "Logger.h"
 
 #include <QMetaEnum>
 #include <QPartialOrdering>
@@ -7,6 +7,7 @@
 #include "../eIRbase/AText.h"
 #include "../eIRcore/ObjectHelper.h"
 #include "Log.h"
+Q_GLOBAL_STATIC(Log, LOG);
 
 Logger::Logger(QObject *parent)
     : QObject{parent}
