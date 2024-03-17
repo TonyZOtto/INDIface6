@@ -4,23 +4,24 @@
 
 #include <QString>
 
+#include "Log.h"
+
 class BaseLogUrl : public QUrl
 {
 public:
-    enum Type { $null = 0, Cache, Output };
 
 public: // ctors
     BaseLogUrl();
 protected:
-    BaseLogUrl(const Type t, const QString &s);
+    BaseLogUrl(const Log::UrlType luty, const QString &s);
 
 public:
-    virtual Type type() const = 0;
+    virtual Log::UrlType type() const = 0;
 
 public:
-    void set(const Type t);
-    void set(const QString &s);
+    void set(const Log::UrlType luty);
+    void set(const QString &url);
 
 private:
-    Type mType=$null;
+    Log::UrlType mType=Log::$nullUrlType;
 };

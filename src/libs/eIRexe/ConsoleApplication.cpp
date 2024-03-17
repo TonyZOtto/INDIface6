@@ -11,3 +11,8 @@ ConsoleApplication::ConsoleApplication(int argc, char *argv[])
     while (argc--)
         mArguments << QString(*argv++);
 }
+
+void ConsoleApplication::initialize()
+{
+    BaseExecutable::initialize();
+}

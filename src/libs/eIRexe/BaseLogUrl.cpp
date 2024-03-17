@@ -1,20 +1,20 @@
 #include "BaseLogUrl.h"
 
-BaseLogUrl::BaseLogUrl() { set($null); }
+BaseLogUrl::BaseLogUrl() { set(Log::$nullUrlType); }
 
-BaseLogUrl::BaseLogUrl(const Type t, const QString &s)
+BaseLogUrl::BaseLogUrl(const Log::UrlType luty, const QString &url)
 {
-    set(t); set(s);
+    set(luty); set(url);
 }
 
 
-void BaseLogUrl::set(const Type t)
+void BaseLogUrl::set(const Log::UrlType luty)
 {
-    mType = t;
+    mType = luty;
 }
 
-void BaseLogUrl::set(const QString &s)
+void BaseLogUrl::set(const QString &url)
 {
-    QUrl::setUrl(s);
+    QUrl::setUrl(url);
 }
 

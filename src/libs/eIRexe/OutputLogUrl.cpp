@@ -1,3 +1,5 @@
 #include "OutputLogUrl.h"
 
-OutputLogUrl::OutputLogUrl(const QString &s) {}
+#include "Log.h"
+
+OutputLogUrl::OutputLogUrl(const QString &s) : BaseLogUrl(Log::OutputUrl, s) {;}

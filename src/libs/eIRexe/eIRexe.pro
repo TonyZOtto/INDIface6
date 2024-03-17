@@ -11,6 +11,7 @@ include(../../useCore.pri)
 
 SOURCES += \
     BaseExecutable.cpp \
+    BaseLogOutput.cpp \
     BaseLogUrl.cpp \
     CommandLine.cpp \
     ConsoleApplication.cpp \
@@ -28,6 +29,7 @@ SOURCES += \
 
 HEADERS += \
     BaseExecutable.h \
+    BaseLogOutput.h \
     BaseLogUrl.h \
     CommandLine.h \
     ConsoleApplication.h \

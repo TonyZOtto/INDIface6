@@ -47,7 +47,7 @@ public: // types
 
     enum LevelFlag
     {
-        FlagNull        = 1 << $nullLevel,
+        Flag$Null       = 1 << $nullLevel,
         FlagLevel01     = 1 << Level01,
         FlagTFnArg      = 1 << TFnArg,
         FlagTFnLeave    = 1 << TFnLeave,
@@ -95,6 +95,36 @@ public: // types
         GreaterEqual        = Equals | GreaterThan,
         LessEqual           = Equals | LessThan,
     };
+    Q_ENUM(Compare);
+
+    enum UrlType
+    {
+        $nullUrlType = 0,
+        OutputUrl,
+        CacheUrl,
+    };
+    Q_ENUM(UrlType);
+
+    enum OutputScheme
+    {
+        $nullOutputScheme = 0,
+        FileOutputScheme,
+        SqlOutputScheme,
+    };
+    Q_ENUM(OutputScheme);
+
+    enum FileOutputFormat
+    {
+        $nullFileOutputFormat = 0,
+        TextFileOutput,
+        XmlFileOutput,
+        DataFileOutput,
+        StreamFileOutput,
+        TableSqlOutput,
+        XmlSqlOutput,
+        XmlNoSqlOutput,
+    };
+    Q_ENUM(FileOutputFormat);
 
 public:
     explicit Log(QObject *parent = nullptr);

@@ -9,6 +9,7 @@ class QVariant;
 
 #include "../eIRbase/Boolean.h"
 #include "Log.h"
+#include "OutputLogUrl.h"
 
 class EIREXE_EXPORT Logger : public QObject
 {
@@ -23,10 +24,10 @@ public: // const
 public slots:
 
 public: // non-const
-    bool open(const QUrl &url=QUrl(),
+    bool open(const OutputLogUrl &url,
               const Log::Level maxLevel=Log::$nullLevel,
               const Log::Level minLevel=Log::$nullLevel);
-    bool open(const QUrl &url, const Log::LevelFlags flags);
+    bool open(const OutputLogUrl &url, const Log::LevelFlags flags);
     bool hookTrollIn();
     bool hookTrollOut();
     void add(const LogItem &li);

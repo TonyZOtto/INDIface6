@@ -15,7 +15,7 @@ Logger::Logger(QObject *parent)
     setObjectName("Logger");
 }
 
-bool Logger::open(const QUrl &url, const Log::Level maxLevel, const Log::Level minLevel)
+bool Logger::open(const OutputLogUrl &url, const Log::Level maxLevel, const Log::Level minLevel)
 {
     ObjectHelper tOH(LOG);
     const QMetaEnum cME = tOH.metaEnum("Level");
@@ -25,7 +25,7 @@ bool Logger::open(const QUrl &url, const Log::Level maxLevel, const Log::Level m
     return open(url, flags);
 }
 
-bool Logger::open(const QUrl &url, const Log::LevelFlags flags)
+bool Logger::open(const OutputLogUrl &url, const Log::LevelFlags flags)
 {
 
 }

@@ -30,7 +30,7 @@ public: // pointers
 public: // non-const
 
 public slots:
-    void initialize();
+    virtual void initialize();
 
 signals:
 
