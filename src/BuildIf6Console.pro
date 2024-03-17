@@ -15,4 +15,4 @@ eIRexe.subdir       =   ./libs/eIRexe
 eIRbase.depends     =
 eIRcore.depends     =   eIRbase
 eIRexe.depends      =   eIRbase eIRcore
-If6Console.depends  =   eIRbase eIRcore eIRexe
+#If6Console.depends  =   eIRbase eIRcore eIRexe

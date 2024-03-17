@@ -1,4 +1,5 @@
 QT -= gui
+QT += network
 TEMPLATE = lib
 DEFINES += EIREXE_LIBRARY
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000
@@ -10,6 +11,7 @@ include(../../useCore.pri)
 
 SOURCES += \
     BaseExecutable.cpp \
+    BaseLogUrl.cpp \
     CommandLine.cpp \
     ConsoleApplication.cpp \
     Context.cpp \
@@ -17,6 +19,7 @@ SOURCES += \
     LogItem.cpp \
     LogObject.cpp \
     Logger.cpp \
+    OutputLogUrl.cpp \
     Setting.cpp \
     SettingProperty.cpp \
     Settings.cpp \
@@ -25,6 +28,7 @@ SOURCES += \
 
 HEADERS += \
     BaseExecutable.h \
+    BaseLogUrl.h \
     CommandLine.h \
     ConsoleApplication.h \
     Context.h \
@@ -34,6 +38,7 @@ HEADERS += \
     LogMacros.h \
     LogObject.h \
     Logger.h \
+    OutputLogUrl.h \
     Setting.h \
     SettingProperty.h \
     Settings.h \
