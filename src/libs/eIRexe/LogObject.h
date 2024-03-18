@@ -2,6 +2,8 @@
 
 #include <QObject>
 
+#include "../eIRbase/AText.h"
+
 class Log : public QObject
 {
     Q_OBJECT
@@ -128,6 +130,9 @@ public: // types
 
 public:
     explicit Log(QObject *parent = nullptr);
+
+public: // static
+    static OutputScheme outputScheme(const AText key);
 
 signals:
 };

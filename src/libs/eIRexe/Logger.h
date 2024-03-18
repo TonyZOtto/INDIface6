@@ -32,6 +32,11 @@ public: // non-const
     bool hookTrollOut();
     void add(const LogItem &li);
 
+private:
+    bool openFile(const OutputLogUrl &url, const Log::LevelFlags flags);
+    bool openSql(const OutputLogUrl &url, const Log::LevelFlags flags);
+
+
 private: // static
     static Boolean compare(const Log::Compare c, const QVariant &expected, const QVariant &actual);
     static Boolean compare(const Log::Compare c, const QPartialOrdering qpo);

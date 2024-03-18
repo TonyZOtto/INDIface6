@@ -2,6 +2,7 @@
 
 #include <QMetaEnum>
 #include <QPartialOrdering>
+#include <QString>
 #include <QVariant>
 
 #include "../eIRbase/AText.h"
@@ -26,6 +27,25 @@ bool Logger::open(const OutputLogUrl &url, const Log::Level maxLevel, const Log:
 }
 
 bool Logger::open(const OutputLogUrl &url, const Log::LevelFlags flags)
+{
+    bool result = false;
+    const QString cUrlScheme = url.scheme();
+    const Log::OutputScheme cOutScheme = Log::outputScheme(cUrlScheme);
+    switch (cOutScheme)
+    {
+    case Log::FileOutputScheme:     result = openFile(url, flags);      break;
+    case Log::SqlOutputScheme:      result = openSql(url, flags);       break;
+    default:                        /* false result */                  break;
+    };
+    return result;
+}
+
+bool Logger::openFile(const OutputLogUrl &url, const Log::LevelFlags flags)
+{
+
+}
+
+bool Logger::openSql(const OutputLogUrl &url, const Log::LevelFlags flags)
 {
 
 }

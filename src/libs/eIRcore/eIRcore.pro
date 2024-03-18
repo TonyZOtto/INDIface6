@@ -7,11 +7,13 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs depr
 include(../libs.pri)
 
 SOURCES += \
+    IODevice.cpp \
     ObjectHelper.cpp \
     QQFileInfo.cpp \
     eIRcore.cpp
 
 HEADERS += \
+    IODevice.h \
     ObjectHelper.h \
     QQFileInfo.h \
     eIRcore_global.h \
