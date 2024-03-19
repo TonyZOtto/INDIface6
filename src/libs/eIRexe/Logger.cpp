@@ -42,12 +42,12 @@ bool Logger::open(const OutputLogUrl &url, const Log::LevelFlags flags)
 
 bool Logger::openFile(const OutputLogUrl &url, const Log::LevelFlags flags)
 {
-
+    Q_UNUSED(url); Q_UNUSED(flags); return false;// MUSTDO
 }
 
 bool Logger::openSql(const OutputLogUrl &url, const Log::LevelFlags flags)
 {
-
+    Q_UNUSED(url); Q_UNUSED(flags); return false;// MUSTDO
 }
 
 Boolean Logger::compare(const Log::Compare c, const QVariant &expected, const QVariant &actual)

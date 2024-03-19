@@ -89,14 +89,25 @@ public: // types
     {
         $nullCompare        = 0,
         EqualityMask        = 0x30000000,
-        Equals              = 0x20000000,
+        Equals              = 0x30000000,
         NotEqual            = 0x10000000,
         ValueMask           = 0x03000000,
         GreaterThan         = 0x02000000,
         LessThan            = 0x01000000,
         GreaterEqual        = Equals | GreaterThan,
         LessEqual           = Equals | LessThan,
+/*      ExpectMask          = 0x00300000,
+        Expectation         = 0x00100000,
+        ExpectBit           = 0x00200000,
+        ExpectTrue          = Expectation | ExpectBit,
+        ExpectFalse         = Expectation | false, */
+        AssertMask          = 0x00030000,
+        Assertation         = 0x00010000,
+        AssertBit           = 0x00020000,
+        AssertTrue          = Assertation | AssertBit,
+        AssertFalse         = Assertation | false,
     };
+    Q_DECLARE_FLAGS(CompareFlags, Compare);
     Q_ENUM(Compare);
 
     enum UrlType

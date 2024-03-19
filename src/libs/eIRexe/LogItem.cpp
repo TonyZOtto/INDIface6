@@ -2,11 +2,15 @@
 
 #include "../eIRbase/Types.h"
 
+Index LogItem::smNextSequence = 0;
+
 LogItem::LogItem() {;}
 
 LogItem::LogItem(const Context &ctx, const LogLevel lvl, const char *pchMessage)
+
     : mUid(true)
 {
+    flags().setFlag(Message);
     set(ctx);
     set(lvl);
     set(pchMessage);
@@ -19,6 +23,7 @@ LogItem::LogItem(const Context &ctx, const LogLevel lvl, const char *pchFormat,
                  const char *argName4, const QVariant &argValue4)
     : mUid(true)
 {
+    flags().setFlag(Format);
     set(ctx);
     set(lvl);
     ArgumentInfoList tAIL;
@@ -33,6 +38,7 @@ LogItem::LogItem(const Context &ctx, const LogLevel lvl, const char *pchFormat,
                  const QStringList &argNames, const QVariantList &argValues)
     : mUid(true)
 {
+    flags().setFlag(Format);
     set(ctx);
     set(lvl);
     ArgumentInfoList tAIL;
@@ -40,6 +46,43 @@ LogItem::LogItem(const Context &ctx, const LogLevel lvl, const char *pchFormat,
     for (Index ix = 0; ix < Index(nArgs); ++ix)
         tAIL << ArgumentInfo{argNames[ix], argValues[ix], QString()};
     set(pchFormat, tAIL);
+}
+
+LogItem::LogItem(const Context &ctx, const LogLevel lvl, const LogItem::LogCompareFlags lcf,
+                 const char *expText, const QVariant &expValue,
+                 const char *actText, const QVariant &actValue)
+{
+    flags().setFlag(Expect);
+    set(ctx);
+    set(lvl);
+    set(lcf);
+    ArgumentInfoList tAIL;
+    tAIL << ArgumentInfo{KeySeg(), expValue, QString(expText)};
+    tAIL << ArgumentInfo{KeySeg(), actValue, QString(actText)};
+    set(tAIL);
+}
+
+LogItem::LogItem(const Context &ctx, const LogLevel lvl, const LogItem::LogCompareFlags lcf,
+                 const char *assText, const QVariant &assValue)
+{
+    flags().setFlag(Assert);
+    set(ctx);
+    set(lvl);
+    set(lcf & Log::AssertMask);
+    ArgumentInfoList tAIL;
+    tAIL << ArgumentInfo{KeySeg(), assValue, QString(assText)};
+    set(tAIL);
+}
+
+LogItem::Flags &LogItem::flags()
+{
+    return m_flags;
+}
+
+Index LogItem::setSequence()
+{
+    m_sequence = ++smNextSequence;
+    return m_sequence;
 }
 
 void LogItem::set(const Context &ctx)
@@ -54,9 +97,19 @@ void LogItem::set(const LogLevel lvl)
     m_level = lvl;
 }
 
+void LogItem::set(const LogItem::LogCompareFlags lcf)
+{
+    m_compareflags = lcf;
+}
+
 void LogItem::set(const char *pchMessage)
 {
     m_message = QString(pchMessage);
+}
+
+void LogItem::set(const ArgumentInfoList &args)
+{
+    m_arguments = args;
 }
 
 void LogItem::set(const char *pchFormat, const ArgumentInfoList &args)

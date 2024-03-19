@@ -22,17 +22,24 @@ public: // types
     enum Flag
     {
         $null = 0,
+        Message         = 0x00000001,
+        Format          = 0x00000002,
+        Expect          = 0x00000004,
+        Assert          = 0x00000008,
     };
     Q_DECLARE_FLAGS(Flags, Flag);
     Q_FLAG(Flags);
 
-    typedef Log::Level LogLevel;
+    typedef Log::Level          LogLevel;
+    typedef Log::Compare        LogCompare;
+    typedef Log::CompareFlags   LogCompareFlags;
+    typedef LogItem::Flags      LogItemFlags;
 
     struct ArgumentInfo
     {
         KeySeg      name;
         QVariant    value;
-        QString     info;
+        QString     text;
     };
     typedef QList<ArgumentInfo> ArgumentInfoList;
 
@@ -46,24 +53,36 @@ public: // ctors
             const char * argName4=0, const QVariant &argValue4=QVariant());
     LogItem(const Context &ctx, const LogLevel lvl, const char * pchFormat,
             const QStringList &argNames, const QVariantList &argValues);
+    LogItem(const Context &ctx, const LogLevel lvl, const LogCompareFlags lcf,
+            const char * expText, const QVariant &expValue,
+            const char * actText, const QVariant &actValue);
+    LogItem(const Context &ctx, const LogLevel lvl, const LogCompareFlags lcf,
+            const char * assText, const QVariant &assValue);
 
 private:
+    Flags & flags();
+    Index setSequence();
     void set(const Context &ctx);
     void set(const LogLevel lvl);
+    void set(const LogCompareFlags lcf);
     void set(const char * pchMessage);
+    void set(const ArgumentInfoList &args);
     void set(const char * pchFormat, const ArgumentInfoList &args);
 
 private:
     Uid     mUid;
-
+    static Index smNextSequence;
 
 private: // ------------------------ properties ------------------------
     LogLevel            m_level;
+    Flags               m_flags;
+    Index               m_sequence;
     FunctionInfo        m_functionInfo;
     QQFileInfo          m_fileInfo;
     unsigned            m_fileLine;
     QString             m_message;
     QString             m_format;
+    LogCompareFlags     m_compareflags;
     ArgumentInfoList    m_arguments;
     QString             m_debugHead;
     QString             m_debugFoot;
