@@ -32,7 +32,9 @@ LogItem::LogItem(const Context &ctx, const char *pchFormat,
     set(pchFormat, tAIL);
 }
 
-LogItem::LogItem(const Context &ctx, const char *pchFormat, const QVariant &argValue1, const QVariant &argValue2, const QVariant &argValue3, const QVariant &argValue4)
+LogItem::LogItem(const Context &ctx, const char *pchFormat,
+                 const QVariant &argValue1, const QVariant &argValue2,
+                 const QVariant &argValue3, const QVariant &argValue4)
 {
     flags().setFlag(Format);
     set(ctx);
@@ -57,7 +59,7 @@ LogItem::LogItem(const Context &ctx, const char *pchFormat,
     set(pchFormat, tAIL);
 }
 
-LogItem::LogItem(const Context &ctx, const LogItem::LogCompareFlags lcf,
+LogItem::LogItem(const Context &ctx, const LogCompareFlags lcf,
                  const char *expText, const QVariant &expValue,
                  const char *actText, const QVariant &actValue)
 {
@@ -70,7 +72,7 @@ LogItem::LogItem(const Context &ctx, const LogItem::LogCompareFlags lcf,
     set(tAIL);
 }
 
-LogItem::LogItem(const Context &ctx, const LogItem::LogCompareFlags lcf,
+LogItem::LogItem(const Context &ctx, const LogCompareFlags lcf,
                  const char *assText, const QVariant &assValue)
 {
     flags().setFlag(Assert);
@@ -79,6 +81,11 @@ LogItem::LogItem(const Context &ctx, const LogItem::LogCompareFlags lcf,
     ArgumentInfoList tAIL;
     tAIL << ArgumentInfo{KeySeg(), assValue, QString(assText)};
     set(tAIL);
+}
+
+QtMsgType LogItem::msgtype() const
+{
+
 }
 
 LogItem::Flags &LogItem::flags()
@@ -104,7 +111,7 @@ void LogItem::set(const LogLevel lvl)
     m_level = lvl;
 }
 
-void LogItem::set(const LogItem::LogCompareFlags lcf)
+void LogItem::set(const LogCompareFlags lcf)
 {
     m_compareflags = lcf;
 }

@@ -14,10 +14,11 @@
 #include "Context.h"
 #include "FunctionInfo.h"
 #include "LogObject.h"
+class context;
 
 class EIREXE_EXPORT LogItem : public QObject
 {
-    Q_GADGET
+    Q_OBJECT
 public: // types
     enum Flag
     {
@@ -29,11 +30,6 @@ public: // types
     };
     Q_DECLARE_FLAGS(Flags, Flag);
     Q_FLAG(Flags);
-
-    typedef Log::Level          LogLevel;
-    typedef Log::Compare        LogCompare;
-    typedef Log::CompareFlags   LogCompareFlags;
-    typedef LogItem::Flags      LogItemFlags;
 
     struct ArgumentInfo
     {
@@ -93,3 +89,4 @@ private: // ------------------------ properties ------------------------
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(LogItem::Flags);
+typedef LogItem::Flags      LogItemFlags;

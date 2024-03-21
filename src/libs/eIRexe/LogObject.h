@@ -1,10 +1,12 @@
 #pragma once
+#include "eIRexe.h"
 
 #include <QObject>
 
 #include "../eIRbase/AText.h"
+//#include "LogItem.h"
 
-class Log : public QObject
+class EIREXE_EXPORT Log : public QObject
 {
     Q_OBJECT
 public: // types
@@ -122,6 +124,7 @@ public: // types
     {
         $nullOutputScheme = 0,
         FileOutputScheme,
+        TrollOutputScheme,
         SqlOutputScheme,
     };
     Q_ENUM(OutputScheme);
@@ -147,3 +150,8 @@ public: // static
 
 signals:
 };
+
+typedef Log::Level          LogLevel;
+typedef Log::Compare        LogCompare;
+typedef Log::CompareFlags   LogCompareFlags;
+

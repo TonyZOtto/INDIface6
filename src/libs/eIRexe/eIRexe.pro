@@ -16,6 +16,7 @@ SOURCES += \
     CommandLine.cpp \
     ConsoleApplication.cpp \
     Context.cpp \
+    FileLogOutput.cpp \
     FunctionInfo.cpp \
     LogItem.cpp \
     LogObject.cpp \
@@ -25,6 +26,7 @@ SOURCES += \
     SettingProperty.cpp \
     Settings.cpp \
     SettingsScanner.cpp \
+    TrollLogOutput.cpp \
     eIRexe.cpp
 
 HEADERS += \
@@ -34,6 +36,7 @@ HEADERS += \
     CommandLine.h \
     ConsoleApplication.h \
     Context.h \
+    FileLogOutput.h \
     FunctionInfo.h \
     Log.h \
     LogItem.h \
@@ -45,6 +48,7 @@ HEADERS += \
     SettingProperty.h \
     Settings.h \
     SettingsScanner.h \
+    TrollLogOutput.h \
     eIRexe_global.h \
     eIRexe.h
 

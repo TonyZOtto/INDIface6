@@ -8,6 +8,8 @@
 #include "FunctionInfo.h"
 #include "LogObject.h"
 
+typedef Log::Level          LogLevel;
+
 class Context
 {
 public: // ctors
@@ -15,7 +17,7 @@ public: // ctors
     Context(const char * pchFuncInfo,
             const char * pchFileName,
             const unsigned fileLine,
-            const Log::Level lvl);
+            const LogLevel lvl);
 
 public: // const
     FunctionInfo functionInfo() const;

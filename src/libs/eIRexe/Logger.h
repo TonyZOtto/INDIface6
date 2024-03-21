@@ -9,9 +9,10 @@ class QVariant;
 
 #include "../eIRbase/Boolean.h"
 #include "../eIRbase/Types.h"
+#include "LogItem.h"
 #include "LogObject.h"
 #include "OutputLogUrl.h"
-class LogItem;
+class BaseLogOutput;
 
 class EIREXE_EXPORT Logger : public QObject
 {
@@ -32,10 +33,11 @@ public: // non-const
     bool open(const OutputLogUrl &url, const Log::LevelFlags flags);
     bool hookTrollIn();
     bool hookTrollOut();
-    void add(const LogItem &li);
+    void add(LogItem *li);
 
 private:
     bool openFile(const OutputLogUrl &url, const Log::LevelFlags flags);
+    bool openTroll(const OutputLogUrl &url, const Log::LevelFlags flags);
     bool openSql(const OutputLogUrl &url, const Log::LevelFlags flags);
 
 
@@ -51,5 +53,6 @@ signals:
     void queueEmpty();
 
 private:
-    QQueue<LogItem> mInputItemQueue;
+    QQueue<LogItem *> mInputItemQueue;
+    QList<BaseLogOutput *> mOutputList;
 };

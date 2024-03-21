@@ -8,7 +8,6 @@
 #include "../eIRbase/AText.h"
 #include "../eIRcore/ObjectHelper.h"
 #include "Log.h"
-Q_GLOBAL_STATIC(Log, LOG);
 
 Logger::Logger(QObject *parent)
     : QObject{parent}
@@ -34,13 +33,26 @@ bool Logger::open(const OutputLogUrl &url, const Log::LevelFlags flags)
     switch (cOutScheme)
     {
     case Log::FileOutputScheme:     result = openFile(url, flags);      break;
+    case Log::TrollOutputScheme:    result = openTroll(url, flags);     break;
     case Log::SqlOutputScheme:      result = openSql(url, flags);       break;
     default:                        /* false result */                  break;
     };
     return result;
 }
 
+void Logger::add(LogItem * li)
+{
+    mInputItemQueue.append(li);
+    emit queued(*li);
+    emit queueCount(mInputItemQueue.count());
+}
+
 bool Logger::openFile(const OutputLogUrl &url, const Log::LevelFlags flags)
+{
+    Q_UNUSED(url); Q_UNUSED(flags); return false;// MUSTDO
+}
+
+bool Logger::openTroll(const OutputLogUrl &url, const Log::LevelFlags flags)
 {
     Q_UNUSED(url); Q_UNUSED(flags); return false;// MUSTDO
 }
