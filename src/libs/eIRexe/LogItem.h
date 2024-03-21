@@ -45,18 +45,21 @@ public: // types
 
 public: // ctors
     explicit LogItem();
-    LogItem(const Context &ctx, const LogLevel lvl, const char * pchMessage);
-    LogItem(const Context &ctx, const LogLevel lvl, const char * pchFormat,
+    LogItem(const Context &ctx, const char * pchMessage);
+    LogItem(const Context &ctx, const char * pchFormat,
             const char * argName1, const QVariant &argValue1,
             const char * argName2=0, const QVariant &argValue2=QVariant(),
             const char * argName3=0, const QVariant &argValue3=QVariant(),
             const char * argName4=0, const QVariant &argValue4=QVariant());
-    LogItem(const Context &ctx, const LogLevel lvl, const char * pchFormat,
+    LogItem(const Context &ctx, const char * pchFormat,
+            const QVariant &argValue1, const QVariant &argValue2=QVariant(),
+            const QVariant &argValue3=QVariant(), const QVariant &argValue4=QVariant());
+    LogItem(const Context &ctx, const char * pchFormat,
             const QStringList &argNames, const QVariantList &argValues);
-    LogItem(const Context &ctx, const LogLevel lvl, const LogCompareFlags lcf,
+    LogItem(const Context &ctx, const LogCompareFlags lcf,
             const char * expText, const QVariant &expValue,
             const char * actText, const QVariant &actValue);
-    LogItem(const Context &ctx, const LogLevel lvl, const LogCompareFlags lcf,
+    LogItem(const Context &ctx, const LogCompareFlags lcf,
             const char * assText, const QVariant &assValue);
 
 private:

@@ -8,8 +8,10 @@
 class QVariant;
 
 #include "../eIRbase/Boolean.h"
-#include "Log.h"
+#include "../eIRbase/Types.h"
+#include "LogObject.h"
 #include "OutputLogUrl.h"
+class LogItem;
 
 class EIREXE_EXPORT Logger : public QObject
 {

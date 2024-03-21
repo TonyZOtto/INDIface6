@@ -11,7 +11,7 @@ public: // types
     enum Level
     {
         $nullLevel = 0,
-        Level01,        // 01
+        Prefer,         // 01
         TFnArg,         // 02
         TFnLeave,       // 03
         TFnEnter,       // 04
@@ -27,8 +27,8 @@ public: // types
         Level14,        // 14
         TInfo,          // 15
         Info,           // 16
-        Level17,        // 17
-        Level18,        // 18
+        TWarning,       // 17
+        Warning,        // 18
         TProgress,      // 19
         Progress,       // 20
         Level21,        // 21
@@ -42,7 +42,7 @@ public: // types
         TFatal,         // 29
         Fatal,          // 30
         System,         // 31
-        $minLevel = Level01,
+        $minLevel = Prefer,
         $maxLevel = System,
     };
     Q_ENUM(Level);
@@ -50,7 +50,7 @@ public: // types
     enum LevelFlag
     {
         Flag$Null       = 1 << $nullLevel,
-        FlagLevel01     = 1 << Level01,
+        FlagPrefer      = 1 << Prefer,
         FlagTFnArg      = 1 << TFnArg,
         FlagTFnLeave    = 1 << TFnLeave,
         FlagTFnEnter    = 1 << TFnEnter,
@@ -66,8 +66,8 @@ public: // types
         FlagLevel14     = 1 << Level14,
         FlagTInfo       = 1 << TInfo,
         FlagInfo        = 1 << Info,
-        FlagLevel17     = 1 << Level17,
-        FlagLevel18     = 1 << Level18,
+        FlagTWarning    = 1 << TWarning,
+        FlagWarning     = 1 << Warning,
         FlagTProgress   = 1 << TProgress,
         FlagProgress    = 1 << Progress,
         FlagLevel21     = 1 << Level21,

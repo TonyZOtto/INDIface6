@@ -15,3 +15,8 @@ unsigned int Context::fileLine() const
 {
     return mFileLine;
 }
+
+Log::Level Context::level() const
+{
+    return mLogLevel;
+}
