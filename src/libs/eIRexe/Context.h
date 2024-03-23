@@ -8,7 +8,7 @@
 #include "FunctionInfo.h"
 #include "LogObject.h"
 
-typedef Log::Level          LogLevel;
+typedef Log::Level LogLevel;
 
 class Context
 {

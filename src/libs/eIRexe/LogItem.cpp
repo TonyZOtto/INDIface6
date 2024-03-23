@@ -82,12 +82,12 @@ LogItem::LogItem(const Context &ctx, const LogCompareFlags lcf,
     tAIL << ArgumentInfo{KeySeg(), assValue, QString(assText)};
     set(tAIL);
 }
-
+#if 0
 QtMsgType LogItem::msgtype() const
 {
 
 }
-
+#endif
 LogItem::Flags &LogItem::flags()
 {
     return m_flags;

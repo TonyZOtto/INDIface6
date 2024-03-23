@@ -5,12 +5,12 @@
 #include "../eIRcore/ObjectHelper.h"
 
 Log::Log(QObject *parent) : QObject{parent} {;}
-
+#if 0
 QtMsgType Log::msgtype(const Level lvl)
 {
 
 }
-
+#endif
 Log::OutputScheme Log::outputScheme(const AText key)
 {
     Log::OutputScheme result = Log::$nullOutputScheme;

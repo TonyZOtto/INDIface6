@@ -19,6 +19,7 @@ SOURCES += \
     FileLogOutput.cpp \
     FunctionInfo.cpp \
     LogItem.cpp \
+    LogMsgType.cpp \
     LogObject.cpp \
     Logger.cpp \
     OutputLogUrl.cpp \
@@ -41,6 +42,7 @@ HEADERS += \
     Log.h \
     LogItem.h \
     LogMacros.h \
+    LogMsgType.h \
     LogObject.h \
     Logger.h \
     OutputLogUrl.h \

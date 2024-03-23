@@ -146,6 +146,7 @@ public:
     explicit Log(QObject *parent = nullptr);
 
 public: // static
+    //static QtMsgType msgType(const LogLevel lvl);
     static OutputScheme outputScheme(const AText key);
 
 signals:

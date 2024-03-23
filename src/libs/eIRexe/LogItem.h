@@ -8,6 +8,7 @@
 #include <QVariant>
 #include <QVariantList>
 
+#include "../eIRbase/Boolean.h"
 #include "../eIRcore/QQFileInfo.h"
 #include "../eIRbase/KeySeg.h"
 #include "../eIRbase/Uid.h"
@@ -70,6 +71,7 @@ private:
 
 private:
     Uid     mUid;
+    Boolean mBoolean;
     static Index smNextSequence;
 
 private: // ------------------------ properties ------------------------
