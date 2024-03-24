@@ -4,7 +4,8 @@
 #include <QObject>
 
 #include "../eIRbase/AText.h"
-//#include "LogItem.h"
+
+class LogMsgType;
 
 class EIREXE_EXPORT Log : public QObject
 {
@@ -23,7 +24,7 @@ public: // types
         Level08,        // 08
         TDump,          // 09
         Dump,           // 10
-        Level11,        // 11
+        Trace,          // 11
         Level12,        // 12
         TPrefer,        // 13
         Level14,        // 14
@@ -62,7 +63,7 @@ public: // types
         FlagLevel08     = 1 << Level08,
         FlagTDump       = 1 << TDump,
         FlagDump        = 1 << Dump,
-        FlagLevel11     = 1 << Level11,
+        FlagTrace       = 1 << Trace,
         FlagLevel12     = 1 << Level12,
         FlagTPrefer     = 1 << TPrefer,
         FlagLevel14     = 1 << Level14,
@@ -146,7 +147,7 @@ public:
     explicit Log(QObject *parent = nullptr);
 
 public: // static
-    //static QtMsgType msgType(const LogLevel lvl);
+    static LogMsgType msgType(const Log::Level lvl);
     static OutputScheme outputScheme(const AText key);
 
 signals:

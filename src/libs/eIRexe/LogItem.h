@@ -7,15 +7,16 @@
 #include <QStringList>
 #include <QVariant>
 #include <QVariantList>
+#include <QSqlRecord>
 
 #include "../eIRbase/Boolean.h"
 #include "../eIRcore/QQFileInfo.h"
 #include "../eIRbase/KeySeg.h"
 #include "../eIRbase/Uid.h"
-#include "Context.h"
 #include "FunctionInfo.h"
 #include "LogObject.h"
-class context;
+class Context;
+class LogMsgType;
 
 class EIREXE_EXPORT LogItem : public QObject
 {
@@ -43,6 +44,7 @@ public: // types
 public: // ctors
     explicit LogItem();
     LogItem(const Context &ctx, const char * pchMessage);
+    LogItem(const Context &ctx, const QString msg);
     LogItem(const Context &ctx, const char * pchFormat,
             const char * argName1, const QVariant &argValue1,
             const char * argName2=0, const QVariant &argValue2=QVariant(),
@@ -59,6 +61,12 @@ public: // ctors
     LogItem(const Context &ctx, const LogCompareFlags lcf,
             const char * assText, const QVariant &assValue);
 
+public: // const
+    LogMsgType msgtype() const;
+
+public: // non-const
+    void format();
+
 private:
     Flags & flags();
     Index setSequence();
@@ -66,8 +74,10 @@ private:
     void set(const LogLevel lvl);
     void set(const LogCompareFlags lcf);
     void set(const char * pchMessage);
+    void set(const QString msg);
     void set(const ArgumentInfoList &args);
     void set(const char * pchFormat, const ArgumentInfoList &args);
+    void format(const Log::FileOutputFormat fmt);
 
 private:
     Uid     mUid;
@@ -83,6 +93,8 @@ private: // ------------------------ properties ------------------------
     unsigned            m_fileLine;
     QString             m_message;
     QString             m_format;
+    QStringList         m_outputStrings;
+    QSqlRecord          m_outputRecord;
     LogCompareFlags     m_compareflags;
     ArgumentInfoList    m_arguments;
     QString             m_debugHead;

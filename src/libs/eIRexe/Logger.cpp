@@ -43,6 +43,7 @@ bool Logger::open(const OutputLogUrl &url, const Log::LevelFlags flags)
 void Logger::add(LogItem * li)
 {
     mInputItemQueue.append(li);
+    li->setParent(this);
     emit queued(*li);
     emit queueCount(mInputItemQueue.count());
 }

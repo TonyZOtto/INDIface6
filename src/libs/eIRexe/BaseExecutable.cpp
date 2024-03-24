@@ -56,14 +56,25 @@ void BaseExecutable::newCore(int argc, char **argv)
     mpCoreApp = result;
 }
 
+void BaseExecutable::newSettings(const QFileInfo &iniFI)
+{
+    release();
+    mpSettings = new Settings(iniFI.filePath(), this);
+}
+
 void BaseExecutable::newSettings(const QString &orgName, const QString &appName)
+{
+    release();
+    mpSettings = new Settings(orgName, appName, this);
+}
+
+void BaseExecutable::release()
 {
     if (mpSettings)
     {
         mpSettings->deleteLater();
         mpSettings = nullptr;
     }
-    mpSettings = new Settings(orgName, appName, this);
 }
 
 

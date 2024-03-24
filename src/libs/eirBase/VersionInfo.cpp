@@ -37,9 +37,9 @@ QString VersionInfo::toString(const StringOptions opts) const
     if (opts.testFlag(WithDotted))
         result += QString(" [%1]").arg(dottedString());
     if (opts.testFlag(WithDWord))
-        result += QString(" [%1]").arg(toDWord(), 8, 16, QChar('0'));
+        result += (QString(" [%1]").arg(toDWord(), 8, 16, QChar('0'))).toUpper();
     if (opts.testFlag(WithQWord))
-        result += QString(" [%1]").arg(toQWord(), 16, 16, QChar('0'));
+        result += (QString(" [%1]").arg(toQWord(), 16, 16, QChar('0'))).toUpper();
     return result;
 }
 
@@ -47,7 +47,7 @@ void VersionInfo::setApp(QCoreApplication *app) const
 {
     Q_CHECK_PTR(app);
     app->setApplicationName(appname());
-    app->setApplicationVersion(toString(WithQWord));
+    app->setApplicationVersion(toString(WithDotted));
     app->setOrganizationName(orgname());
 }
 
@@ -58,9 +58,9 @@ DWORD VersionInfo::toDWord() const
         DWORD       uDWord;
         struct
         {
-            BYTE    sMajor;
-            WORD    sMinor;
             BYTE    sRelease;
+            WORD    sMinor;
+            BYTE    sMajor;
         };
     } stUnion;
     stUnion.sMajor = major(), stUnion.sMinor = minor(), stUnion.sRelease = release();
@@ -74,13 +74,14 @@ QWORD VersionInfo::toQWord() const
         QWORD       uQWord;
         struct
         {
-            DWORD   sMajMin;
-            DWORD   sRelease;
-            DWORD   sBranch;
-            DWORD   sBuild;
+            WORD    sBuild;
+            WORD    sRelease;
+            WORD    sBranch;
+            WORD    sMinor : 8,
+                    sMajor : 8;
         };
     } stUnion;
-    stUnion.sMajMin = major() * 1000 + minor(), stUnion.sRelease = release();
+    stUnion.sMajor = major(), stUnion.sMinor = minor(), stUnion.sRelease = release();
     stUnion.sBranch = branch(), stUnion.sBuild = build();
     return stUnion.uQWord;
 }
@@ -158,7 +159,7 @@ UText VersionInfo::legal() const
 
 QString VersionInfo::dottedString() const
 {
-    return QString("%1.%2.%3.%4").arg(1000 * major() + minor(), 4, QChar('0'))
+    return QString("%1.%2.%3.%4").arg(1000 * major() + minor())
                  .arg(release()).arg(branch()).arg(build());
 
 }

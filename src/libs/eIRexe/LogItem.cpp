@@ -1,18 +1,26 @@
-#include "Log.h"
+#include "LogItem.h"
 
 #include "../eIRbase/Types.h"
+#include "Context.h"
+#include "LogMsgType.h"
 
 Index LogItem::smNextSequence = 0;
 
 LogItem::LogItem() {;}
 
 LogItem::LogItem(const Context &ctx, const char *pchMessage)
-
     : mUid(true)
 {
     flags().setFlag(Message);
     set(ctx);
     set(pchMessage);
+}
+
+LogItem::LogItem(const Context &ctx, const QString msg)
+{
+    flags().setFlag(Message);
+    set(ctx);
+    set(msg);
 }
 
 LogItem::LogItem(const Context &ctx, const char *pchFormat,
@@ -35,6 +43,7 @@ LogItem::LogItem(const Context &ctx, const char *pchFormat,
 LogItem::LogItem(const Context &ctx, const char *pchFormat,
                  const QVariant &argValue1, const QVariant &argValue2,
                  const QVariant &argValue3, const QVariant &argValue4)
+    : mUid(true)
 {
     flags().setFlag(Format);
     set(ctx);
@@ -62,6 +71,7 @@ LogItem::LogItem(const Context &ctx, const char *pchFormat,
 LogItem::LogItem(const Context &ctx, const LogCompareFlags lcf,
                  const char *expText, const QVariant &expValue,
                  const char *actText, const QVariant &actValue)
+    : mUid(true)
 {
     flags().setFlag(Expect);
     set(ctx);
@@ -74,6 +84,7 @@ LogItem::LogItem(const Context &ctx, const LogCompareFlags lcf,
 
 LogItem::LogItem(const Context &ctx, const LogCompareFlags lcf,
                  const char *assText, const QVariant &assValue)
+    : mUid(true)
 {
     flags().setFlag(Assert);
     set(ctx);
@@ -82,12 +93,12 @@ LogItem::LogItem(const Context &ctx, const LogCompareFlags lcf,
     tAIL << ArgumentInfo{KeySeg(), assValue, QString(assText)};
     set(tAIL);
 }
-#if 0
-QtMsgType LogItem::msgtype() const
-{
 
+LogMsgType LogItem::msgtype() const
+{
+    return Log::msgType(m_level);
 }
-#endif
+
 LogItem::Flags &LogItem::flags()
 {
     return m_flags;
@@ -119,6 +130,11 @@ void LogItem::set(const LogCompareFlags lcf)
 void LogItem::set(const char *pchMessage)
 {
     m_message = QString(pchMessage);
+}
+
+void LogItem::set(const QString msg)
+{
+    m_message = msg;
 }
 
 void LogItem::set(const ArgumentInfoList &args)

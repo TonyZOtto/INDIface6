@@ -5,3 +5,8 @@ IfConsoleApp::IfConsoleApp(int argc, char *argv[])
 {
     setObjectName("IfConsoleApp");
 }
+
+void IfConsoleApp::initialize()
+{
+    ConsoleApplication::initialize();
+}

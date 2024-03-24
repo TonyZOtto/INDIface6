@@ -76,18 +76,15 @@ signals:
     void scanStart(void);
     void scanFinish(void);
 
-
 private:
     QMap<QString, Setting *> mVars;
     QMap<QString, SettingProperty *> mProps;
     QMap<QString, QString> mOpts;
     QString mPollCountKey;
     QString mUpdateMsecKey;
-
-    SettingsScanner * scanner=nullptr;
-    QTimer * timerUpdate=nullptr;
-    QTimer * timerScan=nullptr;
-
+    SettingsScanner * mpScanner=nullptr;
+    QTimer * mpUpdateTimer=nullptr;
+    QTimer * mpScanTimer=nullptr;
 
 public: // -------------- properties --------------
     bool advancedMode() const;

@@ -21,17 +21,23 @@ Settings::Settings(const QString & organization,
     setObjectName("Settings:" + organization + ":" + application);
 }
 
+Settings::Settings(const QString &iniFilename, QObject *parent)
+    : QSettings(iniFilename, QSettings::IniFormat, parent)
+{
+    setObjectName("Settings:" + iniFilename);
+}
+
 Settings::~Settings()
 {
-    delete timerScan;
-    delete timerUpdate;
+    delete mpScanTimer;
+    delete mpUpdateTimer;
 
-    if (scanner)
+    if (mpScanner)
     {
-        scanner->done(true);
-        scanner->wait(10000);
-        if ( ! scanner->isFinished())
-            scanner->terminate();
+        mpScanner->done(true);
+        mpScanner->wait(10000);
+        if ( ! mpScanner->isFinished())
+            mpScanner->terminate();
     }
 }
 
@@ -68,31 +74,31 @@ void Settings::insert(const SettingsMap &map)
 
 void Settings::startTimers(void)
 {
-    if (timerUpdate)
+    if (mpUpdateTimer)
     {
-        delete timerUpdate;
-        timerUpdate = 0;
+        delete mpUpdateTimer;
+        mpUpdateTimer = 0;
     }
-    if (timerScan)
+    if (mpScanTimer)
     {
-        delete timerScan;
-        timerScan = 0;
+        delete mpScanTimer;
+        mpScanTimer = 0;
     }
 
-    timerUpdate = new QTimer(this);
-    timerScan = new QTimer(this);
+    mpUpdateTimer = new QTimer(this);
+    mpScanTimer = new QTimer(this);
 
-    timerUpdate->setInterval(20000);
-    connect(timerUpdate, SIGNAL(timeout()), this, SLOT(scanForUpdate()));
+    mpUpdateTimer->setInterval(20000);
+    connect(mpUpdateTimer, SIGNAL(timeout()), this, SLOT(scanForUpdate()));
 
-    timerScan->setInterval(updateMsec());
+    mpScanTimer->setInterval(updateMsec());
     if (updateMsec())
     {
-        connect(timerScan, SIGNAL(timeout()), this, SLOT(scan()));
-        timerScan->start();
+        connect(mpScanTimer, SIGNAL(timeout()), this, SLOT(scan()));
+        mpScanTimer->start();
     }
 
-    timerUpdate->start();
+    mpUpdateTimer->start();
 } // startTimers()
 
 void Settings::scanForUpdate()

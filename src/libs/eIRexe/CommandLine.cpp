@@ -3,11 +3,27 @@
 #include <QCoreApplication>
 #include <QVariant>
 
+#include "Log.h"
 #include "../eIRbase/Types.h"
 
 CommandLine::CommandLine(QObject *parent) : QObject(parent)
 {
     setObjectName("CommandLine");
+}
+
+CommandLine::SettingsType CommandLine::settingsType() const
+{
+    CommandLine::SettingsType result = mSettingsType;
+    if ($null == result && ! mSettingsMap.isEmpty())
+        result = Arguments;
+    return result;
+}
+
+QString CommandLine::iniFileName() const
+{
+    QString result = mIniFileInfo.filePath();
+    TRACE(result);
+    return result;
 }
 
 void CommandLine::process()

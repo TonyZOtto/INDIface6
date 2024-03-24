@@ -4,6 +4,7 @@
 #include <QObject>
 
 class QCoreApplication;
+class QFileInfo;
 
 class CommandLine;
 class Logger;
@@ -38,7 +39,9 @@ protected: // non-const
     void newCore(int argc, char **argv);
 
 protected: // non-const
+    void newSettings(const QFileInfo &iniFI);
     void newSettings(const QString &orgName, const QString & appName);
+    void release();
 
 private:
     QCoreApplication * mpCoreApp=nullptr;

@@ -11,12 +11,24 @@
 
 class EIREXE_EXPORT CommandLine : public QObject
 {
+public: // types
+    enum SettingsType
+    {
+        $null = 0,
+        AppOrg,
+        IniFile,
+        Arguments,
+    };
+
 public: // ctors
     CommandLine(QObject * parent=nullptr);
 
 public: // const
+    SettingsType settingsType() const;
     QString orgName() const;
     QString appName() const;
+    QFileInfo iniFileInfo() const;
+    QString iniFileName() const;
     QSettings::SettingsMap settingsMap() const;
 
 public slots:
@@ -28,6 +40,7 @@ private:
 
 private:
     QStringList mCurrentArguments;
+    SettingsType mSettingsType=$null;
     QFileInfo mExeFileInfo;
     QFileInfo mIniFileInfo;
     QString mOrgName;
@@ -45,6 +58,11 @@ inline QString CommandLine::orgName() const
 inline QString CommandLine::appName() const
 {
     return mAppName;
+}
+
+inline QFileInfo CommandLine::iniFileInfo() const
+{
+    return mIniFileInfo;
 }
 
 inline QSettings::SettingsMap CommandLine::settingsMap() const
