@@ -35,6 +35,13 @@ LogMsgType Log::msgType(const Log::Level lvl)
     return result;
 }
 
+QChar Log::levelChar(const Level lvl)
+{
+    QChar result('?');
+    Q_UNUSED(lvl); // TODO Log::levelChar()
+    return result;
+}
+
 Log::OutputScheme Log::outputScheme(const AText key)
 {
     Log::OutputScheme result = Log::$nullOutputScheme;

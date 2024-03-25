@@ -42,6 +42,10 @@ public: // ctors
     explicit FunctionInfo() {;}
     FunctionInfo(const QString &qFileInfo) { parse(qFileInfo); }
 
+public: // const
+    QString simpleName() const;
+    QString fullNameAndFile() const;
+
 public: // non-const
     void set(const FunctionInfo &other);
     void parse(const QString &qFileInfo);

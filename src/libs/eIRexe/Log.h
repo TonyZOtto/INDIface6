@@ -8,6 +8,9 @@
 Q_GLOBAL_STATIC(Logger, LOG);
 
 #define TRACE(msg) LOGMSG(Log::Trace, msg);
+#define INFO(msg) LOGMSG(Log::Info, msg);
+#define PROGRESS(msg) LOGMSG(Log::Progress, msg);
+
 #define WEXPECTEQ(exp, act) LOGEXPECT(TWarning, Log::Equals, exp, act)
 #define TEXPECTEQ(exp, act) LOGEXPECT(TWarning, Log::Equals, exp, act)
 #define FEXPECTEQ(exp, act) LOGEXPECT(TWarning, Log::Equals, exp, act)

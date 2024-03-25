@@ -1,6 +1,20 @@
 #include "FunctionInfo.h"
 
 
+QString FunctionInfo::simpleName() const
+{
+    QString result("?()");
+    // TODO(FunctionInfo::simpleName())
+    return result;
+}
+
+QString FunctionInfo::fullNameAndFile() const
+{
+    QString result("???::?(?,?)");
+    // TODO(FunctionInfo::fullNameAndFile())
+    return result;
+}
+
 void FunctionInfo::set(const FunctionInfo &other)
 {
     m_functionName = other.m_functionName,

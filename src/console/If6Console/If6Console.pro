@@ -1,4 +1,5 @@
-QT = core
+QT *= core
+QT *= sql # Because Log has QSqlRecord output; can eliminate if not using?
 CONFIG += cmdline
 CONFIG += c++17
 

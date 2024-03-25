@@ -99,6 +99,15 @@ LogMsgType LogItem::msgtype() const
     return Log::msgType(m_level);
 }
 
+QVariantList LogItem::argumentVars() const
+{
+    QVariantList result;
+    const ArgumentInfoList cAIL = m_arguments;
+    foreach (const ArgumentInfo cAI, cAIL)
+        result += cAI.value;
+    return result;
+}
+
 LogItem::Flags &LogItem::flags()
 {
     return m_flags;
@@ -145,5 +154,63 @@ void LogItem::set(const ArgumentInfoList &args)
 void LogItem::set(const char *pchFormat, const ArgumentInfoList &args)
 {
     m_format = QString(pchFormat),
-    m_arguments = args;
+        m_arguments = args;
+}
+
+QVariant LogItem::format(const Log::FileOutputFormat fmt) const
+{
+    QVariant result;
+    switch (fmt)
+    {
+    case Log::TextFileSingleOutput:     result = formatSingleText();    break;
+    case Log::TextFileMultiOutput:      result = formatMultiText();     break;
+    case Log::XmlFileOutput:            Q_ASSERT(!"TODO"); /* TODO(XmlFileOutput); */       break;
+    case Log::DataFileOutput:           Q_ASSERT(!"TODO"); /* TODO(DataFileOutput); */      break;
+    case Log::StreamFileOutput:         Q_ASSERT(!"TODO"); /* TODO(StreamFileOutput); */    break;
+    case Log::RecordSqlOutput:          Q_ASSERT(!"TODO"); /* TODO(RecordSqlOutput); */     break;
+    case Log::XmlSqlOutput:             Q_ASSERT(!"TODO"); /* TODO(XmlSqlOutput); */        break;
+    case Log::XmlNoSqlOutput:           Q_ASSERT(!"TODO"); /* TODO(XmlNoSqlOutput); */      break;
+    default:                            /* leave null result */         break;
+    }
+    return result;
+}
+
+QVariant LogItem::formatSingleText() const
+{
+    QString result;
+    result += formatPrefix();
+    result += formatMessage();
+    result += m_timestamp.toString(" @hh:mm:ss.zzz ");
+    result += m_functionInfo.simpleName();
+    return QVariant(result);
+}
+
+QVariant LogItem::formatMultiText() const
+{
+    QStringList result;
+
+    QString line1;
+    line1 += m_timestamp.toString("hh:mm ");
+    line1 += m_functionInfo.fullNameAndFile();
+    result << line1;
+
+    QString line2;
+    line2 += formatPrefix();
+    line2 += m_timestamp.toString(" @ss.zzz ");
+    line2 += formatMessage();
+    result << line2;
+
+    return QVariant(line1);
+}
+
+QString LogItem::formatPrefix() const
+{
+    return QString("%1#%2: ").arg(Log::levelChar(m_level)).arg(m_fileLine, 4, QChar('0'));
+}
+
+QString LogItem::formatMessage() const
+{
+    AText result;
+    result.set(m_format, argumentVars());
+    return QString(result);
 }

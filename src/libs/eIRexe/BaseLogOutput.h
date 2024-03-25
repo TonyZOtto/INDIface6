@@ -4,6 +4,7 @@
 
 #include "OutputLogUrl.h"
 #include "LogObject.h"
+class LogItem;
 
 class BaseLogOutput : public QObject
 {
@@ -13,11 +14,12 @@ public: // ctors
     BaseLogOutput(const OutputLogUrl &url, const Log::LevelFlags flags, QObject *parent = nullptr);
 
 public:
-    virtual bool open(const OutputLogUrl &url) = 0;
+    virtual bool open(const OutputLogUrl &url, const Log::LevelFlags flags) = 0;
+    virtual bool write(const LogItem &item) = 0;
 
 signals:
 
-private:
+protected:
     OutputLogUrl mUrl;
     QIODevice::OpenMode mOpenMode=QIODevice::NotOpen;
     Log::LevelFlags mFlags;

@@ -5,6 +5,7 @@
 #include <QByteArray>
 #include <QByteArrayList>
 #include <QString>
+#include <QVariantList>
 
 class EIRBASE_EXPORT AText : public QByteArray
 {
@@ -23,6 +24,8 @@ public: // const
 
 public: // non-const
     char takeFirstChar();
+    void set(const QString &s);
+    void set(const QString &fmt, const QVariantList &vars);
 
 public: // static
     static QStringList toStringList(const AText::List atl);

@@ -3,6 +3,7 @@
 
 #include <QObject>
 
+#include <QDateTime>
 #include <QString>
 #include <QStringList>
 #include <QVariant>
@@ -63,11 +64,19 @@ public: // ctors
 
 public: // const
     LogMsgType msgtype() const;
+    QVariantList argumentVars() const;
+    QVariant format() const;
+    QVariant format(const Log::FileOutputFormat fmt) const;
 
 public: // non-const
-    void format();
 
-private:
+private: // const
+    QVariant formatSingleText() const;
+    QVariant formatMultiText() const;
+    QString formatPrefix() const;
+    QString formatMessage() const;
+
+private: // non-const;
     Flags & flags();
     Index setSequence();
     void set(const Context &ctx);
@@ -77,7 +86,6 @@ private:
     void set(const QString msg);
     void set(const ArgumentInfoList &args);
     void set(const char * pchFormat, const ArgumentInfoList &args);
-    void format(const Log::FileOutputFormat fmt);
 
 private:
     Uid     mUid;
@@ -87,6 +95,7 @@ private:
 private: // ------------------------ properties ------------------------
     LogLevel            m_level;
     Flags               m_flags;
+    QDateTime           m_timestamp;
     Index               m_sequence;
     FunctionInfo        m_functionInfo;
     QQFileInfo          m_fileInfo;

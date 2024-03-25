@@ -3,6 +3,8 @@
 
 #include <QObject>
 
+#include <QString>
+
 #include "../eIRbase/AText.h"
 
 class LogMsgType;
@@ -133,11 +135,12 @@ public: // types
     enum FileOutputFormat
     {
         $nullFileOutputFormat = 0,
-        TextFileOutput,
+        TextFileSingleOutput,
+        TextFileMultiOutput,
         XmlFileOutput,
         DataFileOutput,
         StreamFileOutput,
-        TableSqlOutput,
+        RecordSqlOutput,
         XmlSqlOutput,
         XmlNoSqlOutput,
     };
@@ -148,6 +151,7 @@ public:
 
 public: // static
     static LogMsgType msgType(const Log::Level lvl);
+    static QChar levelChar(const Log::Level lvl);
     static OutputScheme outputScheme(const AText key);
 
 signals:
