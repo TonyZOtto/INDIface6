@@ -89,6 +89,8 @@ public: // types
     };
     Q_DECLARE_FLAGS(LevelFlags, LevelFlag);
     Q_ENUM(LevelFlag);
+    static LevelFlags UserFlags;
+    static LevelFlags TraceFlags;
 
     enum Compare
     {

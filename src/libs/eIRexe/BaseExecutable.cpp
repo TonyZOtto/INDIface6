@@ -2,58 +2,35 @@
 
 #include <QCoreApplication>
 
+#include "../eIRbase/Types.h"
 #include "CommandLine.h"
 #include "Logger.h"
 #include "Settings.h"
 
-BaseExecutable::BaseExecutable(QObject *parent)
-    : QObject{parent}
+BaseExecutable::BaseExecutable(int argc, char *argv[])
+    : QCoreApplication{argc, argv}
     , mpCommandLine(new CommandLine(this))
     , mpLog(new Logger(this))
     , mpSettings(new Settings(this))
 {
-    setObjectName("BaseExecutable:CoreApplication");
-}
-
-bool BaseExecutable::isNull() const
-{
-    bool result = true;
-    result &= ! isCore();
-    // TODO gui & widget
-    return result;
-}
-
-bool BaseExecutable::isCore() const
-{
-    return nullptr != mpCoreApp;
+    setObjectName("BaseExecutable");
+    /* Alleged Windows bug, so we build our own */
+    for (Index ix = 0; ix < argc; ++ix) mArguments << QString(argv[ix]);
+    qInfo() << argc << *argv << mArguments;
 }
 
 QString BaseExecutable::idString() const
 {
-    return QString("%1:%2:v%3")
-        .arg(core()->organizationName(),
-            core()->applicationName(),
-             core()->applicationVersion());
+    return QString("%1:%2:v%3").arg(organizationName(),
+            applicationName(), applicationVersion());
 }
 
 void BaseExecutable::initialize()
 {
-    commandLine()->process();
+    commandLine()->process(arguments());
+    qInfo() << commandLine()->debugStrings();
     newSettings(commandLine()->appName(), commandLine()->orgName());
     settings()->insert(commandLine()->settingsMap());
-}
-
-void BaseExecutable::newCore(int argc, char **argv)
-{
-    QCoreApplication * result = nullptr;
-    result = new QCoreApplication(argc, argv);
-    Q_CHECK_PTR(result);
-    if (mpCoreApp)
-    {
-        mpCoreApp->deleteLater();
-        mpCoreApp = nullptr;
-    }
-    mpCoreApp = result;
 }
 
 void BaseExecutable::newSettings(const QFileInfo &iniFI)

@@ -8,6 +8,7 @@
 #include <QSettings>
 #include <QString>
 #include <QStringList>
+class BaseExecutable;
 
 class EIREXE_EXPORT CommandLine : public QObject
 {
@@ -32,11 +33,14 @@ public: // const
     QSettings::SettingsMap settingsMap() const;
 
 public slots:
-    void process();
+    void process(const QStringList &exeArgs);
 
 private:
     void handleSetting(const QString arg);
     void handleOrgApp(const QString arg);
+
+public:
+    QStringList debugStrings() const;
 
 private:
     QStringList mCurrentArguments;

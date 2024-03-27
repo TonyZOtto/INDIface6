@@ -9,6 +9,19 @@ Log::Log(QObject *parent) : QObject{parent} {;}
 
 // ======================= static ====================
 
+EIREXE_EXPORT Log::LevelFlags Log::UserFlags = Log::LevelFlags(Log::FlagPrefer | Log::FlagDetail |
+                                              Log::FlagDump | Log::FlagInfo |
+                                              Log::FlagProgress | Log::FlagInfo |
+                                              Log::FlagAssert | Log::FlagError |
+                                              Log::FlagFatal);
+EIREXE_EXPORT Log::LevelFlags Log::TraceFlags = Log::LevelFlags(Log::FlagTFnArg | Log::FlagTFnLeave |
+                                         Log::FlagTFnEnter | Log::FlagTDetail |
+                                         Log::FlagTDump | Log::FlagTrace |
+                                         Log::FlagTPrefer | Log::FlagExpect |
+                                         Log::FlagTWarning | Log::FlagTProgress |
+                                         Log::FlagTExpect | Log::FlagTError |
+                                         Log::FlagTFatal);
+
 LogMsgType Log::msgType(const Log::Level lvl)
 {
     LogMsgType result = LogMsgType::$null;

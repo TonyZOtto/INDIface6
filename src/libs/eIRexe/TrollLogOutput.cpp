@@ -5,7 +5,9 @@
 
 TrollLogOutput::TrollLogOutput(QObject *parent)
     : BaseLogOutput{parent}
-{}
+{
+    setObjectName("TrollLogOutput");
+}
 
 bool TrollLogOutput::open(const OutputLogUrl &url, const Log::LevelFlags flags)
 {

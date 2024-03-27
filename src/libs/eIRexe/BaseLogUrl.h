@@ -16,6 +16,7 @@ public: // ctors
     BaseLogUrl();
 protected:
     BaseLogUrl(const Log::UrlType luty, const QString &s);
+    BaseLogUrl(const Log::UrlType luty, const QUrl &url);
 
 public:
     virtual Log::UrlType type() const = 0;
@@ -25,7 +26,8 @@ public:
 
 public:
     void set(const Log::UrlType luty);
-    void set(const QString &url);
+    void set(const QString &s);
+    void set(const QUrl &url);
 
 private:
     void parseOpenMode();

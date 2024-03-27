@@ -5,11 +5,9 @@
 
 
 ConsoleApplication::ConsoleApplication(int argc, char *argv[])
+    : BaseExecutable(argc, argv)
 {
     setObjectName("ConsoleApplication");
-    newCore(argc, argv);
-    while (argc--)
-        mArguments << QString(*argv++);
 }
 
 void ConsoleApplication::initialize()

@@ -1,29 +1,26 @@
 #pragma once
 #include"eIRexe.h"
 
-#include <QObject>
+#include <QCoreApplication>
 
-class QCoreApplication;
 class QFileInfo;
 
 class CommandLine;
 class Logger;
 class Settings;
 
-class EIREXE_EXPORT BaseExecutable : public QObject
+class EIREXE_EXPORT BaseExecutable : public QCoreApplication
 {
     Q_OBJECT
 
 protected: // ctors
-    explicit BaseExecutable(QObject * parent=nullptr);
+    explicit BaseExecutable(int argc, char *argv[]);
 
 public: // const
-    bool isNull() const;
-    bool isCore() const;
     QString idString() const;
+    QStringList arguments() const;
 
 public: // pointers
-    QCoreApplication *core() const;
     CommandLine *commandLine() const;
     Logger *logger() const;
     Settings *settings() const;
@@ -36,7 +33,6 @@ public slots:
 signals:
 
 protected: // non-const
-    void newCore(int argc, char **argv);
 
 protected: // non-const
     void newSettings(const QFileInfo &iniFI);
@@ -44,16 +40,11 @@ protected: // non-const
     void release();
 
 private:
-    QCoreApplication * mpCoreApp=nullptr;
     CommandLine * mpCommandLine=nullptr;
     Logger * mpLog=nullptr;
     Settings * mpSettings=nullptr;
+    QStringList mArguments;
 };
-
-inline QCoreApplication *BaseExecutable::core() const
-{
-    Q_CHECK_PTR(mpCoreApp); return mpCoreApp;
-}
 
 inline CommandLine *BaseExecutable::commandLine() const
 {
@@ -70,4 +61,7 @@ inline Settings *BaseExecutable::settings() const
     Q_CHECK_PTR(mpSettings); return mpSettings;
 }
 
-
+inline QStringList BaseExecutable::arguments() const
+{
+    return mArguments;
+}

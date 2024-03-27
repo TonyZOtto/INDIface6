@@ -13,7 +13,6 @@ public: // ctors
     explicit ConsoleApplication(int argc, char *argv[]);
 
 public: // const
-    QStringList arguments() const;
 
 public: // non const
 public: // non-const
@@ -25,10 +24,5 @@ public slots:
 public: // pointers
 
 private:
-    QStringList mArguments;
 };
 
-inline QStringList ConsoleApplication::arguments() const
-{
-    return mArguments;
-}

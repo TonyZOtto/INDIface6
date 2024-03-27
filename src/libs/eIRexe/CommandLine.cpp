@@ -1,12 +1,15 @@
 #include "CommandLine.h"
 
 #include <QCoreApplication>
+#include <QString>
 #include <QVariant>
 
+#include "BaseExecutable.h"
 #include "Log.h"
 #include "../eIRbase/Types.h"
 
-CommandLine::CommandLine(QObject *parent) : QObject(parent)
+CommandLine::CommandLine(QObject *parent)
+    : QObject(parent)
 {
     setObjectName("CommandLine");
 }
@@ -26,9 +29,9 @@ QString CommandLine::iniFileName() const
     return result;
 }
 
-void CommandLine::process()
+void CommandLine::process(const QStringList &exeArgs)
 {
-    mCurrentArguments = QCoreApplication::arguments();
+    mCurrentArguments = exeArgs;
     mExeFileInfo = QFileInfo(mCurrentArguments.takeFirst());
     foreach (const QString tArgString, mCurrentArguments)
     {
@@ -90,5 +93,19 @@ void CommandLine::handleOrgApp(const QString arg)
         tApp = arg.mid(cSlashIndex + 1);
     }
     mOrgName = tOrg, mAppName = tApp;
+}
+
+QStringList CommandLine::debugStrings() const
+{
+    QStringList result;
+    result << "CurrentArguments=" + mCurrentArguments.join(';');
+    result << "ExeFileInfo=" + mExeFileInfo.filePath();
+    result << "IniFileInfo=" + mExeFileInfo.filePath();
+    result << "Org/App=" + mOrgName + "/" + mAppName;
+    foreach (const QString cKey, mSettingsMap.keys())
+        result << cKey + "=" + mSettingsMap[cKey].toString();
+    result << "PositionalArguments=" + mPositionalArguments.join(';');
+
+    return result;
 }
 

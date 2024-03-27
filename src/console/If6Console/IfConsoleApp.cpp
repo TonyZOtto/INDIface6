@@ -14,5 +14,5 @@ IfConsoleApp::IfConsoleApp(int argc, char *argv[])
 void IfConsoleApp::initialize()
 {
     ConsoleApplication::initialize();
-
+    LOG->open(QUrl("troll:"), Log::UserFlags);
 }

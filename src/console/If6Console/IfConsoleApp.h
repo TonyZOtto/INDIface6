@@ -1,6 +1,8 @@
 #pragma once
 
 #include <QObject>
+
+#include <BaseExecutable.h>
 #include <ConsoleApplication.h>
 
 class IfConsoleApp : public ConsoleApplication
