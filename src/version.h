@@ -7,7 +7,7 @@
 #define VER_BRANCH          0
 #define VER_BUILD           3101
 #define VER_STRING          "v6.89A"
-#define VER_TRUNK           "develop"
+#define VER_TRUNK           "Current"
 #define VER_BRANCHNAME      "main"
 #ifdef QT_NO_DEBUG
 #define VER_ORGNAME         "EclipseIR"
