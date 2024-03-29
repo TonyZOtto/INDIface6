@@ -3,11 +3,11 @@
 
 #define VER_MAJOR           6
 #define VER_MINOR           89
-#define VER_RELEASE         1
+#define VER_RELEASE         0xC1
 #define VER_BRANCH          0
 #define VER_BUILD           3101
-#define VER_STRING          "v6.89A"
-#define VER_TRUNK           "Current"
+#define VER_STRING          "v6.89-RC1"
+#define VER_TRUNK           "Release"
 #define VER_BRANCHNAME      "main"
 #ifdef QT_NO_DEBUG
 #define VER_ORGNAME         "EclipseIR"
