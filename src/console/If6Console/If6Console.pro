@@ -17,4 +17,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    IfConsoleApp.h
+    ../../version.h \
+    IfConsoleApp.h \
+    version.h

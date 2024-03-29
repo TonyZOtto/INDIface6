@@ -28,16 +28,10 @@ QString BaseExecutable::idString() const
 void BaseExecutable::initialize()
 {
     commandLine()->process(arguments());
-    qInfo() << Q_FUNC_INFO << commandLine()->debugStrings();
+//    qInfo() << Q_FUNC_INFO << commandLine()->debugStrings();
     newSettings(commandLine()->orgName(), commandLine()->appName());
     settings()->insert(commandLine()->settingsMap());
-    qInfo() << Q_FUNC_INFO << settings()->debugStrings();
-}
-
-void BaseExecutable::newSettings(const QFileInfo &iniFI)
-{
-    release();
-    mpSettings = new Settings(iniFI.filePath(), this);
+//    qInfo() << Q_FUNC_INFO << settings()->debugStrings();
 }
 
 void BaseExecutable::newSettings(const QString &orgName, const QString &appName)
