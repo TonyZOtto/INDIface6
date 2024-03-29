@@ -2,11 +2,11 @@
 #pragma once
 
 #define VER_MAJOR           6
-#define VER_MINOR           89
+#define VER_MINOR           90
 #define VER_RELEASE         1
 #define VER_BRANCH          0
-#define VER_BUILD           3101
-#define VER_STRING          "v6.89A"
+#define VER_BUILD           3102
+#define VER_STRING          "v6.90A"
 #define VER_TRUNK           "develop"
 #define VER_BRANCHNAME      "main"
 #ifdef QT_NO_DEBUG

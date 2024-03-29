@@ -1,11 +1,11 @@
-# {Eclipse6}/src/version.pri
+# {INDIface6}/src/version.pri
 message(------------/src/version.pri)
 
 EIRVER_MAJOR        = 6
-EIRVER_MINOR        = 89
+EIRVER_MINOR        = 90
 EIRVER_BRANCH       = 0
-EIRVER_RELEASE      = A
-EIRVER_STRING       = "v6.89A"
+EIRVER_RELEASE      = 1
+EIRVER_STRING       = "v6.90A"
 EIRVER_ORGNAME      = "EclipseIR"
 EIRVER_COMPANY      = "Eclipse Identity Recognition Corporation"
 EIRVER_COPYRIGHT    = "Copyright (c) 2007-2024, Eclipse Identity Recognition Corporation. " \
