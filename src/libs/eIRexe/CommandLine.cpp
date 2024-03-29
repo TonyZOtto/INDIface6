@@ -22,18 +22,11 @@ CommandLine::SettingsType CommandLine::settingsType() const
     return result;
 }
 
-QString CommandLine::iniFileName() const
-{
-    QString result = mIniFileInfo.filePath();
-    TRACE(result);
-    return result;
-}
-
 void CommandLine::process(const QStringList &exeArgs)
 {
-    mCurrentArguments = exeArgs;
-    mExeFileInfo = QFileInfo(mCurrentArguments.takeFirst());
-    foreach (const QString tArgString, mCurrentArguments)
+    mExeArguments = exeArgs;
+    mExeFileInfo = QFileInfo(mExeArguments.takeFirst());
+    foreach (const QString tArgString, mExeArguments)
     {
         const int tFirstChar = tArgString.first(1).data()->cell();
         const QString tArgument = tArgString.mid(1);
@@ -67,10 +60,10 @@ void CommandLine::handleSetting(const QString arg)
     }
     else if (cEqualsIndex > 0)
     {
-        tKey = arg.left(cEqualsIndex - 1);
+        tKey = arg.left(cEqualsIndex);
         tValue = QVariant(arg.mid(cEqualsIndex + 1));
     }
-    // else =0, ignore '/=xxx' argument
+//  else =0, ignore '/=xxx' argument
     mSettingsMap.insert(tKey, tValue);
 }
 
@@ -98,9 +91,8 @@ void CommandLine::handleOrgApp(const QString arg)
 QStringList CommandLine::debugStrings() const
 {
     QStringList result;
-    result << "CurrentArguments=" + mCurrentArguments.join(';');
+    result << "ExeArguments=" + mExeArguments.join(';');
     result << "ExeFileInfo=" + mExeFileInfo.filePath();
-    result << "IniFileInfo=" + mExeFileInfo.filePath();
     result << "Org/App=" + mOrgName + "/" + mAppName;
     foreach (const QString cKey, mSettingsMap.keys())
         result << cKey + "=" + mSettingsMap[cKey].toString();

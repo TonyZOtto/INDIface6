@@ -227,3 +227,18 @@ void Settings::destruct(Setting * child)
     }
     mVars.remove(child->keyName().toLower());
 }
+
+QStringList Settings::debugStrings() const
+{
+    QStringList result;
+    result << Q_FUNC_INFO;
+    result << "FileName: " + fileName();
+    result << "{Vars: " + QString::number(mVars.count());
+    foreach (const QString cKey, mVars.keys())
+        result << "   " + cKey + "=" + mVars[cKey]->toString();
+    foreach (const QString cKey, mProps.keys())
+        result << "   " + cKey + "=" + mProps[cKey]->value().toString();
+    foreach (const QString cKey, mOpts.keys())
+        result << "   " + cKey + "=" + mOpts[cKey];
+    return result;
+}

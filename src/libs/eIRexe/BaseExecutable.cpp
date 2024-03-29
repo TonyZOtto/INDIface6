@@ -28,9 +28,10 @@ QString BaseExecutable::idString() const
 void BaseExecutable::initialize()
 {
     commandLine()->process(arguments());
-    qInfo() << commandLine()->debugStrings();
-    newSettings(commandLine()->appName(), commandLine()->orgName());
+    qInfo() << Q_FUNC_INFO << commandLine()->debugStrings();
+    newSettings(commandLine()->orgName(), commandLine()->appName());
     settings()->insert(commandLine()->settingsMap());
+    qInfo() << Q_FUNC_INFO << settings()->debugStrings();
 }
 
 void BaseExecutable::newSettings(const QFileInfo &iniFI)

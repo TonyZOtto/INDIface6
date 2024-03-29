@@ -76,6 +76,10 @@ signals:
     void scanStart(void);
     void scanFinish(void);
 
+
+public: // debug
+    QStringList debugStrings() const;
+
 private:
     QMap<QString, Setting *> mVars;
     QMap<QString, SettingProperty *> mProps;

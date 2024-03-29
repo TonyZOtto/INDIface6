@@ -28,8 +28,6 @@ public: // const
     SettingsType settingsType() const;
     QString orgName() const;
     QString appName() const;
-    QFileInfo iniFileInfo() const;
-    QString iniFileName() const;
     QSettings::SettingsMap settingsMap() const;
 
 public slots:
@@ -39,14 +37,13 @@ private:
     void handleSetting(const QString arg);
     void handleOrgApp(const QString arg);
 
-public:
+public: // debug
     QStringList debugStrings() const;
 
 private:
-    QStringList mCurrentArguments;
+    QStringList mExeArguments;
     SettingsType mSettingsType=$null;
     QFileInfo mExeFileInfo;
-    QFileInfo mIniFileInfo;
     QString mOrgName;
     QString mAppName;
     QSettings::SettingsMap mSettingsMap;
@@ -62,11 +59,6 @@ inline QString CommandLine::orgName() const
 inline QString CommandLine::appName() const
 {
     return mAppName;
-}
-
-inline QFileInfo CommandLine::iniFileInfo() const
-{
-    return mIniFileInfo;
 }
 
 inline QSettings::SettingsMap CommandLine::settingsMap() const
