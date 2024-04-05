@@ -1,4 +1,5 @@
 #pragma once
+#include "eIRexe.h"
 
 #include <QString>
 #include <QString>
@@ -10,7 +11,7 @@
 
 typedef Log::Level LogLevel;
 
-class Context
+class EIREXE_EXPORT Context
 {
 public: // ctors
     Context() {;}

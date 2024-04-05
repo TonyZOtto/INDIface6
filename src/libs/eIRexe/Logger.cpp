@@ -1,5 +1,7 @@
 //#include "Logger.h"
 
+#include <QCoreApplication>
+#include <QDateTime>
 #include <QMetaEnum>
 #include <QPartialOrdering>
 #include <QString>
@@ -8,6 +10,8 @@
 #include "../eIRbase/AText.h"
 #include "../eIRcore/ObjectHelper.h"
 #include "Log.h"
+#include "LogMacros.h"
+#include "TrollLogOutput.h"
 
 Logger::Logger(QObject *parent)
     : QObject{parent}
@@ -40,6 +44,19 @@ bool Logger::open(const OutputLogUrl &url, const Log::LevelFlags flags)
     return result;
 }
 
+bool Logger::start()
+{
+    const QString cStartString = QString("Starting %1 v%2 from %3 on PID %4 at %5")
+                                     .arg(QCoreApplication::applicationName())
+                                     .arg(QCoreApplication::applicationVersion())
+                                     .arg(QCoreApplication::applicationDirPath())
+                                     .arg(QCoreApplication::applicationPid())
+                                     .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm"));
+    LogItem tLI(LOGCTX(Log::Progress), cStartString);
+    LOG->add(&tLI);
+    return true;
+}
+
 void Logger::add(LogItem * li)
 {
     mInputItemQueue.append(li);
@@ -55,7 +72,12 @@ bool Logger::openFile(const OutputLogUrl &url, const Log::LevelFlags flags)
 
 bool Logger::openTroll(const OutputLogUrl &url, const Log::LevelFlags flags)
 {
-    Q_UNUSED(url); Q_UNUSED(flags); return false;// MUSTDO
+    bool result = false;
+    TrollLogOutput * pOut = new TrollLogOutput(url, flags, this);
+    Q_CHECK_PTR(pOut);
+    result = pOut->open(url, flags);
+    pOut->mode(result ? QIODevice::WriteOnly : QIODevice::NotOpen);
+    return result;
 }
 
 bool Logger::openSql(const OutputLogUrl &url, const Log::LevelFlags flags)

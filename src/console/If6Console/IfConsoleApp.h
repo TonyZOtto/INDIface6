@@ -15,6 +15,10 @@ public: // non-const
 
 public slots:
     virtual void initialize();
+    void start();
+
+signals:
+    void initialized();
 
 
 };

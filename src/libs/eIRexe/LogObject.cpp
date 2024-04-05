@@ -58,9 +58,12 @@ QChar Log::levelChar(const Level lvl)
 Log::OutputScheme Log::outputScheme(const AText key)
 {
     Log::OutputScheme result = Log::$nullOutputScheme;
+    QString tScheme = key.first(1).toUpper() + key.mid(1);
+    tScheme += "OutputScheme";
     ObjectHelper tOH(new Log);
     const QMetaEnum cME = tOH.metaEnum("OutputScheme");
-    const int cScheme = cME.keyToValue(key);
-    if (cScheme > 0) result = Log::OutputScheme(cScheme);
+    const int cSchemeIndex = cME.keyToValue(qPrintable(tScheme));
+    if (cSchemeIndex > 0)
+        result = Log::OutputScheme(cSchemeIndex);
     return result;
 }

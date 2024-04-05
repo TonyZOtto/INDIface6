@@ -31,6 +31,7 @@ public: // non-const
               const Log::Level maxLevel=Log::$nullLevel,
               const Log::Level minLevel=Log::$nullLevel);
     bool open(const OutputLogUrl &url, const Log::LevelFlags flags);
+    bool start();
     bool hookTrollIn();
     bool hookTrollOut();
     void add(LogItem *li);

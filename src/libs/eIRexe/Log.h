@@ -5,8 +5,6 @@
 #include "LogObject.h"
 #include "LogMacros.h"
 
-Q_GLOBAL_STATIC(Logger, LOG);
-
 #define TRACE(msg) LOGMSG(Log::Trace, msg);
 #define INFO(msg) LOGMSG(Log::Info, msg);
 #define PROGRESS(msg) LOGMSG(Log::Progress, msg);

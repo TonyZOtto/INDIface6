@@ -1,6 +1,9 @@
 #pragma once
 
 #include "Context.h"
+#include "Logger.h"
+Q_GLOBAL_STATIC(Logger, LOG);
+
 
 #define LOGCTX(lvl) Context(Q_FUNC_INFO, __FILE__, __LINE__, lvl)
 #define LOGITEMSG(lvl, msg) new LogItem(LOGCTX(lvl), msg)
@@ -12,7 +15,7 @@
 #define LOGITEMXP(lvl, comp, exp, act) LogItem(LOGCTX(lvl), comp, #exp, exp, #act, act);
 #define LOGITEMAS(lvl, flag, bexp) LogItem(LOGCTX(lvl), flag, #bexp, bexp);
 
-#define LOGADD(item) LOG->add(item);
+#define LOGADD(item) add(item);
 #define LOGMSG(lvl, msg) LOGADD(LOGITEMSG(lvl, msg));
 #define LOGFMT1(lvl, fmt, arg1) LOGADD(LOGITEMF1(lvl, fmt, arg1));
 #define LOGFMT2(lvl, fmt, arg1, arg2) LOGADD(LOGITEMF2(lvl, fmt, arg1, arg2));

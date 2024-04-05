@@ -8,7 +8,8 @@ BaseLogOutput::BaseLogOutput(const OutputLogUrl &url,
     : QObject(parent)
     , mUrl(url)
     , mOpenMode(QIODevice::NotOpen)
-    , mFlags(flags)
+    , mLevelFlags(flags)
 {
+    setObjectName("BaseLogOutput:" + mUrl.toString());
 }
 
