@@ -2,6 +2,12 @@
 
 #include "Types.h"
 
+AText::AText(const char *pch)
+    : QByteArray(pch)
+{
+    ;
+}
+
 QString AText::toString() const
 {
     return QString(*this);

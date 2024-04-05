@@ -5,7 +5,6 @@
 #include "../eIRcore/ObjectHelper.h"
 #include "LogMsgType.h"
 
-Log::Log(QObject *parent) : QObject{parent} {;}
 
 // ======================= static ====================
 
@@ -22,29 +21,26 @@ EIREXE_EXPORT Log::LevelFlags Log::TraceFlags = Log::LevelFlags(Log::FlagTFnArg 
                                          Log::FlagTExpect | Log::FlagTError |
                                          Log::FlagTFatal);
 
+Log::Log(QObject *parent) : QObject{parent} {;}
+
 LogMsgType Log::msgType(const Log::Level lvl)
 {
     LogMsgType result = LogMsgType::$null;
     switch (lvl)
     {
     case Prefer:    case Detail:    case Dump:
-    case Info:      case Progress:
-        result = LogMsgType::Info;          break;
+    case Info:      case Progress:              result = LogMsgType::Info;      break;
     case TFnArg:    case TFnLeave:  case TFnEnter:
     case TDetail:   case TDump:     case Trace:
-    case TPrefer:   case TInfo:     case TProgress:
-        result = LogMsgType::Debug;         break;
-    case Warning:   case TWarning:
-        result = LogMsgType::Warning;       break;
+    case TPrefer:   case TInfo:
+    case TProgress:                             result = LogMsgType::Debug;     break;
+    case Warning:   case TWarning:              result = LogMsgType::Warning;   break;
     case Error:     case TError:
-    case Expect:    case TExpect:
-        result = LogMsgType::Error;         break;
-    case Fatal:     case TFatal:
-        result = LogMsgType::Fatal;         break;
+    case Expect:    case TExpect:               result = LogMsgType::Error;     break;
+    case Fatal:     case TFatal:                result = LogMsgType::Fatal;     break;
     default:
-        /* leave $null result */            break;
+                                                /* leave $null result */        break;
     }
-
     return result;
 }
 
@@ -57,10 +53,13 @@ QChar Log::levelChar(const Level lvl)
 
 Log::OutputScheme Log::outputScheme(const AText key)
 {
+    qInfo() << Q_FUNC_INFO << key;
     Log::OutputScheme result = Log::$nullOutputScheme;
     QString tScheme = key.first(1).toUpper() + key.mid(1);
     tScheme += "OutputScheme";
     ObjectHelper tOH(new Log);
+    qDebug() << tOH.enumNames(true);
+    qDebug() << tOH.enumKeys("OutputScheme");
     const QMetaEnum cME = tOH.metaEnum("OutputScheme");
     const int cSchemeIndex = cME.keyToValue(qPrintable(tScheme));
     if (cSchemeIndex > 0)

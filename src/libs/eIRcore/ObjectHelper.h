@@ -3,6 +3,8 @@
 
 class QObject;
 
+#include <QStringList>
+
 #include "../eIRbase/KeySeg.h"
 
 class EIRCORE_EXPORT ObjectHelper
@@ -13,6 +15,8 @@ public:
 
 public: // const
     QMetaEnum metaEnum(const KeySeg &enumName) const;
+    QStringList enumNames(const bool all=false) const;
+    QStringList enumKeys(const KeySeg &enumName) const;
     int flagRange(const KeySeg &enumName, const KeySeg &fromValueName, const KeySeg &toValueName) const;
 
 public: // pointer

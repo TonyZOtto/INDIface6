@@ -16,7 +16,7 @@ public: // ctors
     AText() {;}
     AText(const QByteArray &ba) : QByteArray(ba) {;}
     AText(const QString &s) : QByteArray(s.toLocal8Bit()) {;}
-    AText(const char * pch) : QByteArray(pch) {;}
+    AText(const char * pch);
     AText(const char ch) : QByteArray(1, ch) {;}
 
 public: // const
