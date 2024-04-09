@@ -128,6 +128,7 @@ public: // types
     enum OutputScheme
     {
         $nullOutputScheme = 0,
+        NoneOutputScheme,
         FileOutputScheme,
         TrollOutputScheme,
         SqlOutputScheme,
@@ -150,6 +151,7 @@ public: // types
 
 public:
     explicit Log(QObject *parent = nullptr);
+    ~Log();
 
 public: // static
     static LogMsgType msgType(const Log::Level lvl);
@@ -158,6 +160,8 @@ public: // static
 
 signals:
 };
+
+Q_DECLARE_METATYPE(Log::OutputScheme)
 
 typedef Log::Level          LogLevel;
 typedef Log::Compare        LogCompare;

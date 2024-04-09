@@ -33,6 +33,7 @@ bool Logger::open(const OutputLogUrl &url, const Log::LevelFlags flags)
 {
     bool result = false;
     const QString cUrlScheme = url.scheme();
+    //qDebug() << url << cUrlScheme;
     const Log::OutputScheme cOutScheme = Log::outputScheme(cUrlScheme);
     switch (cOutScheme)
     {
@@ -67,7 +68,9 @@ void Logger::add(LogItem * li)
 
 bool Logger::openFile(const OutputLogUrl &url, const Log::LevelFlags flags)
 {
-    Q_UNUSED(url); Q_UNUSED(flags); return false;// MUSTDO
+    Q_UNUSED(url); Q_UNUSED(flags); return true;// MUSTDO
+    // TODO replace % with Org-App
+    // TODO replace @ with timestamp
 }
 
 bool Logger::openTroll(const OutputLogUrl &url, const Log::LevelFlags flags)

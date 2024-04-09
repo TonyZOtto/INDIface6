@@ -16,7 +16,7 @@ public:
 public: // const
     QMetaEnum metaEnum(const KeySeg &enumName) const;
     QStringList enumNames(const bool all=false) const;
-    QStringList enumKeys(const KeySeg &enumName) const;
+    QStringList enumKeys(const QString &enumName) const;
     int flagRange(const KeySeg &enumName, const KeySeg &fromValueName, const KeySeg &toValueName) const;
 
 public: // pointer
@@ -24,6 +24,9 @@ public: // pointer
     const QMetaObject *metaObject() const;
 
 public: // non-const
+
+public: // debug
+    void dumpInfo() const;
 
 private:
     QObject * mpObject=nullptr;

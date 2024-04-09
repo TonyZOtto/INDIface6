@@ -19,12 +19,11 @@ IfConsoleApp::IfConsoleApp(int argc, char *argv[])
 void IfConsoleApp::initialize()
 {
     ConsoleApplication::initialize();
-    LOG->open(QUrl("troll:"), Log::UserFlags);
-    const QUrl cLogFile = settings()->value("Output/LogDir").toUrl();
-    const unsigned cLogFlags = settings()->value("Output/LogFlags",
-                unsigned(Log::UserFlags | Log::TraceFlags)).toUInt();
-    Q_ASSERT(LOG->open(QUrl("troll:"), Log::UserFlags));
-    Q_ASSERT(LOG->open(cLogFile, Log::LevelFlags(cLogFlags)));
+    //const QUrl cLogUrl = settings()->value("Output/LogUrl", "file://./log/%-@.log").toUrl();
+    const Log::LevelFlags cLogFlags = Log::LevelFlags(settings()->value("Output/LogFlags",
+                                        unsigned(Log::UserFlags | Log::TraceFlags)).toUInt());
+    Q_ASSERT(LOG->open(QUrl("troll:"), cLogFlags));
+    //Q_ASSERT(LOG->open(cLogUrl, cLogFlags));
     emit initialized();
 }
 

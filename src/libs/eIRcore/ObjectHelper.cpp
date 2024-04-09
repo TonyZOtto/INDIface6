@@ -41,7 +41,7 @@ QStringList ObjectHelper::enumNames(const bool all) const
     return result;
 }
 
-QStringList ObjectHelper::enumKeys(const KeySeg &enumName) const
+QStringList ObjectHelper::enumKeys(const QString &enumName) const
 {
     QStringList result;
     const QMetaEnum cME = metaEnum(enumName);
@@ -75,4 +75,28 @@ int ObjectHelper::flagRange(const KeySeg &enumName,
 const QMetaObject *ObjectHelper::metaObject() const
 {
     return object()->metaObject();
+}
+
+void ObjectHelper::dumpInfo() const
+{
+    object()->dumpObjectInfo();
+    const QMetaObject * pMO = metaObject();
+    qDebug() << "QMetaObject: Class Name =" << pMO->className() << object()->objectName();
+    for (Index ix = pMO->classInfoOffset(); ix < pMO->classInfoCount(); ++ix)
+        qDebug() << "   " << ix << pMO->classInfo(ix).name() << "=" << pMO->classInfo(ix).value();
+    foreach (QString name, enumNames())
+    {
+        const QMetaEnum cME = metaEnum(name);
+        if (cME.isValid())
+        {
+            qDebug() << object()->objectName() << "enum" << name;
+            const Index cKeyCount = cME.keyCount();
+            for (Index ix = 0; ix < cKeyCount; ++ix)
+                qDebug() << "   " << ix << "=" << cME.key(ix);
+        }
+        else
+        {
+            qWarning() << "metaEnum(" << name << ") Invalid";
+        }
+    }
 }

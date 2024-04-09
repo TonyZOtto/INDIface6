@@ -21,7 +21,8 @@ EIREXE_EXPORT Log::LevelFlags Log::TraceFlags = Log::LevelFlags(Log::FlagTFnArg 
                                          Log::FlagTExpect | Log::FlagTError |
                                          Log::FlagTFatal);
 
-Log::Log(QObject *parent) : QObject{parent} {;}
+Log::Log(QObject *parent) : QObject{parent} { setObjectName("Log"); }
+Log::~Log() {;}
 
 LogMsgType Log::msgType(const Log::Level lvl)
 {
@@ -53,16 +54,26 @@ QChar Log::levelChar(const Level lvl)
 
 Log::OutputScheme Log::outputScheme(const AText key)
 {
-    qInfo() << Q_FUNC_INFO << key;
     Log::OutputScheme result = Log::$nullOutputScheme;
+#if 1
+    if ("none" == key)          result = Log::NoneOutputScheme;
+    else if ("troll" == key)    result = Log::TrollOutputScheme;
+    else if ("file" == key)     result = Log::FileOutputScheme;
+    else if ("sql" == key)      result = Log::SqlOutputScheme;
+    else qWarning() << "Invalid" << Q_FUNC_INFO << key;
+#else // TODO Why MetaEnum not working?
+    qInfo() << Q_FUNC_INFO << key;
     QString tScheme = key.first(1).toUpper() + key.mid(1);
     tScheme += "OutputScheme";
     ObjectHelper tOH(new Log);
+    tOH.dumpInfo();
     qDebug() << tOH.enumNames(true);
-    qDebug() << tOH.enumKeys("OutputScheme");
+    qDebug() << tOH.enumKeys("Level");
+    qDebug() << tScheme << tOH.enumKeys("OutputScheme");
     const QMetaEnum cME = tOH.metaEnum("OutputScheme");
     const int cSchemeIndex = cME.keyToValue(qPrintable(tScheme));
     if (cSchemeIndex > 0)
         result = Log::OutputScheme(cSchemeIndex);
+#endif
     return result;
 }
