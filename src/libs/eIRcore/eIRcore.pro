@@ -9,6 +9,7 @@ include(../../useBase.pri)
 
 SOURCES += \
     IODevice.cpp \
+    MutexQueue.cpp \
     ObjectHelper.cpp \
     QQFileInfo.cpp \
     QQObject.cpp \
@@ -16,6 +17,7 @@ SOURCES += \
 
 HEADERS += \
     IODevice.h \
+    MutexQueue.h \
     ObjectHelper.h \
     QQFileInfo.h \
     QQObject.h \
