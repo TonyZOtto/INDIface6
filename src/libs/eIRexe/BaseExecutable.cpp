@@ -36,11 +36,11 @@ void BaseExecutable::initialize()
 
 void BaseExecutable::newSettings(const QString &orgName, const QString &appName)
 {
-    release();
+    releaseSettings();
     mpSettings = new Settings(orgName, appName, this);
 }
 
-void BaseExecutable::release()
+void BaseExecutable::releaseSettings()
 {
     if (mpSettings)
     {

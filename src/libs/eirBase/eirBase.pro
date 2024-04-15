@@ -13,7 +13,9 @@ SOURCES += \
     KeyMap.cpp \
     KeySeg.cpp \
     KeySegList.cpp \
+    QQBitArray.cpp \
     Uid.cpp \
+    UidPak.cpp \
     VersionInfo.cpp \
     eirBase.cpp
 
@@ -25,8 +27,10 @@ HEADERS += \
     KeyMap.h \
     KeySeg.h \
     KeySegList.h \
+    QQBitArray.h \
     Types.h \
     Uid.h \
+    UidPak.h \
     VersionInfo.h \
     eirBase_global.h \
     eirBase.h
