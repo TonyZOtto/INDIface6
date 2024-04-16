@@ -10,6 +10,15 @@ Uid::Uid(const bool init)
     version(QUuid::Random);
 }
 
+Uid::Uid(const Klass k, const Type t)
+    : mUuid(QUuid::createUuid())
+{
+    variant(Variant7),
+    version(QUuid::Random),
+    klass(k),
+    type(t);
+}
+
 Uid::operator QUuid() const
 {
     return mUuid;
@@ -18,6 +27,11 @@ Uid::operator QUuid() const
 void Uid::set(const OWORD ow)
 {
     mUuid = QUuid::fromUInt128(ow);
+}
+
+void Uid::set(const QQBitArray bta)
+{
+    set(bta.toOWord());
 }
 
 void Uid::variant(const QUuid::Variant v)

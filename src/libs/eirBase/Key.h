@@ -16,6 +16,8 @@ public: // ctors
     Key(const QString &qs) { set(qs); }
 
 public: // const
+    bool isNull() const;
+    bool notNull() const { return ! isNull(); }
 
 public: // non-const
     void set(const char * pch);

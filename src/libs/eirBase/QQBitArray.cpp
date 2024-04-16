@@ -11,6 +11,15 @@ QQBitArray QQBitArray::toggled() const
     return result;
 }
 
+OWORD QQBitArray::toOWord() const
+{
+    OWORD result = 0;
+    QQBitArray tBitArray(*this);
+    tBitArray.resize(sizeof(OWORD) * 8);
+    memcpy(&result, tBitArray.bits(), sizeof(OWORD));
+    return result;
+}
+
 void QQBitArray::set(const Index start, const Count n, const bool b)
 {
     for (Index ix = start + n; ix >= start; --ix)

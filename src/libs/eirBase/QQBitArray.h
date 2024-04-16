@@ -14,6 +14,7 @@ public: // ctors
 
 public: // const
     QQBitArray toggled() const;
+    OWORD toOWord() const;
 
 public: // non-const
     void set(const Index start, const Count n, const bool b=true);

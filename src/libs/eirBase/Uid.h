@@ -39,14 +39,14 @@ public: // types
         };
         struct
         {
-            QWORD   q0;
-            QWORD   q8;
+            QWORD   hi;
+            QWORD   lo;
         };
     } Union;
     enum Type
     {
         $nullType   = 0,
-        Type01      = 0x001,
+        Reserved01  = 0x001,
         Reserved02  = 0x002,
         Reserved03  = 0x004,
         Reserved04  = 0x008,
@@ -61,13 +61,14 @@ public: // types
     };
     enum Klass
     {
-        $nullKlass      = 0,
-        UidKeyValue     = 1,
+        $nullKlass          = 0,
+        BaseCacheEntry,
     };
 
 public: // ctors
     Uid(); // null
     Uid(const bool init); // ver4 var7 random
+    Uid(const Klass k, const Type t=$nullType);
 
 public: // const
     QUuid::Variant variant() const;
