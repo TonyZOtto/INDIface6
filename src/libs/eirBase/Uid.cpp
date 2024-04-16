@@ -29,6 +29,11 @@ void Uid::set(const OWORD ow)
     mUuid = QUuid::fromUInt128(ow);
 }
 
+void Uid::set(const Union u)
+{
+    mUuid = QUuid::fromUInt128(u.u128);
+}
+
 void Uid::set(const QQBitArray bta)
 {
     set(bta.toOWord());
@@ -54,6 +59,13 @@ void Uid::version(const QUuid::Version v)
     tUidBits &= cXBitMask;
     tUidBits |= tValueBits;
     set(tUidBits);
+}
+
+Uid::Union Uid::toUnion() const
+{
+    Uid::Union result;
+    result.u128 = toOWord();
+    return result;
 }
 
 QQBitArray Uid::variantMask()
@@ -86,4 +98,42 @@ OWORD Uid::toOWord() const
 QQBitArray Uid::toBitArray() const
 {
     return QQBitArray();
+}
+
+Uid::Type Uid::type() const
+{
+    Uid::Type result = $nullType;
+    const Union cUnion = toUnion();
+    const WORD cW6 = cUnion.w6;
+    result = Uid::Type(cW6 & 0x0FFF);
+    return result;
+}
+
+void Uid::type(const Type t)
+{
+    Union tUnion = toUnion();
+    tUnion.w6 = (tUnion.w6 & 0xF000) | (t & 0x0FFF);
+    set(tUnion);
+}
+
+
+void Uid::klass(const Klass k)
+{
+    Union tUnion = toUnion();
+    tUnion.w8 = (tUnion.w8 & 0xE000) | (k & 0x1FFF);
+    set(tUnion);
+}
+
+Uid::Klass Uid::klass() const
+{
+    Uid::Klass result = $nullKlass;
+    const Union cUnion = toUnion();
+    const WORD cW6 = cUnion.w8;
+    result = Uid::Klass(cW6 & 0x1FFF);
+    return result;
+}
+
+bool Uid::operator <(const Uid &rhs) const
+{
+    return toOWord() < rhs.toOWord();
 }

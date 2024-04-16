@@ -18,6 +18,8 @@ public: // ctors
 public: // const
     bool isNull() const;
     bool notNull() const { return ! isNull(); }
+    QString toString() const;
+    bool operator < (const Key &rhs) const;
 
 public: // non-const
     void set(const char * pch);

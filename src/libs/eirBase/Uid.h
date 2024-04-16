@@ -82,6 +82,7 @@ public: // const
     Klass klass() const;
     QWORD key() const;
     QWORD value() const;
+    bool operator < (const Uid &rhs) const;
     operator QUuid () const;
 
 public: // non-const

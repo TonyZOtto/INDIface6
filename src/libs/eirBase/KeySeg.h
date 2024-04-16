@@ -22,8 +22,8 @@ public: // ctors
 
 public: // const
     QString toString() const;
-    QString operator() () const;
-    operator QString () const;
+    QString operator() () const { return toString(); }
+    operator QString () const { return toString(); }
 
 public:
     void set(const char * pch);
@@ -34,40 +34,3 @@ private: // static
     static char validFirstChar(const char ch);
     static char validNextChar(const char ch);
 };
-
-inline QString KeySeg::toString() const
-{
-    return QString(QByteArray::constData());
-}
-
-inline QString KeySeg::operator()() const
-{
-    return toString();
-}
-
-inline KeySeg::operator QString() const
-{
-    return toString();
-}
-
-inline char KeySeg::validFirstChar(const char ch)
-{
-    char result('_');
-    static const QRegularExpression scFirstCharsRE("[_ABCDEFGHIJKLMNOPQRSTUVWXYZ]",
-                                                   QRegularExpression::CaseInsensitiveOption);
-    const QRegularExpressionMatch cFirstREMatch = scFirstCharsRE.match(QString(ch));
-    if (cFirstREMatch.isValid()) result = ch;
-    return result;
-}
-
-inline char KeySeg::validNextChar(const char ch)
-{
-    char result('_');
-    static const QRegularExpression scNextCharsRE("[_0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ]",
-                                                  QRegularExpression::CaseInsensitiveOption);
-    const QRegularExpressionMatch cNextREMatch = scNextCharsRE.match(QString(ch));
-    if (cNextREMatch.isValid()) result = ch;
-    return result;
-}
-
-
