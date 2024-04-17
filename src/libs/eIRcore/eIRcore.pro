@@ -8,7 +8,9 @@ include(../libs.pri)
 include(../../useBase.pri)
 
 SOURCES += \
+    BaseCacheData.cpp \
     BaseCacheEntry.cpp \
+    BaseCacheWorker.cpp \
     BaseUidCache.cpp \
     IODevice.cpp \
     MutexQueue.cpp \
@@ -18,7 +20,9 @@ SOURCES += \
     eIRcore.cpp
 
 HEADERS += \
+    BaseCacheData.h \
     BaseCacheEntry.h \
+    BaseCacheWorker.h \
     BaseUidCache.h \
     IODevice.h \
     MutexQueue.h \

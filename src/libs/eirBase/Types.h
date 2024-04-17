@@ -22,7 +22,7 @@ typedef unsigned        UINT;
 typedef unsigned        Id;
 
 typedef QString         UText;
-typedef QWORD           EpochMilliseconds;
+typedef qint64          EpochMilliseconds;
 typedef qsizetype       Index;
 typedef size_t          Count;
 

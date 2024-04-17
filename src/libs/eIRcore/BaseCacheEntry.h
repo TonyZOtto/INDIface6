@@ -2,9 +2,13 @@
 
 #include <QObject>
 
+#include <QList>
+
 #include "../eIRbase/Key.h"
 #include "../eIRbase/Types.h"
 #include "../eIRbase/Uid.h"
+
+#include "BaseCacheData.h"
 
 class BaseCacheEntry
 {
@@ -15,6 +19,14 @@ public: // ctors
 
 public: // non-const
     void set(const Key &key, const Id id=0);
+    void hold(const void * holder);
+    void release(const void * holder);
+    void touch(const void * holder);
+
+private:
+    EpochMilliseconds mLastTouchEms;
+    QList<void *> mHoldersList;
+    BaseCacheData mData;
 
     // ---------------------- Properties -------------------------
 public:

@@ -1,6 +1,7 @@
 #pragma once
 #include "eIRbase.h"
 
+#include <QList>
 #include <QUuid>
 
 #include "QQBitArray.h"
@@ -64,6 +65,7 @@ public: // types
         $nullKlass          = 0,
         BaseCacheEntry,
     };
+    typedef QList<Uid> List;
 
 public: // ctors
     Uid(); // null
