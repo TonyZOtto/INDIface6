@@ -3,12 +3,12 @@
 #include <QObject>
 
 #include <QList>
+#include <QVariant>
 
 #include "../eIRbase/Key.h"
+#include "../eIRbase/KeyMap.h"
 #include "../eIRbase/Types.h"
 #include "../eIRbase/Uid.h"
-
-#include "BaseCacheData.h"
 
 class BaseCacheEntry
 {
@@ -17,16 +17,23 @@ public: // ctors
     BaseCacheEntry();
     BaseCacheEntry(const Key &key, const Id id=0);
 
+
+public: // const
+    bool contains(const Key &key) const;
+    QVariant read(const Key &key) const;
+
 public: // non-const
+    void set(const Uid uid);
     void set(const Key &key, const Id id=0);
     void hold(const void * holder);
     void release(const void * holder);
     void touch(const void * holder);
+    void write(const Key &key, const QVariant &value);
 
 private:
     EpochMilliseconds mLastTouchEms;
     QList<void *> mHoldersList;
-    BaseCacheData mData;
+    KeyMap mKeyMap;
 
     // ---------------------- Properties -------------------------
 public:
