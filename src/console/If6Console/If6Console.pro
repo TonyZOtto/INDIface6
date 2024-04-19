@@ -7,6 +7,7 @@ include(../console.pri)
 include(../../useBase.pri)
 include(../../useCore.pri)
 include(../../useExe.pri)
+include(../../usePhoto.pri)
 
 SOURCES += \
         BaseConsoleThread.cpp \

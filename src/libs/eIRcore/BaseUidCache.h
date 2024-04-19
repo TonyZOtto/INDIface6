@@ -1,4 +1,5 @@
 #pragma once
+#include "eIRcore.h"
 
 #include <QObject>
 
@@ -10,25 +11,27 @@
 #include "BaseCacheEntry.h"
 class BaseCacheWorker;
 
-class BaseUidCache : public QObject
+class EIRCORE_EXPORT BaseUidCache : public QObject
 {
     Q_OBJECT
 public:
     explicit BaseUidCache(QObject *parent = nullptr);
 
 public: // const
+    bool contains(const Uid uid);
+    BaseCacheEntry read(const Uid uid);
     Uid::List uidsInTouchOrder() const;
 
-public: // pointers
-    const BaseCacheWorker *worker();
-
-
 public: // non-const
-    Uid add(const BaseCacheEntry entry);
+    Uid add(const BaseCacheEntry &entry);
+    void write(const Uid uid, const BaseCacheEntry &entry);
     void touch(const Uid entryUid);
     void hold(const Uid entryUid, void * holder);
     void release(const Uid entryUid, void * holder);
     void remove(const Uid entryUid);
+
+public: // pointers
+    const BaseCacheWorker *worker();
 
 public slots:
 

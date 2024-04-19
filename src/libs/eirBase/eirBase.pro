@@ -9,6 +9,7 @@ SOURCES += \
     AText.cpp \
     Boolean.cpp \
     ErrorCode.cpp \
+    Ident.cpp \
     Key.cpp \
     KeyMap.cpp \
     KeySeg.cpp \
@@ -23,6 +24,7 @@ HEADERS += \
     AText.h \
     Boolean.h \
     ErrorCode.h \
+    Ident.h \
     Key.h \
     KeyMap.h \
     KeySeg.h \

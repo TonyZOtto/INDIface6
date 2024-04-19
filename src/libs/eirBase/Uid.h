@@ -63,7 +63,7 @@ public: // types
     enum Klass
     {
         $nullKlass          = 0,
-        BaseCacheEntry,
+        CacheEntry,
     };
     typedef QList<Uid> List;
 

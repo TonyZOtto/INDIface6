@@ -4,6 +4,7 @@
 
 #include <BaseExecutable.h>
 #include <ConsoleApplication.h>
+#include <ImageCache.h>
 
 class IfConsoleApp : public ConsoleApplication
 {
@@ -20,5 +21,7 @@ public slots:
 signals:
     void initialized();
 
+private:
+    ImageCache mImageCache;
 
 };

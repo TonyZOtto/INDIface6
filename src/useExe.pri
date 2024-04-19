@@ -1,4 +1,4 @@
-# {Eclipse6}/src/useBase.pri
+# {Eclipse6}/src/useExe.pri
 INCLUDEPATH *= $$LIBDIR/eIRexe
 LIBS *= -leIRexe6
 LIBS *= -L$$DESTDIR

@@ -9,6 +9,7 @@
 
 IfConsoleApp::IfConsoleApp(int argc, char *argv[])
     : ConsoleApplication{argc, argv}
+    , mImageCache(this)
 {
     setObjectName("IfConsoleApp");
     connect(this, &IfConsoleApp::initialized,

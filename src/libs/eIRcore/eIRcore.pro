@@ -16,6 +16,7 @@ SOURCES += \
     ObjectHelper.cpp \
     QQFileInfo.cpp \
     QQObject.cpp \
+    Rational.cpp \
     eIRcore.cpp
 
 HEADERS += \
@@ -25,8 +26,12 @@ HEADERS += \
     IODevice.h \
     MutexQueue.h \
     ObjectHelper.h \
+    PointT.h \
     QQFileInfo.h \
     QQObject.h \
+    Rational.h \
+    RectT.h \
+    SizeT.h \
     eIRcore_global.h \
     eIRcore.h
 
