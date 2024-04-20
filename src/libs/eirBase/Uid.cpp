@@ -24,6 +24,11 @@ Uid::operator QUuid() const
     return mUuid;
 }
 
+AText Uid::tail() const
+{
+    return mUuid.toByteArray().right(14);
+}
+
 void Uid::set(const OWORD ow)
 {
     mUuid = QUuid::fromUInt128(ow);
@@ -136,4 +141,9 @@ Uid::Klass Uid::klass() const
 bool Uid::operator <(const Uid &rhs) const
 {
     return toOWord() < rhs.toOWord();
+}
+
+bool Uid::operator ==(const Uid &rhs) const
+{
+    return toOWord() == rhs.toOWord();
 }

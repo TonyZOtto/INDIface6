@@ -4,6 +4,7 @@
 #include <QList>
 #include <QUuid>
 
+#include "AText.h"
 #include "QQBitArray.h"
 #include "Types.h"
 
@@ -85,7 +86,9 @@ public: // const
     QWORD key() const;
     QWORD value() const;
     bool operator < (const Uid &rhs) const;
+    bool operator == (const Uid &rhs) const;
     operator QUuid () const;
+    AText tail() const;
 
 public: // non-const
     void set(const QWORD hi, const QWORD lo);

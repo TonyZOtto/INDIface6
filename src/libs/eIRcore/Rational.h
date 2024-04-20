@@ -12,9 +12,9 @@ public: // const
     signed n() const;
     signed d() const;
     bool isNull() const;
-    bool notNull() const { ! isNull(); }
+    bool notNull() const { return ! isNull(); }
     bool isValid() const;
-    bool notValid() const { ! isValid(); }
+    bool notValid() const { return ! isValid(); }
     qreal toReal() const;
     operator qreal () const { return toReal(); }
 

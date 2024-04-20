@@ -37,18 +37,3 @@ private:
     KeySeg::List mSegments;
 };
 
-inline void Key::set(const char *pch)
-{
-    mSegments = split(AText(pch));
-}
-
-inline void Key::set(const AText &atx)
-{
-    mSegments = split(atx);
-}
-
-inline void Key::set(const QString &qs)
-{
-    mSegments = split(AText(qs));
-}
-

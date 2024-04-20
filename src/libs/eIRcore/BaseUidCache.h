@@ -4,7 +4,7 @@
 #include <QObject>
 
 #include <QMap>
-#include <QMap>
+#include <QMultiMap>
 
 #include "../eIRbase/Types.h"
 #include "../eIRbase/Uid.h"
@@ -18,8 +18,10 @@ public:
     explicit BaseUidCache(QObject *parent = nullptr);
 
 public: // const
-    bool contains(const Uid uid);
-    BaseCacheEntry read(const Uid uid);
+    bool contains(const Uid uid) const;
+    Count count() const;
+    bool isHeld(const Uid uid) const;
+    BaseCacheEntry read(const Uid uid) const;
     Uid::List uidsInTouchOrder() const;
 
 public: // non-const
@@ -28,7 +30,7 @@ public: // non-const
     void touch(const Uid entryUid);
     void hold(const Uid entryUid, void * holder);
     void release(const Uid entryUid, void * holder);
-    void remove(const Uid entryUid);
+    void remove(const Uid uid);
 
 public: // pointers
     const BaseCacheWorker *worker();
@@ -37,8 +39,8 @@ public slots:
 
 private:
     const BaseCacheWorker * cmpWorker=nullptr;
-    QMap<Uid, BaseCacheEntry> mUidEntryMao;
-    QMap<EpochMilliseconds, Uid> mTouchEmsUidMap;
+    QMap<Uid, BaseCacheEntry> mUidEntryMap;
+    QMultiMap<EpochMilliseconds, Uid> mTouchEmsUidMap;
 
     // ------------------------ Properties --------------------------
 private:

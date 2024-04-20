@@ -21,6 +21,7 @@ public: // ctors
 public: // const
     Ident ident() const;
     bool contains(const Key &valueKey) const;
+    bool isHeld() const;
     QVariant read(const Key &valueKey) const;
     EpochMilliseconds lastTouch() const;
 

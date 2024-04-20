@@ -13,6 +13,7 @@ class EIRBASE_EXPORT Ident
 public:
     Ident(const Uid::Klass uk=Uid::$nullKlass);
     Ident(const Uid::Klass uk, const Key k, const Id i=0, const QString d=QString());
+    Ident(const Uid u, const Key k, const Id i=0, const QString d=QString());
 
     // -------------------- Properties ---------------------
 private:

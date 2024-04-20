@@ -4,7 +4,7 @@
 
 BaseCacheWorker::BaseCacheWorker(BaseUidCache *parent)
     : QThread{parent}
-    , cmpCache(parent)
+    , mpCache(parent)
     , mShutdown(false)
 {
     setObjectName("BaseCacheWorker:"+cache()->objectName());
@@ -30,10 +30,30 @@ void BaseCacheWorker::run()
 
 void BaseCacheWorker::enqueueAll()
 {
-    Q_ASSERT(!"MUSSTDO"); // MUSTDO enqueueAll()
+    Q_ASSERT(mUidQueue.isEmpty());
+    mUidQueue.append(cache()->uidsInTouchOrder());
 }
 
 void BaseCacheWorker::processNext()
 {
-    Q_ASSERT(!"MUSSTDO"); // MUSTDO processNext()
+    if (cache()->count() < cache()->maxEntries()) // WANTDO BaseCacheWorker maxBytes
+    {
+        emit noneRemoved(cache(), cache()->count(), cache()->maxEntries());
+        return;
+    }
+    bool removed = false;
+    while ( ! mUidQueue.isEmpty() && ! removed)
+    {
+        const Uid cUid = mUidQueue.dequeue();
+        emit dequeued(cache(), cUid);
+        if (cache()->isHeld(cUid))
+        {
+            emit inUse(cache(), cUid);
+        }
+        else
+        {
+            cache()->remove(cUid);
+            emit dequeued(cache(), cUid);
+        }
+    }
 }

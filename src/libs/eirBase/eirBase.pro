@@ -10,6 +10,7 @@ SOURCES += \
     Boolean.cpp \
     ErrorCode.cpp \
     Ident.cpp \
+    IdentMap.cpp \
     Key.cpp \
     KeyMap.cpp \
     KeySeg.cpp \
@@ -25,6 +26,7 @@ HEADERS += \
     Boolean.h \
     ErrorCode.h \
     Ident.h \
+    IdentMap.h \
     Key.h \
     KeyMap.h \
     KeySeg.h \

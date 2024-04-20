@@ -24,6 +24,20 @@ KeySeg::List Key::split(const AText &atx, const QChar hinge)
     return result;
 }
 
+void Key::set(const char *pch)
+{
+    mSegments = split(AText(pch));
+}
+
+void Key::set(const AText &atx)
+{
+    mSegments = split(atx);
+}
+
+void Key::set(const QString &qs)
+{
+    mSegments = split(AText(qs));
+}
 
 // =================== static ====================
 

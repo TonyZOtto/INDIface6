@@ -17,22 +17,27 @@ public:
 public:
     void shutdown();
 
+signals:
+    void dequeued(const BaseUidCache * cache, const Uid uid);
+    void inUse(const BaseUidCache * cache, const Uid uid);
+    void noneRemoved(const BaseUidCache * cache, const Count cachedCount, const Count maxCount);
 
 private:
     void run() override;
     void enqueueAll();
     void processNext();
-    const BaseUidCache *cache();
+    BaseUidCache *cache();
 
 private:
-    const BaseUidCache * cmpCache=nullptr;
+    BaseUidCache * mpCache=nullptr;
     bool mShutdown=false;
     EpochMilliseconds mShortSleep=100;
     EpochMilliseconds mLongSleep=5000;
     QQueue<Uid> mUidQueue;
 };
 
-inline const BaseUidCache *BaseCacheWorker::cache()
+inline BaseUidCache *BaseCacheWorker::cache()
 {
-    return cmpCache;
+    Q_CHECK_PTR(mpCache);
+    return mpCache;
 }

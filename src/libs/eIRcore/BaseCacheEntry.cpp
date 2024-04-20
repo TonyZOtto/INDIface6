@@ -11,6 +11,11 @@ bool BaseCacheEntry::contains(const Key &valueKey) const
     return mKeyMap.contains(valueKey);
 }
 
+bool BaseCacheEntry::isHeld() const
+{
+    return ! mHolderList.isEmpty();
+}
+
 QVariant BaseCacheEntry::read(const Key &valueKey) const
 {
     return mKeyMap.value(valueKey);
