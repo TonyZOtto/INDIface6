@@ -13,13 +13,33 @@
  *  Ver 7:  018ede8a-1e00-7d81-a387-223b32bfdb16
  *  Var 4:  018ede8a-d384-73f6-8468-b29dc030df18
  *  OurBase:00112233-4455-4677-E899-aabbccddeeff
- *                             ^--Variant (0b1110)
+ *                             ^--Variant (3 upper bits=0b1110)
  *                        ^--Version
- *      Random Version 4--^    ^--Variant 7 (Reserved)
- *          ^^^^^^^^ ^^^^--Key (48 bits)
- *                         ^^^--Type (12 bits)
- *                             1^^^--Class (13 bits)
- *                                  ^^^^^^^^^^^^--Value (48 bits)
+ *      Version 4=Random--^    ^--Variant 7=Reserved
+ *          ^^^^^^^^ ^^^^--Randomness (48 bits)
+ *                         ^--TypeClass (4 bits)
+ *                          ^^--Reserved7 (8 bits)
+ *                             1^^^-^^^^^^^^^^^^--TypeValue (61 bits)
+ *
+ *  Type
+ *  Class:  TypeValue (61 bits-upper 3 bits of QWORD for Varaint)
+ *      0   0xExxxxxxx xxxxxxxx -  0 bits TypeA, 60 bits Value
+ *      1   0xEtxxxxxx xxxxxxxx -  4 bits TypeB, 56 bits Value
+ *      2   0xEttxxxxx xxxxxxxx -  8 bits TypeC, 52 bits Value
+ *      3   0xEtttxxxx xxxxxxxx - 12 bits TypeD, 48 bits Value
+ *      4   0xEttttxxx xxxxxxxx - 16 bits TypeE, 44 bits Value
+ *      5   0xEtttttxx xxxxxxxx - 20 bits TypeF, 40 bits Value
+ *      6   0xEttttttx xxxxxxxx - 24 bits TypeG, 36 bits Value
+ *      7   0xEttttttt xxxxxxxx - 28 bits TypeH, 32 bits Value
+ *      8   0xEttttttt txxxxxxx - 32 bits TypeJ, 28 bits Value
+ *      9   0xEttttttt ttxxxxxx - 36 bits TypeK, 24 bits Value
+ *     10   0xEttttttt tttxxxxx - 40 bits TypeM, 20 bits Value
+ *     11   0xEttttttt ttttxxxx - 44 bits TypeN, 16 bits Value
+ *     12   0xEttttttt tttttxxx - 48 bits TypeP, 12 bits Value
+ *     13   0xEttttttt ttttttxx - 52 bits TypeR,  8 bits Value
+ *     14   0xEttttttt tttttttx - 56 bits TypeT,  4 bits Value
+ *     15 - Unused
+ *  16~31 - 0xF??????? ???????? - 60 more bits of classless randomness
  */
 
 class EIRBASE_EXPORT Uid
@@ -27,6 +47,7 @@ class EIRBASE_EXPORT Uid
 public: // types
     static const QUuid::Variant Variant7 = QUuid::Variant(7);
     static const Count BitCount = sizeof(OWORD) * 8U;
+
     typedef union
     {
         OWORD   u128;
@@ -45,35 +66,63 @@ public: // types
             QWORD   lo;
         };
     } Union;
+
+    enum TypeClass
+    {
+        $nullTypeClass = -1,
+        TypeA = 0,
+        TypeB,
+        TypeC,
+        TypeD,
+        TypeE,
+        TypeF,
+        TypeG,
+        TypeH,
+        TypeJ,
+        TypeK,
+        TypeM,
+        TypeN,
+        TypeP,
+        TypeR,
+        TypeT,
+        TypeUnused, // =15
+        TypeRandom, // =16
+    };
+
+    enum TypeClassBits  // ValueBits = 60-Class
+    {
+        ClassA =  0,
+        ClassB =  4,
+        ClassC =  8,
+        ClassD = 12,
+        ClassE = 16,
+        ClassF = 20,
+        ClassG = 24,
+        ClassH = 28,
+        ClassJ = 32,
+        ClassK = 36,
+        ClassM = 40,
+        ClassN = 44,
+        ClassP = 48,
+        ClassR = 52,
+        ClassT = 56,
+    };
     enum Type
     {
-        $nullType   = 0,
-        Reserved01  = 0x001,
-        Reserved02  = 0x002,
-        Reserved03  = 0x004,
-        Reserved04  = 0x008,
-        Reserved05  = 0x010,
-        Reserved06  = 0x020,
-        Reserved07  = 0x040,
-        Reserved08  = 0x080,
-        Reserved09  = 0x100,
-        Reserved10  = 0x200,
-        Reserved11  = 0x400,
-        Reserved12  = 0x800
-    };
-    enum Klass
-    {
-        $nullKlass          = 0,
-        CacheEntry,
+        $nullType           = 0,
+        CacheEntry          = TypeE | 1,
+        FrameData           = TypeE | 2,
+        FaceData            = TypeE | 3,
     };
     typedef QList<Uid> List;
 
 public: // ctors
     Uid(); // null
     Uid(const bool init); // ver4 var7 random
-    Uid(const Klass k, const Type t=$nullType);
+//    Uid(const Type t, const int typeValue);
 
 public: // const
+    bool isNull() const;
     QUuid::Variant variant() const;
     QUuid::Version version() const;
     Union toUnion() const;
@@ -81,8 +130,7 @@ public: // const
     QQBitArray toBitArray() const;
     QWORD hi() const;
     QWORD lo() const;
-    Type type() const;
-    Klass klass() const;
+    TypeClass typeClass() const;
     QWORD key() const;
     QWORD value() const;
     bool operator < (const Uid &rhs) const;
@@ -100,7 +148,7 @@ public: // non-const
     void hi(const QWORD qw);
     void lo(const QWORD qw);
     void type(const Type t);
-    void klass(const Klass k);
+    void typeClass(const TypeClass k);
     void key(const QWORD qw48);
     void value(const QWORD qw48);
 

@@ -1,4 +1,5 @@
 #pragma once
+#include "IfCore.h"
 
 #include <QImage>
 #include <QList>
@@ -6,7 +7,7 @@
 
 #include "../eIRcore/SizeT.h"
 
-class BaseImage
+class IFCORE_EXPORT BaseImage
 {
 public: // types
     enum Type

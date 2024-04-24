@@ -3,20 +3,15 @@
 Uid::Uid() {;}
 
 Uid::Uid(const bool init)
-    : mUuid(QUuid::createUuid())
+    : mUuid(init ? QUuid::createUuid() : QUuid())
 {
-    (void)init;
-    variant(Variant7);
-    version(QUuid::Random);
+    if (init)
+        variant(Variant7), version(QUuid::Random);
 }
 
-Uid::Uid(const Klass k, const Type t)
-    : mUuid(QUuid::createUuid())
+bool Uid::isNull() const
 {
-    variant(Variant7),
-    version(QUuid::Random),
-    klass(k),
-    type(t);
+    return mUuid.isNull();
 }
 
 Uid::operator QUuid() const
@@ -105,37 +100,20 @@ QQBitArray Uid::toBitArray() const
     return QQBitArray();
 }
 
-Uid::Type Uid::type() const
+Uid::TypeClass Uid::typeClass() const
 {
-    Uid::Type result = $nullType;
+    Uid::TypeClass result = $nullTypeClass;
     const Union cUnion = toUnion();
     const WORD cW6 = cUnion.w6;
-    result = Uid::Type(cW6 & 0x0FFF);
+    result = Uid::TypeClass(cW6 & 0x0FFF);
     return result;
 }
 
-void Uid::type(const Type t)
+void Uid::typeClass(const TypeClass t)
 {
     Union tUnion = toUnion();
     tUnion.w6 = (tUnion.w6 & 0xF000) | (t & 0x0FFF);
     set(tUnion);
-}
-
-
-void Uid::klass(const Klass k)
-{
-    Union tUnion = toUnion();
-    tUnion.w8 = (tUnion.w8 & 0xE000) | (k & 0x1FFF);
-    set(tUnion);
-}
-
-Uid::Klass Uid::klass() const
-{
-    Uid::Klass result = $nullKlass;
-    const Union cUnion = toUnion();
-    const WORD cW6 = cUnion.w8;
-    result = Uid::Klass(cW6 & 0x1FFF);
-    return result;
 }
 
 bool Uid::operator <(const Uid &rhs) const

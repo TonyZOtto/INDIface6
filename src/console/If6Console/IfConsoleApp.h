@@ -4,7 +4,7 @@
 
 #include <BaseExecutable.h>
 #include <ConsoleApplication.h>
-#include <ImageCache.h>
+#include <IfCache.h>
 
 class IfConsoleApp : public ConsoleApplication
 {
@@ -22,6 +22,6 @@ signals:
     void initialized();
 
 private:
-    ImageCache mImageCache;
+    IfCache mImageCache;
 
 };

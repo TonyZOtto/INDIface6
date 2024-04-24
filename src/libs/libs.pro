@@ -4,6 +4,7 @@ SUBDIRS += \
     IbData \
     IfAnalytics \
     IfBase \
+    IfCore \
     IfFace \
     IfFrame \
     IfResource \

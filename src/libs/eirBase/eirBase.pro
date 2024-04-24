@@ -15,6 +15,8 @@ SOURCES += \
     KeyMap.cpp \
     KeySeg.cpp \
     KeySegList.cpp \
+    Nibble.cpp \
+    NibbleArray.cpp \
     QQBitArray.cpp \
     Uid.cpp \
     UidPak.cpp \
@@ -31,6 +33,8 @@ HEADERS += \
     KeyMap.h \
     KeySeg.h \
     KeySegList.h \
+    Nibble.h \
+    NibbleArray.h \
     QQBitArray.h \
     Types.h \
     Uid.h \

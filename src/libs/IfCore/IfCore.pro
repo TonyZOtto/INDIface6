@@ -1,18 +1,30 @@
 QT += gui
 TEMPLATE = lib
-DEFINES += EIRPHOTO_LIBRARY
+DEFINES += IFCORE_LIBRARY
 CONFIG += c++17
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 include(../libs.pri)
+include(../../useBase.pri)
 include(../../useCore.pri)
 
 SOURCES += \
-    eIRphoto.cpp \
+    BaseImage.cpp \
+    BaseWorkerTask.cpp \
+    FaceData.cpp \
+    FrameData.cpp \
+    IfCache.cpp \
+    IfCore.cpp \
+
 
 HEADERS += \
-    eIRphoto_global.h \
-    eIRphoto.h \
+    BaseImage.h \
+    BaseWorkerTask.h \
+    FaceData.h \
+    FrameData.h \
+    IfCache.h \
+    IfCore_global.h \
+    IfCore.h \
 
 # Default rules for deployment.
 unix {

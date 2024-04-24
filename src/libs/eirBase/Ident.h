@@ -10,16 +10,20 @@
 class EIRBASE_EXPORT Ident
 {
     Q_GADGET
-public:
-    Ident(const Uid::Klass uk=Uid::$nullKlass);
-    Ident(const Uid::Klass uk, const Key k, const Id i=0, const QString d=QString());
+public: // ctors
+    Ident();
+    Ident(const Key k, const Id i=0, const QString d=QString());
     Ident(const Uid u, const Key k, const Id i=0, const QString d=QString());
+
+public: // const
+    bool isNull() const;
+
 
     // -------------------- Properties ---------------------
 private:
     Uid p_uid;
-    Id p_id;
     Key p_key;
+    Id p_id;
     QString p_desc;
     Q_PROPERTY(Uid uid READ uid WRITE uid FINAL)
     Q_PROPERTY(Id id READ id WRITE id FINAL)

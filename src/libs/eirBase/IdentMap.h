@@ -25,7 +25,7 @@ public: // const
     Key key(const Uid u) const;
 
 public: // non-const
-    Uid add(const Uid::Klass uk, const Key &k, const Id i=0, const QString &d=QString());
+    Uid add(const Uid::Type uk, const Key &k, const Id i=0, const QString &d=QString());
     void add(const Uid u, const Key &k, const Id i=0, const QString &d=QString());
     void remove(const Uid u);
 

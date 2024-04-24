@@ -47,7 +47,7 @@ Key IdentMap::key(const Uid u) const
     return get(u).key();
 }
 
-Uid IdentMap::add(const Uid::Klass uk, const Key &k, const Id i, const QString &d)
+Uid IdentMap::add(const Uid::Type uk, const Key &k, const Id i, const QString &d)
 {
     const Uid result = Uid(uk);
     add(result, k, i, d);

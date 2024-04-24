@@ -6,6 +6,7 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs depr
 
 include(../libs.pri)
 include(../../useBase.pri)
+include(../../useCore.pri)
 
 SOURCES += \
     BaseCacheEntry.cpp \

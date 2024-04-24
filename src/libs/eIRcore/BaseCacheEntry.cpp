@@ -2,9 +2,8 @@
 
 #include <QDateTime>
 
-BaseCacheEntry::BaseCacheEntry() : mIdent(Uid::CacheEntry) {;}
-BaseCacheEntry::BaseCacheEntry(const Key &entryKey, const Id id)
-    : mIdent(Uid::CacheEntry, entryKey, id) {;}
+BaseCacheEntry::BaseCacheEntry() {;}
+BaseCacheEntry::BaseCacheEntry(const Key &entryKey, const Id id) : mIdent(entryKey, id) {;}
 
 bool BaseCacheEntry::contains(const Key &valueKey) const
 {
