@@ -8,7 +8,7 @@
 #include <QStringList>
 #include <QVariant>
 #include <QVariantList>
-#include <QSqlRecord>
+//#include <QSqlRecord>
 
 #include "../eIRbase/Boolean.h"
 #include "../eIRcore/QQFileInfo.h"
@@ -103,12 +103,12 @@ private: // ------------------------ properties ------------------------
     QString             m_message;
     QString             m_format;
     QStringList         m_outputStrings;
-    QSqlRecord          m_outputRecord;
     LogCompareFlags     m_compareflags;
     ArgumentInfoList    m_arguments;
     QString             m_debugHead;
     QString             m_debugFoot;
     QStringList         m_debugStrings;
+//    QSqlRecord          m_outputRecord;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(LogItem::Flags);

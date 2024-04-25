@@ -6,8 +6,12 @@
 #include "LogMacros.h"
 
 #define TRACE(msg) LOGMSG(Log::Trace, msg);
+#define TWARN(msg) LOGMSG(Log::Warning, msg);
 #define INFO(msg) LOGMSG(Log::Info, msg);
 #define PROGRESS(msg) LOGMSG(Log::Progress, msg);
+
+#define WPOINTER(typ, pexp) { if (nullptr==(typ*)(exp)) \
+LOGITEMF2(Log::TWarning, "'%\1' pointer to %2 is null", #pexp, #typ); }
 
 #define WEXPECTEQ(exp, act) LOGEXPECT(TWarning, Log::Equals, exp, act)
 #define TEXPECTEQ(exp, act) LOGEXPECT(TWarning, Log::Equals, exp, act)

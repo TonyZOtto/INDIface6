@@ -2,6 +2,7 @@
 #include "eIRbase.h"
 
 #include <QChar>
+#include <QList>
 #include <QString>
 
 #include "AText.h"
@@ -9,6 +10,9 @@
 
 class EIRBASE_EXPORT Key
 {
+public: // types
+    typedef QList<Key> List;
+
 public: // ctors
     Key() {;}
     Key(const char * pch) { set(pch); }
@@ -18,13 +22,17 @@ public: // ctors
 public: // const
     bool isNull() const;
     bool notNull() const { return ! isNull(); }
+    KeySeg::List segments() const;
     QString toString() const;
+    QString operator () () const { return toString(); }
     bool operator < (const Key &rhs) const;
 
 public: // non-const
     void set(const char * pch);
     void set(const AText &atx);
     void set(const QString &qs);
+    void prepend(const KeySeg &seg);
+    void prepend(const Key &key);
 
 private: // static
 //    static KeySeg::List split(const char * pch, const QChar hinge=QChar('/'));
@@ -36,4 +44,9 @@ private: // static
 private:
     KeySeg::List mSegments;
 };
+
+inline KeySeg::List Key::segments() const
+{
+    return mSegments;
+}
 

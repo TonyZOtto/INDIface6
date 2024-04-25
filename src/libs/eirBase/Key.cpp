@@ -39,6 +39,16 @@ void Key::set(const QString &qs)
     mSegments = split(AText(qs));
 }
 
+void Key::prepend(const KeySeg &seg)
+{
+    mSegments.prepend(seg);
+}
+
+void Key::prepend(const Key &key)
+{
+    foreach (const KeySeg cSeg, key.segments()) prepend(cSeg);
+}
+
 // =================== static ====================
 
 QString Key::joinString(const KeySeg::List &segs, const QChar hinge)
