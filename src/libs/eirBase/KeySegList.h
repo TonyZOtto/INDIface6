@@ -5,6 +5,12 @@
 
 class EIRBASE_EXPORT KeySegList : public KeySeg::List
 {
-public:
+public: // ctors
     KeySegList();
+
+public: // const
+
+public: // non-const
+
+
 };

@@ -11,7 +11,7 @@
 #define PROGRESS(msg) LOGMSG(Log::Progress, msg);
 
 #define WPOINTER(typ, pexp) { if (nullptr==(typ*)(exp)) \
-LOGITEMF2(Log::TWarning, "'%\1' pointer to %2 is null", #pexp, #typ); }
+    LOGITEMF2(Log::TWarning, "'%\1' pointer to %2 is null", #pexp, #typ); }
 
 #define WEXPECTEQ(exp, act) LOGEXPECT(TWarning, Log::Equals, exp, act)
 #define TEXPECTEQ(exp, act) LOGEXPECT(TWarning, Log::Equals, exp, act)
@@ -32,7 +32,9 @@ LOGITEMF2(Log::TWarning, "'%\1' pointer to %2 is null", #pexp, #typ); }
 #define TEXPECTGE(exp, act) LOGEXPECT(TWarning, Log::GreaterEqual, exp, act)
 #define FEXPECTGE(exp, act) LOGEXPECT(TWarning, Log::GreaterEqual, exp, act)
 
-#define PREFER(bexp) LOGASSERT(Prefer, AssertTrue, bexp)
-#define PREFERNOT(bexp) LOGASSERT(Prefer, AssertFalse, bexp)
-#define ASSERT(bexpr) LOGASSERT(Assert, AssertTrue, bexp)
-#define ASSERTNOT(bexpr) LOGASSERT(Assert, AssertFalse, bexp)
+#define PREFER(bexp) LOGASSERT(Prefer, Log::ExpectTrue, bexp)
+#define PREFERNOT(bexp) LOGASSERT(Prefer, Log::ExpectFalse, bexp)
+#define WEXPECT(bexp) LOGASSERT(Log::TWarning, Log::ExpectTrue, bexp)
+#define WEXPECTNOT(bexp) LOGASSERT(TWarning, Log::ExpectFalse, bexp)
+#define ASSERT(bexpr) LOGASSERT(Assert, Log::ExpectTrue, bexp)
+#define ASSERTNOT(bexpr) LOGASSERT(Assert, Log::ExpectFalse, bexp)

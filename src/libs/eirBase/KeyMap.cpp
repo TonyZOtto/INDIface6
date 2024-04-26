@@ -2,9 +2,19 @@
 
 KeyMap::KeyMap() {}
 
+bool KeyMap::contains(const Key &key) const
+{
+    return mKeyVariantMap.contains(key);
+}
+
 const QVariant KeyMap::value(const Key &key) const
 {
     return mKeyVariantMap.value(key);
+}
+
+const QVariant KeyMap::value(const Key &key, const QVariant &defalt) const
+{
+    return contains(key) ? value(key) : defalt;
 }
 
 const Key::List KeyMap::keys() const

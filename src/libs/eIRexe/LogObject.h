@@ -103,16 +103,11 @@ public: // types
         LessThan            = 0x01000000,
         GreaterEqual        = Equals | GreaterThan,
         LessEqual           = Equals | LessThan,
-/*      ExpectMask          = 0x00300000,
+        ExpectMask          = 0x00300000,
         Expectation         = 0x00100000,
         ExpectBit           = 0x00200000,
         ExpectTrue          = Expectation | ExpectBit,
-        ExpectFalse         = Expectation | false, */
-        AssertMask          = 0x00030000,
-        Assertation         = 0x00010000,
-        AssertBit           = 0x00020000,
-        AssertTrue          = Assertation | AssertBit,
-        AssertFalse         = Assertation | false,
+        ExpectFalse         = Expectation | false,
     };
     Q_DECLARE_FLAGS(CompareFlags, Compare);
     Q_ENUM(Compare);

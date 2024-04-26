@@ -22,5 +22,6 @@ Q_GLOBAL_STATIC(Logger, LOG);
 #define LOGFMT3(lvl, fmt, arg1, arg2, arg3) LOGADD(LOGITEMF3(lvl, fmt, arg1, arg2, arg3));
 #define LOGFMT4(lvl, fmt, arg1, arg2, arg3, arg4) LOGADD(LOGITEMF4(lvl, fmt, arg1, arg2, arg3, arg4));
 #define LOGEXPECT(lvl, comp, exp, act) LOGADD(LOGITEMXP(lvl, comp, exp, act));
+#define LOGEXPBOOL(lvl, comp, act) LOGADD(LOGITEMXP(lvl, comp, bexp));
 #define LOGASSERT(lvl, flag, bexp) LOGADD(LOGITEMAS(lvl, flag, bexp));
 

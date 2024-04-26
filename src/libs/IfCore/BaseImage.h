@@ -5,6 +5,8 @@
 #include <QList>
 #include <QRgb>
 
+#include "../eIRbase/KeySeg.h"
+#include "../eIRbase/KeySegList.h"
 #include "../eIRcore/SizeT.h"
 
 class IFCORE_EXPORT BaseImage
@@ -42,8 +44,9 @@ public: // ctors
     BaseImage(const Type type, const Size size=Size());
 
 public: // static
-    QImage::Format format(const Type t);
-    Type type(const QImage::Format f);
+    static QImage::Format format(const Type t);
+    static Type type(const QImage::Format f);
+    static KeySegList supportedFileFormats();
 
 private:
     Type            mType;

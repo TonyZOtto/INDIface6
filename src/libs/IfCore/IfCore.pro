@@ -12,6 +12,7 @@ include(../../useExe.pri)
 SOURCES += \
     BaseImage.cpp \
     BaseWorkerTask.cpp \
+    EnumerateDirTask.cpp \
     FaceData.cpp \
     FrameData.cpp \
     IfCache.cpp \
@@ -21,6 +22,7 @@ SOURCES += \
 HEADERS += \
     BaseImage.h \
     BaseWorkerTask.h \
+    EnumerateDirTask.h \
     FaceData.h \
     FrameData.h \
     IfCache.h \

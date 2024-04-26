@@ -18,9 +18,11 @@ public: // ctors
     explicit KeySeg() {;}
     KeySeg(const char * pch) { set(pch); }
     KeySeg(const AText &atx) { set(atx); }
+    KeySeg(const QByteArray &qba) { set(qba); }
     KeySeg(const QString &qs) { set(qs); }
 
 public: // const
+    QString toUpper() const;
     QString toString() const;
     QString operator() () const { return toString(); }
     operator QString () const { return toString(); }
@@ -28,6 +30,7 @@ public: // const
 public:
     void set(const char * pch);
     void set(const AText &atx);
+    void set(const QByteArray &qba);
     void set(const QString &qs);
 
 private: // static

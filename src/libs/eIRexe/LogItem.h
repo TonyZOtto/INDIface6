@@ -56,10 +56,10 @@ public: // ctors
             const QVariant &argValue3=QVariant(), const QVariant &argValue4=QVariant());
     LogItem(const Context &ctx, const char * pchFormat,
             const QStringList &argNames, const QVariantList &argValues);
-    LogItem(const Context &ctx, const LogCompareFlags lcf,
+    LogItem(const Context &ctx, const LogCompareFlags lcf,      // EXPECT compare
             const char * expText, const QVariant &expValue,
             const char * actText, const QVariant &actValue);
-    LogItem(const Context &ctx, const LogCompareFlags lcf,
+    LogItem(const Context &ctx, const LogCompareFlags lcf,      // EXPECT (bool)
             const char * assText, const QVariant &assValue);
 
 public: // const

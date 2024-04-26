@@ -8,6 +8,11 @@ void KeySeg::set(const AText &atx)
         tOutText.append(validFirstChar(tInText.takeFirstChar()));
 }
 
+void KeySeg::set(const QByteArray &qba)
+{
+    set(AText(qba));
+}
+
 void KeySeg::set(const char *pch)
 {
     set(AText(pch));
@@ -16,6 +21,12 @@ void KeySeg::set(const char *pch)
 void KeySeg::set(const QString &qs)
 {
     set(AText(qs));
+}
+
+QString KeySeg::toUpper() const
+{
+    QString result = toString().toUpper();
+    return result;
 }
 
 QString KeySeg::toString() const

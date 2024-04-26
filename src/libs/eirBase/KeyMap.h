@@ -12,7 +12,9 @@ public: // ctors
     KeyMap();
 
 public: // const
+    bool contains(const Key &key) const;
     const QVariant value(const Key &key) const;
+    const QVariant value(const Key &key, const QVariant &defalt) const;
     const Key::List keys() const;
 
 public: // non-const

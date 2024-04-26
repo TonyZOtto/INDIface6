@@ -3,41 +3,56 @@
 
 #include <QRunnable>
 
+#include <QVariant>
+
 #include "../eIRbase/Ident.h"
 #include "../eIRbase/Key.h"
 #include "../eIRbase/KeyMap.h"
 
 class IFCORE_EXPORT BaseWorkerTask : public QRunnable
 {
-public:
+public: // ctors
     BaseWorkerTask();
+protected:
     BaseWorkerTask(const Key &taskKey, const KeyMap &input,
                    const KeyMap &config=KeyMap(), KeyMap *output=nullptr);
 
 public: // const
+    Key taskKey() const;
     Ident ident() const;
+    KeyMap input() const;
+    QVariant input(const Key &key, const QVariant &defalt=QVariant()) const;
+    KeyMap config() const;
+    QVariant config(const Key &key, const QVariant &defalt=QVariant()) const;
+    KeyMap output() const;
+    QVariant output(const Key &key, const QVariant &defalt=QVariant()) const;
 
 public: // non-const
     Ident & ident();
     void input(const KeyMap &in);
     void config(const KeyMap &cfg);
+    void output(const Key &key, const QVariant &var);
 
 public: // virtual const
-    virtual Key taskKey() const = 0; // make it pure
 
 public: // virtual non-const
-    virtual void run() override;
+    virtual void run() override = 0; // make it pure
 
 private:
     Ident mTaskIdent;
     KeyMap mInput;
     KeyMap mConfig;
-    KeyMap *mpOutput=nullptr;
+    KeyMap * mpOutput=nullptr;
 };
 
 inline Ident BaseWorkerTask::ident() const
 {
     return mTaskIdent;
+}
+
+inline KeyMap BaseWorkerTask::input() const
+{
+    return mInput;
 }
 
 inline Ident &BaseWorkerTask::ident()
@@ -54,3 +69,5 @@ inline void BaseWorkerTask::config(const KeyMap &cfg)
 {
     mConfig = cfg;
 }
+
+

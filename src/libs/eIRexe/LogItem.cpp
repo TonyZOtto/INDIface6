@@ -83,14 +83,14 @@ LogItem::LogItem(const Context &ctx, const LogCompareFlags lcf,
 }
 
 LogItem::LogItem(const Context &ctx, const LogCompareFlags lcf,
-                 const char *assText, const QVariant &assValue)
+                 const char *expText, const QVariant &assValue)
     : mUid(true)
 {
     flags().setFlag(Assert);
     set(ctx);
-    set(lcf & Log::AssertMask);
+    set(lcf & Log::ExpectMask);
     ArgumentInfoList tAIL;
-    tAIL << ArgumentInfo{KeySeg(), assValue, QString(assText)};
+    tAIL << ArgumentInfo{KeySeg(), assValue, QString(expText)};
     set(tAIL);
 }
 
