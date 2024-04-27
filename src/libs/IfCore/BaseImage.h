@@ -47,6 +47,7 @@ public: // static
     static QImage::Format format(const Type t);
     static Type type(const QImage::Format f);
     static KeySegList supportedFileFormats();
+    static QStringList supportedFileExtensionList();
 
 private:
     Type            mType;
@@ -55,4 +56,6 @@ private:
     Size            mSize;
     QImage          mImage;
     QImage          mAlphaImage;
+    static KeySegList smSupportedFileFormats;
+    static QStringList smSupportedFileExtensionList;
 };
