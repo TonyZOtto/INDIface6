@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BaseWorkerTask.h"
+#include "IfCore.h"
 
 #include <QFileInfoList>
 #include <QDir>
@@ -25,9 +26,9 @@
  *          No image files in directory
  */
 
-class EnumerateDirTask : public BaseWorkerTask
+class IFCORE_EXPORT EnumerateDirTask : public BaseWorkerTask
 {
-public:
+public: // ctors
     EnumerateDirTask();
     EnumerateDirTask(const KeyMap &input,
                      const KeyMap &config=KeyMap(),

@@ -1,6 +1,8 @@
 #pragma once
 #include "IfCore.h"
 
+#include <QObject>
+
 #include <QImage>
 #include <QList>
 #include <QRgb>
@@ -11,6 +13,7 @@
 
 class IFCORE_EXPORT BaseImage
 {
+    Q_GADGET
 public: // types
     enum Type
     {
@@ -43,19 +46,92 @@ public: // ctors
     BaseImage(const QImage::Format format, const Size size=Size());
     BaseImage(const Type type, const Size size=Size());
 
+public: // const
+    BaseImage convertedTo(const QImage::Format fmt) const;
+
+public: // non-const
+    void convertTo(const QImage::Format fmt);
+
 public: // static
     static QImage::Format format(const Type t);
     static Type type(const QImage::Format f);
     static KeySegList supportedFileFormats();
     static QStringList supportedFileExtensionList();
 
-private:
-    Type            mType;
-    QImage::Format  mFormat;
-    ColorTable      mColorTable;
-    Size            mSize;
-    QImage          mImage;
-    QImage          mAlphaImage;
+    // --------------------- properties -------------------
+    void type(Type new_type);
+    QImage::Format format() const;
+    void format(const QImage::Format &new_format);
+    ColorTable colorTable() const;
+    void colorTable(const ColorTable &new_colorTable);
+    Size size() const;
+    void size(const Size &new_size);
+    QImage image() const;
+    void image(const QImage &new_image);
+    QImage alphaImage() const;
+    void alphaImage(const QImage &new_alphaImage);
+protected:
+    Type            p_type;
+    QImage::Format  p_format;
+    ColorTable      p_colorTable;
+    Size            p_size;
+    QImage          p_image;
+    QImage          p_alphaImage;
     static KeySegList smSupportedFileFormats;
     static QStringList smSupportedFileExtensionList;
 };
+
+inline void BaseImage::type(BaseImage::Type new_type)
+{
+    p_type = new_type;
+}
+
+inline QImage::Format BaseImage::format() const
+{
+    return p_format;
+}
+
+inline void BaseImage::format(const QImage::Format &new_format)
+{
+    p_format = new_format;
+}
+
+inline BaseImage::ColorTable BaseImage::colorTable() const
+{
+    return p_colorTable;
+}
+
+inline void BaseImage::colorTable(const BaseImage::ColorTable &new_colorTable)
+{
+    p_colorTable = new_colorTable;
+}
+
+inline Size BaseImage::size() const
+{
+    return p_size;
+}
+
+inline void BaseImage::size(const Size &new_size)
+{
+    p_size = new_size;
+}
+
+inline QImage BaseImage::image() const
+{
+    return p_image;
+}
+
+inline void BaseImage::image(const QImage &new_image)
+{
+    p_image = new_image;
+}
+
+inline QImage BaseImage::alphaImage() const
+{
+    return p_alphaImage;
+}
+
+inline void BaseImage::alphaImage(const QImage &new_alphaImage)
+{
+    p_alphaImage = new_alphaImage;
+}

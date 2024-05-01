@@ -12,22 +12,26 @@ include(../../useExe.pri)
 SOURCES += \
     BaseImage.cpp \
     BaseWorkerTask.cpp \
+    BaseWorkerThread.cpp \
+    ColorImage.cpp \
     EnumerateDirTask.cpp \
     FaceData.cpp \
     FrameData.cpp \
     IfCache.cpp \
-    IfCore.cpp \
+    IfCore.cpp
 
 
 HEADERS += \
     BaseImage.h \
     BaseWorkerTask.h \
+    BaseWorkerThread.h \
+    ColorImage.h \
     EnumerateDirTask.h \
     FaceData.h \
     FrameData.h \
     IfCache.h \
     IfCore_global.h \
-    IfCore.h \
+    IfCore.h
 
 # Default rules for deployment.
 unix {

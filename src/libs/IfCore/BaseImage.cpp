@@ -6,6 +6,14 @@
 
 BaseImage::BaseImage() {}
 
+BaseImage BaseImage::convertedTo(const QImage::Format fmt) const
+{
+    BaseImage result = *this;
+    result.image().convertTo(fmt);
+    result.format(fmt);
+    return result;
+}
+
 // ------------------------- static --------------------
 
 KeySegList BaseImage::smSupportedFileFormats;
