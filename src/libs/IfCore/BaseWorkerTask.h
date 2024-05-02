@@ -3,6 +3,7 @@
 
 #include <QRunnable>
 
+#include <QList>
 #include <QVariant>
 
 #include "../eIRbase/Ident.h"
@@ -11,6 +12,9 @@
 
 class IFCORE_EXPORT BaseWorkerTask : public QRunnable
 {
+public: // types
+    typedef QList<BaseWorkerTask> List;
+
 public: // ctors
     BaseWorkerTask();
 protected:

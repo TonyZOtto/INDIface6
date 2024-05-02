@@ -2,6 +2,8 @@
 
 #include <QThread>
 
+#include "BaseWorkerTask.h"
+
 class BaseWorkerThread : public QThread
 {
     Q_OBJECT
@@ -14,4 +16,6 @@ public: // non-const
 
 public: // virtual non-const
     virtual void run() = 0; // pure
+
+protected:
 };
