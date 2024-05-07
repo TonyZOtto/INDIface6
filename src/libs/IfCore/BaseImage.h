@@ -9,6 +9,7 @@
 
 #include "../eIRbase/KeySeg.h"
 #include "../eIRbase/KeySegList.h"
+#include "../eIRcore/QQStringList.h"
 #include "../eIRcore/SizeT.h"
 
 class IFCORE_EXPORT BaseImage
@@ -56,7 +57,9 @@ public: // static
     static QImage::Format format(const Type t);
     static Type type(const QImage::Format f);
     static KeySegList supportedFileFormats();
-    static QStringList supportedFileExtensionList();
+    static QQStringList supportedFileExtensionList();
+    static QQStringList nameFilters(const QQStringList &extList);
+
 
     // --------------------- properties -------------------
     void type(Type new_type);
@@ -78,7 +81,7 @@ protected:
     QImage          p_image;
     QImage          p_alphaImage;
     static KeySegList smSupportedFileFormats;
-    static QStringList smSupportedFileExtensionList;
+    static QQStringList smSupportedFileExtensionList;
 };
 
 inline void BaseImage::type(BaseImage::Type new_type)

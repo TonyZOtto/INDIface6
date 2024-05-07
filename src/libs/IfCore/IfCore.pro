@@ -14,7 +14,6 @@ SOURCES += \
     BaseWorkerTask.cpp \
     BaseWorkerThread.cpp \
     ColorImage.cpp \
-    EnumerateDirTask.cpp \
     FaceData.cpp \
     FrameData.cpp \
     IfCache.cpp \
@@ -26,7 +25,6 @@ HEADERS += \
     BaseWorkerTask.h \
     BaseWorkerThread.h \
     ColorImage.h \
-    EnumerateDirTask.h \
     FaceData.h \
     FrameData.h \
     IfCache.h \

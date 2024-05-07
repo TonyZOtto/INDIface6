@@ -44,7 +44,7 @@ bool EnumerateDirTask::parseFilterSort()
     const QString cTypeFilterIn = input("/EnumerateDir/Config/TypeFilter").toString();
     const QString cSortFlagsIn = input("/EnumerateDir/Config/Sort").toString();
     // NEEDDO parse strings to enum flags
-    const QStringList cNameFilters = BaseImage::supportedFileExtensionList();
+    const QQStringList cNameFilters = BaseImage::supportedFileExtensionList();
     // NEEDDO intersect with specified strings
     const QDir::Filters cFilters = QDir::Files;
     const QDir::SortFlags cSortFlags = QDir::Time;

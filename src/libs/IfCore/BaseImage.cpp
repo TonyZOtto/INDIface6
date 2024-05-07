@@ -4,6 +4,8 @@
 #include <QByteArrayList>
 #include <QImageReader>
 
+#include <QQString.h>
+
 BaseImage::BaseImage() {}
 
 BaseImage BaseImage::convertedTo(const QImage::Format fmt) const
@@ -17,7 +19,7 @@ BaseImage BaseImage::convertedTo(const QImage::Format fmt) const
 // ------------------------- static --------------------
 
 KeySegList BaseImage::smSupportedFileFormats;
-QStringList BaseImage::smSupportedFileExtensionList;
+QQStringList BaseImage::smSupportedFileExtensionList;
 
 KeySegList BaseImage::supportedFileFormats()
 {
@@ -35,17 +37,25 @@ KeySegList BaseImage::supportedFileFormats()
     return result;
 }
 
-QStringList BaseImage::supportedFileExtensionList()
+QQStringList BaseImage::supportedFileExtensionList()
 {
-    QStringList result = smSupportedFileExtensionList;
+    QQStringList result = smSupportedFileExtensionList;
     if (result.isEmpty())
     {
         const KeySegList cKSL = smSupportedFileFormats;
         foreach (const KeySeg cKS, cKSL)
         {
-            result.append("*." + cKS());
+            result.append(QQString("*." + cKS()));
         }
         smSupportedFileExtensionList = result;
     }
+    return result;
+}
+
+QQStringList BaseImage::nameFilters(const QQStringList &extList)
+{
+    QQStringList result;
+    foreach(QQString s, extList)
+        result.append("*." + s);
     return result;
 }

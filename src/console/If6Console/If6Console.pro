@@ -13,6 +13,7 @@ SOURCES += \
         BaseConsoleThread.cpp \
         BaseConsoleWorker.cpp \
         IfConsoleApp.cpp \
+        ImageAcquisition.cpp \
         main.cpp
 
 # Default rules for deployment.
@@ -25,4 +26,5 @@ HEADERS += \
     BaseConsoleThread.h \
     BaseConsoleWorker.h \
     IfConsoleApp.h \
+    ImageAcquisition.h \
     version.h

@@ -17,6 +17,8 @@ SOURCES += \
     ObjectHelper.cpp \
     QQFileInfo.cpp \
     QQObject.cpp \
+    QQString.cpp \
+    QQStringList.cpp \
     Rational.cpp \
     eIRcore.cpp
 
@@ -30,6 +32,8 @@ HEADERS += \
     PointT.h \
     QQFileInfo.h \
     QQObject.h \
+    QQString.h \
+    QQStringList.h \
     Rational.h \
     RectT.h \
     SizeT.h \

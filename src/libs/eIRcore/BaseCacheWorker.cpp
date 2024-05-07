@@ -9,6 +9,12 @@ BaseCacheWorker::BaseCacheWorker(BaseUidCache *parent)
 {
     setObjectName("BaseCacheWorker:"+cache()->objectName());
     start(QThread::LowPriority);
+    qDebug() << Q_FUNC_INFO << "Started";
+}
+
+void BaseCacheWorker::shutdown()
+{
+    mShutdown = true;
 }
 
 void BaseCacheWorker::run()
@@ -26,6 +32,7 @@ void BaseCacheWorker::run()
             msleep(mShortSleep);
         }
     }
+    deleteLater();
 }
 
 void BaseCacheWorker::enqueueAll()
@@ -54,6 +61,7 @@ void BaseCacheWorker::processNext()
         {
             cache()->remove(cUid);
             emit dequeued(cache(), cUid);
+            removed = true;
         }
     }
 }
