@@ -18,6 +18,7 @@ SOURCES += \
     Nibble.cpp \
     NibbleArray.cpp \
     QQBitArray.cpp \
+    Success.cpp \
     Uid.cpp \
     UidPak.cpp \
     VersionInfo.cpp \
@@ -36,6 +37,7 @@ HEADERS += \
     Nibble.h \
     NibbleArray.h \
     QQBitArray.h \
+    Success.h \
     Types.h \
     Uid.h \
     UidPak.h \
