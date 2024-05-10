@@ -10,8 +10,6 @@ include(../../useExe.pri)
 include(../../useIfCore.pri)
 
 SOURCES += \
-        BaseConsoleThread.cpp \
-        BaseConsoleWorker.cpp \
         IfConsoleApp.cpp \
         main.cpp
 
@@ -22,7 +20,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     ../../version.h \
-    BaseConsoleThread.h \
-    BaseConsoleWorker.h \
     IfConsoleApp.h \
     version.h

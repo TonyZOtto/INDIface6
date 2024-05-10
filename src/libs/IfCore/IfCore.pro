@@ -11,8 +11,6 @@ include(../../useExe.pri)
 
 SOURCES += \
     BaseImage.cpp \
-    BaseWorkerTask.cpp \
-    BaseWorkerThread.cpp \
     ColorImage.cpp \
     EnumerateDirTask.cpp \
     FaceData.cpp \
@@ -23,8 +21,6 @@ SOURCES += \
 
 HEADERS += \
     BaseImage.h \
-    BaseWorkerTask.h \
-    BaseWorkerThread.h \
     ColorImage.h \
     EnumerateDirTask.h \
     FaceData.h \
