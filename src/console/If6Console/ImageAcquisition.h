@@ -27,8 +27,8 @@ private:
     void startHotDir(const QUrl &url, const QUrlQuery &query);
     void startHttp(const QUrl &url, const QUrlQuery &query);
 
-    QQStringList enumerateExtensions(const QUrlQuery &query);
-    QDir dir(const QUrl &url);
+    static QQStringList enumerateExtensions(const QUrlQuery &query);
+    static QDir dir(const QUrl &url);
 
 private:
     QFileInfoList mFileInfoList;
