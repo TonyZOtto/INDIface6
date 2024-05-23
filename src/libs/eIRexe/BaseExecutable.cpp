@@ -12,7 +12,6 @@ BaseExecutable::BaseExecutable(int argc, char *argv[])
     : QCoreApplication{argc, argv}
     , mpCommandLine(new CommandLine(this))
     , mpLog(new Logger(this))
-    , mpSettings(new Settings(this))
 {
     setObjectName("BaseExecutable");
     /* Alleged Windows bug, so we build our own */
@@ -30,17 +29,10 @@ void BaseExecutable::initialize()
 {
     commandLine()->process(arguments());
     qInfo() << Q_FUNC_INFO << commandLine()->debugStrings();
-    if ( ! commandLine()->newSettingsSpecNull())
-    {
-        if (commandLine()->iniFileName().isEmpty())
-        {
-            newSettings(commandLine()->orgName(), commandLine()->appName());
-        }
-        else
-        {
-            newSettings(QFileInfo(commandLine()->iniFileName()));
-        }
-    }
+    if ( ! commandLine()->iniFileName().isEmpty())
+        newSettings(QFileInfo(commandLine()->iniFileName()));
+    else
+        newSettings(commandLine()->orgName(), commandLine()->appName());
     settings()->insert(commandLine()->settingsMap());
     qInfo() << Q_FUNC_INFO << settings()->debugStrings();
 }

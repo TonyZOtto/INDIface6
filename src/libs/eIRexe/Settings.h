@@ -30,7 +30,7 @@ public: // types
     Q_DECLARE_FLAGS(Flags, Flag)
 
 public: // ctors
-    Settings(QObject * parent=nullptr);
+//    Settings(QObject * parent=nullptr);
     Settings(const QString & organization,
              const QString & application,
              QObject * parent = 0);

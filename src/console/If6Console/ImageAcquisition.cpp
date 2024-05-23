@@ -22,8 +22,6 @@ void ImageAcquisition::start(const QUrl &url)
         startHotDir(url, cQuery);
     else if ("http" == cScheme)
         startHttp(url, cQuery);
-
-
 }
 
 void ImageAcquisition::startFiles(const QUrl &url, const QUrlQuery &query)

@@ -10,6 +10,8 @@
 
 CommandLine::CommandLine(QObject *parent)
     : QObject(parent)
+    , mOrgName(QCoreApplication::organizationName())
+    , mAppName(QCoreApplication::applicationName())
 {
     setObjectName("CommandLine");
 }
@@ -74,9 +76,7 @@ void CommandLine::handleSetting(const QString arg)
 
 void CommandLine::handleIniOrgApp(const QString arg)
 {
-    QString tOrg = QCoreApplication::organizationName();
-    QString tApp = QCoreApplication::applicationName();
-    QString tIni;
+    QString tOrg, tApp, tIni;
     if (arg.contains('.'))
     {
         tIni = arg;
@@ -85,20 +85,15 @@ void CommandLine::handleIniOrgApp(const QString arg)
     {
         const Index cSlashIndex = arg.indexOf('/');
         if (cSlashIndex <= 0) // no / = all App
-        {
                 tApp = arg;
-        }
         else if (arg.endsWith('/')) // = all Org  (cSlashIndex >= arg.count())
-        {
             tOrg = arg.chopped(1);
-        }
         else if (cSlashIndex > 0)
-        {
-            tOrg = arg.left(cSlashIndex - 1);
-            tApp = arg.mid(cSlashIndex + 1);
-        }
+            tOrg = arg.left(cSlashIndex - 1), tApp = arg.mid(cSlashIndex + 1);
     }
-    mIniFileName = tIni, mOrgName = tOrg, mAppName = tApp;
+    if ( ! tIni.isEmpty())      mIniFileName = tIni;
+    if ( ! tOrg.isEmpty())      mOrgName = tOrg;
+    if ( ! tApp.isEmpty())      mAppName = tApp;
 }
 
 QStringList CommandLine::debugStrings() const

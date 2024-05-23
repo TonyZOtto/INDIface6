@@ -43,12 +43,11 @@ QString VersionInfo::toString(const StringOptions opts) const
     return result;
 }
 
-void VersionInfo::setApp(QCoreApplication *app) const
+void VersionInfo::setApp() const
 {
-    Q_CHECK_PTR(app);
-    app->setApplicationName(appname());
-    app->setApplicationVersion(toString(WithDotted));
-    app->setOrganizationName(orgname());
+    QCoreApplication::setApplicationName(appname());
+    QCoreApplication::setApplicationVersion(toString(WithDotted));
+    QCoreApplication::setOrganizationName(orgname());
 }
 
 DWORD VersionInfo::toDWord() const

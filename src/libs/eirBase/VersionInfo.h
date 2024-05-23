@@ -3,7 +3,6 @@
 
 #include <QObject>
 
-#include <QCoreApplication>
 #include <QString>
 #include <QVersionNumber>
 
@@ -39,7 +38,7 @@ public: // ctors
 public: // const
     bool isNull() const;
     QString toString(const StringOptions opts=$null) const;
-    void setApp(QCoreApplication * app) const;
+    void setApp() const;
     DWORD toDWord() const;
     QWORD toQWord() const;
 

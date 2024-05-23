@@ -7,11 +7,13 @@
 #include "SettingProperty.h"
 #include "SettingsScanner.h"
 
+#if 0
 Settings::Settings(QObject * parent)
     : QSettings(parent)
 {
     setObjectName("Settings");
 }
+#endif
 
 Settings::Settings(const QString & organization,
                    const QString & application,
@@ -236,16 +238,20 @@ QString Settings::source() const
     {
     case QSettings::Registry32Format:
     case QSettings::Registry64Format:
-#ifdef Q_OS_WINDOWS
     case QSettings::NativeFormat:
-#else
-        Q_ASSERT(!"NEEDDO: Linux"); break; // NEEDDO Linux
-#endif
+        result = QString("%3:%1/%2").arg(organizationName(), applicationName(),
+                    scope() ? "HKLM" : "HKCU");
+        break;
     case QSettings::IniFormat:
+        result = fileName();
         break;
     case QSettings::InvalidFormat:
     default:
         // leave unknown
+#ifndef Q_OS_WINDOWS
+        Q_ASSERT(!"NEEDDO: Linux"); break; // NEEDDO Linux
+#endif
+        break;
     }
 #endif
     return result;
@@ -254,7 +260,7 @@ QString Settings::source() const
 QStringList Settings::debugStrings() const
 {
     QStringList result;
-    result << QString("===Settings: %1 [%2]").arg(objectName()).arg(format());
+    result << QString("===Settings: %1 [%2]").arg(source()).arg(format());
     if ( ! mVars.isEmpty())
     {
         result << "---Vars: " + QString::number(mVars.count());
