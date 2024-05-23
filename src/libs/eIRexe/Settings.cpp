@@ -18,7 +18,7 @@ Settings::Settings(const QString & organization,
                    QObject * parent)
     : QSettings(organization, application, parent)
 {
-    setObjectName("Settings:" + organization + ":" + application);
+    setObjectName("Settings:" + organization + "/" + application);
 }
 
 Settings::Settings(const QString &iniFilename, QObject *parent)
@@ -228,17 +228,50 @@ void Settings::destruct(Setting * child)
     mVars.remove(child->keyName().toLower());
 }
 
+QString Settings::source() const
+{
+    QString result("{unknown}");
+#if 0
+    switch (format())
+    {
+    case QSettings::Registry32Format:
+    case QSettings::Registry64Format:
+#ifdef Q_OS_WINDOWS
+    case QSettings::NativeFormat:
+#else
+        Q_ASSERT(!"NEEDDO: Linux"); break; // NEEDDO Linux
+#endif
+    case QSettings::IniFormat:
+        break;
+    case QSettings::InvalidFormat:
+    default:
+        // leave unknown
+    }
+#endif
+    return result;
+}
+
 QStringList Settings::debugStrings() const
 {
     QStringList result;
-    result << Q_FUNC_INFO;
-    result << "FileName: " + fileName();
-    result << "{Vars: " + QString::number(mVars.count());
-    foreach (const QString cKey, mVars.keys())
-        result << "   " + cKey + "=" + mVars[cKey]->toString();
-    foreach (const QString cKey, mProps.keys())
-        result << "   " + cKey + "=" + mProps[cKey]->value().toString();
-    foreach (const QString cKey, mOpts.keys())
-        result << "   " + cKey + "=" + mOpts[cKey];
+    result << QString("===Settings: %1 [%2]").arg(objectName()).arg(format());
+    if ( ! mVars.isEmpty())
+    {
+        result << "---Vars: " + QString::number(mVars.count());
+        foreach (const QString cKey, mVars.keys())
+            result << "   " + cKey + "=" + mVars[cKey]->toString();
+    }
+    if ( ! mProps.isEmpty())
+    {
+        result << "---Props: " + QString::number(mProps.count());
+        foreach (const QString cKey, mProps.keys())
+            result << "   " + cKey + "=" + mProps[cKey]->value().toString();
+    }
+    if ( ! mOpts.isEmpty())
+    {
+        result << "---Options: " + QString::number(mOpts.count());
+        foreach (const QString cKey, mOpts.keys())
+            result << "   " + cKey + "=" + mOpts[cKey];
+    }
     return result;
 }

@@ -9,7 +9,8 @@
 int main(int argc, char *argv[])
 {
     IfConsoleApp a(argc, argv);
-    VersionInfo vi(VER_MAJOR, VER_MINOR, VER_RELEASE, VER_BRANCH, VER_BUILD, VER_BRANCHNAME, VER_APPNAME, VER_ORGNAME);
+    VersionInfo vi(VER_MAJOR, VER_MINOR, VER_RELEASE, VER_BRANCH,
+                   VER_BUILD, VER_BRANCHNAME, VER_APPNAME, VER_ORGNAME);
     vi.setApp(&a);
     qInfo() << a.idString();
     qInfo() << a.arguments();

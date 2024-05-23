@@ -22,6 +22,11 @@ CommandLine::SettingsType CommandLine::settingsType() const
     return result;
 }
 
+bool CommandLine::newSettingsSpecNull() const
+{
+    return iniFileName().isEmpty() && orgName().isEmpty() && appName().isEmpty();
+}
+
 void CommandLine::process(const QStringList &exeArgs)
 {
     mExeArguments = exeArgs;
@@ -33,7 +38,7 @@ void CommandLine::process(const QStringList &exeArgs)
         switch (tFirstChar)
         {
         case '/':   handleSetting(tArgument);                   break;
-        case '%':   handleOrgApp(tArgument);                    break;
+        case '%':   handleIniOrgApp(tArgument);                    break;
         default:    mPositionalArguments.append(tArgString);
             mPositionalFileInfos.append(QFileInfo(tArgString));  break;
         }
@@ -67,25 +72,33 @@ void CommandLine::handleSetting(const QString arg)
     mSettingsMap.insert(tKey, tValue);
 }
 
-void CommandLine::handleOrgApp(const QString arg)
+void CommandLine::handleIniOrgApp(const QString arg)
 {
     QString tOrg = QCoreApplication::organizationName();
     QString tApp = QCoreApplication::applicationName();
-    const Index cSlashIndex = arg.indexOf('/');
-    if (cSlashIndex <= 0) // no / = all App
+    QString tIni;
+    if (arg.contains('.'))
     {
-        tApp = arg;
+        tIni = arg;
     }
-    else if (arg.endsWith('/')) // = all Org  (cSlashIndex >= arg.count())
+    else
     {
-        tOrg = arg.chopped(1);
+        const Index cSlashIndex = arg.indexOf('/');
+        if (cSlashIndex <= 0) // no / = all App
+        {
+                tApp = arg;
+        }
+        else if (arg.endsWith('/')) // = all Org  (cSlashIndex >= arg.count())
+        {
+            tOrg = arg.chopped(1);
+        }
+        else if (cSlashIndex > 0)
+        {
+            tOrg = arg.left(cSlashIndex - 1);
+            tApp = arg.mid(cSlashIndex + 1);
+        }
     }
-    else if (cSlashIndex > 0)
-    {
-        tOrg = arg.left(cSlashIndex - 1);
-        tApp = arg.mid(cSlashIndex + 1);
-    }
-    mOrgName = tOrg, mAppName = tApp;
+    mIniFileName = tIni, mOrgName = tOrg, mAppName = tApp;
 }
 
 QStringList CommandLine::debugStrings() const

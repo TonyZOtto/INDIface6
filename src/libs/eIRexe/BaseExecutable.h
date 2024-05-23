@@ -36,6 +36,7 @@ protected: // non-const
 
 protected: // non-const
     void newSettings(const QString &orgName, const QString & appName);
+    void newSettings(const QFileInfo &fi);
     void releaseSettings();
 
 private:

@@ -33,6 +33,7 @@ void ImageAcquisition::startFiles(const QUrl &url, const QUrlQuery &query)
     const QDir cDir = dir(url);
     const QQStringList cNameFilters = BaseImage::nameFilters(cExtList);
     const QFileInfoList cFIs = cDir.entryInfoList(cNameFilters);
+    qDebug() << Q_FUNC_INFO << cFIs;
 }
 
 void ImageAcquisition::startHotDir(const QUrl &url, const QUrlQuery &query)

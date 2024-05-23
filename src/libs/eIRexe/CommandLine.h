@@ -26,6 +26,8 @@ public: // ctors
 
 public: // const
     SettingsType settingsType() const;
+    bool newSettingsSpecNull() const;
+    QString iniFileName() const;
     QString orgName() const;
     QString appName() const;
     QSettings::SettingsMap settingsMap() const;
@@ -35,7 +37,7 @@ public slots:
 
 private:
     void handleSetting(const QString arg);
-    void handleOrgApp(const QString arg);
+    void handleIniOrgApp(const QString arg);
 
 public: // debug
     QStringList debugStrings() const;
@@ -44,12 +46,18 @@ private:
     QStringList mExeArguments;
     SettingsType mSettingsType=$null;
     QFileInfo mExeFileInfo;
+    QString mIniFileName;
     QString mOrgName;
     QString mAppName;
     QSettings::SettingsMap mSettingsMap;
     QStringList mPositionalArguments;
     QFileInfoList mPositionalFileInfos;
 };
+
+inline QString CommandLine::iniFileName() const
+{
+    return mIniFileName;
+}
 
 inline QString CommandLine::orgName() const
 {

@@ -1,6 +1,7 @@
 #include "BaseExecutable.h"
 
 #include <QCoreApplication>
+#include <QFileInfo>
 
 #include "../eIRbase/Types.h"
 #include "CommandLine.h"
@@ -28,16 +29,32 @@ QString BaseExecutable::idString() const
 void BaseExecutable::initialize()
 {
     commandLine()->process(arguments());
-//    qInfo() << Q_FUNC_INFO << commandLine()->debugStrings();
-    newSettings(commandLine()->orgName(), commandLine()->appName());
+    qInfo() << Q_FUNC_INFO << commandLine()->debugStrings();
+    if ( ! commandLine()->newSettingsSpecNull())
+    {
+        if (commandLine()->iniFileName().isEmpty())
+        {
+            newSettings(commandLine()->orgName(), commandLine()->appName());
+        }
+        else
+        {
+            newSettings(QFileInfo(commandLine()->iniFileName()));
+        }
+    }
     settings()->insert(commandLine()->settingsMap());
-//    qInfo() << Q_FUNC_INFO << settings()->debugStrings();
+    qInfo() << Q_FUNC_INFO << settings()->debugStrings();
 }
 
 void BaseExecutable::newSettings(const QString &orgName, const QString &appName)
 {
     releaseSettings();
     mpSettings = new Settings(orgName, appName, this);
+}
+
+void BaseExecutable::newSettings(const QFileInfo &fi)
+{
+    releaseSettings();
+    mpSettings = new Settings(fi.filePath(), this);
 }
 
 void BaseExecutable::releaseSettings()

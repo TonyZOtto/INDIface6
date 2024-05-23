@@ -78,6 +78,7 @@ signals:
 
 
 public: // debug
+    QString source() const;
     QStringList debugStrings() const;
 
 private:
