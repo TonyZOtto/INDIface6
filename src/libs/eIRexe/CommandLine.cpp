@@ -10,10 +10,9 @@
 
 CommandLine::CommandLine(QObject *parent)
     : QObject(parent)
-    , mOrgName(QCoreApplication::organizationName())
-    , mAppName(QCoreApplication::applicationName())
 {
     setObjectName("CommandLine");
+    qDebug() << Q_FUNC_INFO << debugStrings();
 }
 
 CommandLine::SettingsType CommandLine::settingsType() const
@@ -24,13 +23,10 @@ CommandLine::SettingsType CommandLine::settingsType() const
     return result;
 }
 
-bool CommandLine::newSettingsSpecNull() const
-{
-    return iniFileName().isEmpty() && orgName().isEmpty() && appName().isEmpty();
-}
-
 void CommandLine::process(const QStringList &exeArgs)
 {
+    mOrgName = QCoreApplication::organizationName();
+    mAppName = QCoreApplication::applicationName();
     mExeArguments = exeArgs;
     mExeFileInfo = QFileInfo(mExeArguments.takeFirst());
     foreach (const QString tArgString, mExeArguments)
@@ -45,6 +41,7 @@ void CommandLine::process(const QStringList &exeArgs)
             mPositionalFileInfos.append(QFileInfo(tArgString));  break;
         }
     }
+    qDebug() << Q_FUNC_INFO << debugStrings();
 }
 
 void CommandLine::handleSetting(const QString arg)
@@ -85,8 +82,8 @@ void CommandLine::handleIniOrgApp(const QString arg)
     {
         const Index cSlashIndex = arg.indexOf('/');
         if (cSlashIndex <= 0) // no / = all App
-                tApp = arg;
-        else if (arg.endsWith('/')) // = all Org  (cSlashIndex >= arg.count())
+            tApp = arg;
+        else if (arg.endsWith('/')) // trailing / = all Org  (cSlashIndex >= arg.count())
             tOrg = arg.chopped(1);
         else if (cSlashIndex > 0)
             tOrg = arg.left(cSlashIndex - 1), tApp = arg.mid(cSlashIndex + 1);
@@ -94,6 +91,7 @@ void CommandLine::handleIniOrgApp(const QString arg)
     if ( ! tIni.isEmpty())      mIniFileName = tIni;
     if ( ! tOrg.isEmpty())      mOrgName = tOrg;
     if ( ! tApp.isEmpty())      mAppName = tApp;
+    qDebug() << Q_FUNC_INFO << debugStrings();
 }
 
 QStringList CommandLine::debugStrings() const

@@ -1,5 +1,6 @@
 #include "VersionInfo.h"
 
+#include <QCoreApplication>
 #include <QChar>
 
 VersionInfo::VersionInfo() { clear(); }
@@ -48,6 +49,9 @@ void VersionInfo::setApp() const
     QCoreApplication::setApplicationName(appname());
     QCoreApplication::setApplicationVersion(toString(WithDotted));
     QCoreApplication::setOrganizationName(orgname());
+    qDebug() << QCoreApplication::organizationName()
+             << QCoreApplication::applicationName()
+             << QCoreApplication::applicationVersion();
 }
 
 DWORD VersionInfo::toDWord() const

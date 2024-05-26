@@ -30,12 +30,8 @@ public: // types
     Q_DECLARE_FLAGS(Flags, Flag)
 
 public: // ctors
-//    Settings(QObject * parent=nullptr);
-    Settings(const QString & organization,
-             const QString & application,
-             QObject * parent = 0);
-    Settings(const QString & iniFilename,
-             QObject * parent);
+    Settings(const QString & organization, const QString & application, QObject * parent = 0);
+    Settings(const QString & iniFilename, QObject * parent);
     ~Settings();
 
 public: // overrides

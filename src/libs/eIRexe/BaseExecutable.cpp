@@ -28,13 +28,15 @@ QString BaseExecutable::idString() const
 void BaseExecutable::initialize()
 {
     commandLine()->process(arguments());
-    qInfo() << Q_FUNC_INFO << commandLine()->debugStrings();
     if ( ! commandLine()->iniFileName().isEmpty())
         newSettings(QFileInfo(commandLine()->iniFileName()));
     else
         newSettings(commandLine()->orgName(), commandLine()->appName());
     settings()->insert(commandLine()->settingsMap());
     qInfo() << Q_FUNC_INFO << settings()->debugStrings();
+    settings()->setValue("Control/InitVer", idString());
+    settings()->setValue("Control/InitTime",
+                QDateTime::currentDateTime().toString("DyyyyMMdd-Thhmmsszzz"));
 }
 
 void BaseExecutable::newSettings(const QString &orgName, const QString &appName)

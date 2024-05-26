@@ -26,7 +26,6 @@ public: // ctors
 
 public: // const
     SettingsType settingsType() const;
-    bool newSettingsSpecNull() const;
     QString iniFileName() const;
     QString orgName() const;
     QString appName() const;

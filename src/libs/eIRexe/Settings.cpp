@@ -7,14 +7,6 @@
 #include "SettingProperty.h"
 #include "SettingsScanner.h"
 
-#if 0
-Settings::Settings(QObject * parent)
-    : QSettings(parent)
-{
-    setObjectName("Settings");
-}
-#endif
-
 Settings::Settings(const QString & organization,
                    const QString & application,
                    QObject * parent)
@@ -233,7 +225,7 @@ void Settings::destruct(Setting * child)
 QString Settings::source() const
 {
     QString result("{unknown}");
-#if 0
+#if 1
     switch (format())
     {
     case QSettings::Registry32Format:
