@@ -15,6 +15,7 @@ SOURCES += \
     KeyMap.cpp \
     KeySeg.cpp \
     KeySegList.cpp \
+    MillisecondTime.cpp \
     Nibble.cpp \
     NibbleArray.cpp \
     QQBitArray.cpp \
@@ -34,6 +35,7 @@ HEADERS += \
     KeyMap.h \
     KeySeg.h \
     KeySegList.h \
+    MillisecondTime.h \
     Nibble.h \
     NibbleArray.h \
     QQBitArray.h \

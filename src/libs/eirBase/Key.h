@@ -35,9 +35,7 @@ public: // non-const
     void prepend(const Key &key);
 
 private: // static
-//    static KeySeg::List split(const char * pch, const QChar hinge=QChar('/'));
     static KeySeg::List split(const AText &atx, const QChar hinge=QChar('/'));
-//    static KeySeg::List split(const QString &qs, const QChar hinge=QChar('/'));
     static AText joinAText(const KeySeg::List &segs, const QChar hinge=QChar('/'));
     static QString joinString(const KeySeg::List &segs, const QChar hinge=QChar('/'));
 
