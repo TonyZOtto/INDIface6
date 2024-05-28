@@ -5,8 +5,7 @@
 #include <QtCore/QMap>
 #include <QtCore/QVariant>
 
-#include "../eirBase/BaseLog.h"
-#include "VariableIdList.h"
+#include "VariableKeyList.h"
 
 VariableSetData::VariableSetData(const VariableSetData & other)
     : QSharedData(other)
@@ -104,9 +103,9 @@ int VariableSet::mapSize(void) const
     return data->vbl_map.size();
 }
 
-bool VariableSet::contains(const VariableId & vid) const
+bool VariableSet::contains(const VariableKey &key) const
 {
-    return data->vbl_map.contains(vid.sortable());
+    return data->vbl_map.contains(key.sortable());
 }
 
 void VariableSet::reset(void)
@@ -114,30 +113,6 @@ void VariableSet::reset(void)
     foreach (QString key, data->vbl_map.keys())
         data->vbl_map[key].reset();
 }
-
-/** @fn blog()
-  *
-  * @todo Stringify QVariants
-  */
-void VariableSet::blog(void) const
-{
-#if 0
-    BLOG(Severity::Dump, "VariableSet: name=%s, key=%d 0x%X, id=%s",
-         qPrintable(data->name_s), data->key_u64,
-         data->key_u64, qPrintable(data->id_s));
-    foreach (QString key, data->vbl_map.keys())
-    {
-        Variable vbl(data->vbl_map.value(key));
-        BLOG(Severity::Dump, "%s = {%s}",
-             qPrintable(vbl.id()), qPrintable(vbl.var().toString()));
-    }
-    for (int x = 0; x < data->var_list.size(); ++x)
-        BLOG(Severity::Dump, "%i. {%s}", x,
-             qPrintable(data->var_list.at(x).toString()));
-    BLOG(Severity::Dump, "%d bytes of Binary", data->_ba.size());
-#endif
-}
-
 
 bool VariableSet::isEmpty(void) const
 {
@@ -151,22 +126,20 @@ void VariableSet::set(const QVariantList & vl)
     data->var_list = vl;
 }
 
-void VariableSet::set(const Variable & vbl)
+void VariableSet::set(const Variable & var)
 {
     //data->vbl_map.insert(vbl.id().sortable(), vbl);
-    data->vbl_map[vbl.id().sortable()] = vbl;
+    data->vbl_map[var.key().sortable()] = var;
 }
 
-void VariableSet::set(const VariableId & vid,
-                      const QVariant & value)
+void VariableSet::set(const VariableKey &key, const QVariant & value)
 {
     //data->vbl_map.insert(vid.sortable(), Variable(vid, value));
-    QVariant def(data->vbl_map[vid.sortable()].defaultVar());
-    data->vbl_map[vid.sortable()] = Variable(vid, value, def);
+    QVariant def(data->vbl_map[key.sortable()].defaultVar());
+    data->vbl_map[key.sortable()] = Variable(key, value, def);
 }
 
-void VariableSet::set(const int index,
-                      const QVariant & value)
+void VariableSet::set(const int index, const QVariant & value)
 {
     while (data->var_list.size() <= index)
         data->var_list.append(QVariant());
@@ -178,10 +151,10 @@ void VariableSet::set(const QByteArray & ba)
     data->_ba = ba;
 }
 
-void VariableSet::reset(const VariableId & id)
+void VariableSet::reset(const VariableKey &key)
 {
-    if (data->vbl_map.contains(id.sortable()))
-        data->vbl_map[id.sortable()].reset();
+    if (data->vbl_map.contains(key.sortable()))
+        data->vbl_map[key.sortable()].reset();
 }
 
 void VariableSet::append(const QVariant & value)
@@ -189,19 +162,19 @@ void VariableSet::append(const QVariant & value)
     data->var_list.append(value);
 }
 
-Variable VariableSet::at(const VariableId & id) const
+Variable VariableSet::at(const VariableKey & key) const
 {
-    return data->vbl_map.value(id.sortable());
+    return data->vbl_map.value(key.sortable());
 }
 
-QVariant VariableSet::value(const VariableId & id,
+QVariant VariableSet::value(const VariableKey &key,
                             const QVariant &defaultValue) const
 {
 #if 1 // def QT_DEBUG
-    QString key(id.sortable());
-    if (data->vbl_map.contains(key))
+    QString skey(key.sortable());
+    if (data->vbl_map.contains(skey))
     {
-        Variable vbl(data->vbl_map.value(key));
+        Variable vbl(data->vbl_map.value(skey));
         QVariant var(vbl.var());
         return var;
     }
@@ -230,66 +203,66 @@ QVariantList VariableSet::values(void) const
 }
 
 
-VariableSet VariableSet::exportSection(const VariableId & sectionId) const
+VariableSet VariableSet::exportSection(const VariableKey &sectionKey) const
 {
     VariableSet result;
-    int n = sectionId.sectionCount();
-    foreach (VariableId vid, ids(sectionId))
+    int n = sectionKey.count();
+    foreach (VariableKey key, keys(sectionKey))
     {
-            VariableId newId(vid.sections(n));
-            result.set(newId, value(vid));
+            VariableKey newId(key.segment(n));
+            result.set(newId, value(key));
     }
     return result;
 }
 
-VariableIdList VariableSet::ids(const VariableId & within) const
+VariableKeyList VariableSet::keys(const VariableKey &within) const
 {
-    VariableIdList result;
+    VariableKeyList result;
     if (within.isNull())
-        foreach (Variable vbl, data->vbl_map.values())
-            result.append(vbl.id());
+        foreach (Variable var, data->vbl_map.values())
+            result.append(var.key());
     else
     {
         QString prefix(within.sortable());
         foreach (Variable vbl, data->vbl_map.values())
-            if (vbl.id().sortable().startsWith(prefix))
-                result.append(vbl.id());
+            if (vbl.key().sortable().startsWith(prefix))
+                result.append(vbl.key());
     }
     return result;
 }
 
-VariableIdList VariableSet::sectionIds(const VariableId & within) const
+VariableKeyList VariableSet::sectionIds(const VariableKey &within) const
 {
-    VariableIdList result;
+    VariableKeyList result;
     if (within.isNull())
         foreach (Variable vbl, data->vbl_map.values())
         {
-            QString section(vbl.id().section(0));
-            if ( ! result.contains(VariableId(section)))
-                result.append(VariableId(section));
+            QString section(vbl.key().segment(0));
+            if ( ! result.contains(VariableKey(section)))
+                result.append(VariableKey(section));
         }
     else
     {
-        int n = within.sectionCount();
+        int n = within.count();
         foreach (Variable vbl, data->vbl_map.values())
         {
-            QString section(vbl.id().section(n));
-            if (QString(within) == vbl.id().sections(0, n-1))
-                if ( ! result.contains(VariableId(section)))
-                    result.append(VariableId(section));
+            QString section(vbl.key().segment(n));
+            if (within.toString() == Key(vbl.key().segments(0, n-1)).toString())
+                if ( ! result.contains(VariableKey(section)))
+                    result.append(VariableKey(section));
         }
     }
     return result;
 }
 
 void VariableSet::import(const VariableSet & other,
-                         const VariableId & sectionId)
+                         const VariableKey &sectionId)
 {
-    foreach (Variable vbl, other.data->vbl_map.values())
+    foreach (Variable var, other.data->vbl_map.values())
     {
-        VariableId vid(vbl.id());
-        vid.prepend(sectionId);
-        set(vid, vbl.var());
+        VariableKey key(var.key());
+        key.prepend(sectionId);
+        set(key, var.var());
     }
 }
 

@@ -16,16 +16,17 @@ class IFCORE_EXPORT Variable
 {
 public:
     explicit Variable(void);
-    Variable(const VariableId & id,
-             const QMetaType::Type varType);
-    Variable(const VariableId & id,
+//    Variable(const VariableKey & key,
+  //           const QMetaType::Type varType);
+    // QVariant(QMetaType) deleted in Qt6
+    Variable(const VariableKey & key,
              const QVariant defaultValue);
-    Variable(const VariableId & id,
+    Variable(const VariableKey & key,
              const QVariant currentValue,
              const QVariant defaultValue);
     static Variable fromString(const QString & string);
     bool isNull(void) const;
-    VariableId id(void) const;
+    VariableKey key(void) const;
     QVariant var(void) const;
     QVariant defaultVar(void) const;
     VariableType * variableType(void) const;
@@ -41,10 +42,10 @@ public:
     //QDomElement writeXml(void) const;
 
 private:
-    VariableId _id;
-    VariableType * _behavior;
-    QVariant current_var;
-    QVariant default_var;
+    VariableKey mKey;
+    VariableType * mpType;
+    QVariant mCurrentVar;
+    QVariant mDefaultVar;
 };
 
 #endif // VARIABLE_H

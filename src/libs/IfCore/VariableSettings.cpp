@@ -2,9 +2,9 @@
 
 
 #include <QtDebug>
+#include <QFileInfo>
 
-#include "../eirBase/BaseLog.h"
-#include "VariableIdList.h"
+#include "VariableKeyList.h"
 
 VariableSettings::VariableSettings(QObject * parent)
     : QObject(parent)
@@ -96,7 +96,6 @@ VariableSettings::VariableSettings(QSettings * settings,
         _settings = new QSettings(settings->fileName(),
                                   settings->format(),
                                   parent);
-    BOBJPOINTER(QSettings, _settings);
     setName(settingName());
     setObjectName(settingName());
 
@@ -107,19 +106,16 @@ VariableSettings::VariableSettings(QSettings * settings,
 
 QString VariableSettings::orgName(void) const
 {
-    BOBJPOINTER(QSettings, _settings);
     return _settings->organizationName();
 }
 
 QString VariableSettings::appName(void) const
 {
-    BOBJPOINTER(QSettings, _settings);
     return _settings->applicationName();
 }
 
 QSettings::Status VariableSettings::status(void) const
 {
-    BOBJPOINTER(QSettings, _settings);
     return _settings->status();
 }
 
@@ -128,7 +124,6 @@ QString VariableSettings::settingName(void) const
 {
     QString result;
     if ( ! _settings) return result;
-    BOBJPOINTER(QSettings, _settings);
     if (_settings->organizationName().isEmpty())
         result = "@" + _settings->fileName();
     else
@@ -142,30 +137,26 @@ QString VariableSettings::settingName(void) const
 QVariant VariableSettings::read(const QString & key,
                                     const QVariant & defaultValue)
 {
-    BOBJPOINTER(QSettings, _settings);
     return _settings->value(key, defaultValue);
 }
 
 void VariableSettings::write(const QString & key,
                                  const QVariant & newValue)
 {
-    BOBJPOINTER(QSettings, _settings);
     _settings->setValue(key, newValue);
 }
 
 void VariableSettings::read(void)
 {
-    BOBJPOINTER(QSettings, _settings);
     foreach(QString key, _settings->allKeys())
     {
-        set(VariableId(key), _settings->value(key));
+        set(VariableKey(key), _settings->value(key));
     }
 }
 
 void VariableSettings::write(void) const
 {
-    BOBJPOINTER(QSettings, _settings);
-    foreach (VariableId vid, VariableSet::ids())
+    foreach (VariableKey vid, VariableSet::keys())
     {
         _settings->setValue(vid, VariableSet::value(vid));
     }
@@ -173,13 +164,11 @@ void VariableSettings::write(void) const
 
 void VariableSettings::remove(const QString & key) const
 {
-    BOBJPOINTER(QSettings, _settings);
     _settings->remove(key);
 }
 
 void VariableSettings::removeAll(void) const
 {
-    BOBJPOINTER(QSettings, _settings);
     foreach(QString key, _settings->allKeys())
     {
         _settings->remove(key);

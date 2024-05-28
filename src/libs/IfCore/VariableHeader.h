@@ -19,7 +19,7 @@ public:
     VariableHeader(VariableGroup * vg);
     bool isNull(void) const;
     int size(void) const;
-    VariableKey id(int index) const;
+    VariableKey key(int index) const;
     QMetaType::Type metaType(int index) const;
     QList<VariableColumn> header(void) const;
 

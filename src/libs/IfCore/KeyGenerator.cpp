@@ -1,7 +1,8 @@
 #include "KeyGenerator.h"
 
-#include <QtCore/QDateTime>
-#include "../eirBase/BaseLog.h"
+#include <QDateTime>
+#include <QDir>
+#include <QFileInfo>
 
 QChar KeyGenerator::trigger('%');
 QChar KeyGenerator::pathSub('/');
@@ -38,7 +39,6 @@ void KeyGenerator::setFormat(const QString & className,
     QStringList qsl(formatStrings.split(';'));
     QString formatString(qsl.takeFirst());
     sortable_format_map.insert(className.toLower(), formatString);
-    BDETAIL("IdGenerator: [%1]={%2}", className.toLower(), formatString);
 
     while ( ! qsl.isEmpty())
     {
@@ -49,7 +49,6 @@ void KeyGenerator::setFormat(const QString & className,
             QString className(s.left(x));
             QString formatString(s.mid(x+1));
             sortable_format_map.insert(className.toLower(), formatString);
-            BDETAIL("IdGenerator: [%1]={%2}", className.toLower(), formatString);
         }
     }
 }
@@ -60,29 +59,28 @@ QString KeyGenerator::getFormat(const QString & className) const
 }
 
 
-BasicId KeyGenerator::face(const QString & className) const
+Key KeyGenerator::face(const QString & className) const
 {
-    BasicId id = generate(className, className);
-    if (id.isEmpty())   id = generate("Face", className);
-    return id;
+    Key key = generate(className, className);
+    if (key.isEmpty())   key = generate("Face", className);
+    return key;
 }
 
-BasicId KeyGenerator::frame(const QString & className) const
+Key KeyGenerator::frame(const QString & className) const
 {
-    BasicId id = generate(className, className);
-    if (id.isEmpty())   id = generate("Frame", className);
-    return id;
+    Key key = generate(className, className);
+    if (key.isEmpty())   key = generate("Frame", className);
+    return key;
 }
 
-BasicId KeyGenerator::generate(const QString & className,
+Key KeyGenerator::generate(const QString & className,
                               const QString & outputClass) const
 {
     //pathSub = '/';
     QString result;
     QString format = sortable_format_map[className.toLower()];
-    if (format.isEmpty()) return BasicId();
+    if (format.isEmpty()) return Key();
 
-    BDETAIL("IdGenerator: [%1]={%2}", className.toLower(), format);
     QString::const_iterator it = format.begin();
     while (it != format.end())
     {
@@ -139,7 +137,7 @@ BasicId KeyGenerator::generate(const QString & className,
         }
     }
 
-    return BasicId(result);
+    return Key(result);
 }
 
 qint64 KeyGenerator::numericValue(const QChar c) const
@@ -156,11 +154,9 @@ qint64 KeyGenerator::numericValue(const QChar c) const
     case '#':   return getFrameNumber();
     case 'n':   return getFaceNumber();
     case 'l':   return getModifiedMst();
-    case 'z':   return getFrameMsd();
+    case 'z':   return getFrameMst();
     case 'q':   return getQuality();
     case 'Q':   return getBestQuality();
-    case 'P':   return getPersonKey();
-    case 'F':   return getFaceKey();
     default:    return -1;
     }
 }
@@ -171,13 +167,13 @@ QString KeyGenerator::stringValue(const QChar c,
     switch (c.cell())
     {
     case '%':   return "%";
-    case 'i':   return getFrameId();
+    case 'i':   return getFrameKey();
     case 'd':   return getModifiedMst().toString("yyyyMMdd");
     case 't':   return getModifiedMst().toString("hhmmsszzz");
     case 'o':   return outputClass;
     case 'A':   return QFileInfo(getFileName()).absoluteDir().path().replace('/', pathSub);
     case 'R':   return QFileInfo(getFileName()).dir().path().replace('/', pathSub);
-    case 'p':   return getPersonId();
+    case 'p':   return getPersonKey();
     case 'n':   return QFileInfo(getFileName()).completeBaseName();
     default:    return QString();
     }

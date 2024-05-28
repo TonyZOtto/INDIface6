@@ -3,4 +3,5 @@ message(____________/src/libs/libs.pri)
 
 include(../LIBDIR.pri)
 INCLUDEPATH *= .
+INCLUDEPATH *= ..
 include(../src.pri)

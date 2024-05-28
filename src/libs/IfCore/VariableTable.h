@@ -3,7 +3,7 @@
 #include "IfCore.h"
 
 #include "VariableHeader.h"
-#include "../eirBase/Matrix.h"
+#include "../eIRcore/Matrix.h"
 
 #include <QtCore/QVariant>
 

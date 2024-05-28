@@ -35,14 +35,12 @@ bool VariableTable::readRow(VariableGroup * vg, int row)
     int n = variable_header.size();
     for (int x = 0; x < n; ++x)
     {
-        VariableId vid(variable_header.id(x));
-        QMetaType::Type mType = variable_header.metaType(x);
-        QVariant mVar = variant_matrix.get(x, row);
-        QVariant gVar(mType);
+        VariableKey key(variable_header.key(x));
+        QVariant mVar = variant_matrix.at(x, row);
+        QVariant gVar;
         if (mVar.isValid()) gVar = mVar;
-        qDebug() << x << n << vid << mVar
-                 << QMetaType::typeName(mType) << gVar;
-        vg->set(vid, gVar);
+        qDebug() << x << n << key << mVar << gVar;
+        vg->set(key, gVar);
     }
     return true;
 }

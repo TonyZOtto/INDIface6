@@ -7,6 +7,7 @@
 
 #include "AText.h"
 #include "KeySeg.h"
+#include "Types.h"
 
 class EIRBASE_EXPORT Key
 {
@@ -18,12 +19,26 @@ public: // ctors
     Key(const char * pch) { set(pch); }
     Key(const AText &atx) { set(atx); }
     Key(const QString &qs) { set(qs); }
+    Key(const KeySeg::List &segs) { set(segs); }
+    Key(const char * chars,
+                const char * chars1,
+                const char * chars2=0,
+        const char * chars3=0) { set(chars, chars1, chars2, chars3); }
 
 public: // const
     bool isNull() const;
+    bool isEmpty() const;
+    bool isSectioned() const;
     bool notNull() const { return ! isNull(); }
+    bool isValid(const Index ix) const;
+    bool contains(const char ch) const;
+    Count count() const;
+    KeySeg segment(const Index ix) const;
     KeySeg::List segments() const;
+    KeySeg::List segments(const Index ix, const Index n=-1) const;
+    QString sortable() const;
     QString toString() const;
+    operator QString () const { return toString(); }
     QString operator () () const { return toString(); }
     bool operator < (const Key &rhs) const;
 
@@ -31,6 +46,12 @@ public: // non-const
     void set(const char * pch);
     void set(const AText &atx);
     void set(const QString &qs);
+    void set(const KeySeg::List &segs);
+    void set(const char * chars,
+                const char * chars1,
+                const char * chars2=0,
+                const char * chars3=0);
+    void append(const QString &s);
     void prepend(const KeySeg &seg);
     void prepend(const Key &key);
 

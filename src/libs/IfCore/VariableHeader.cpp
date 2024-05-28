@@ -9,10 +9,10 @@ VariableHeader::VariableHeader(void)
 
 VariableHeader::VariableHeader(VariableGroup * vg)
 {
-    foreach (VariableId vid, vg->ids())
+    foreach (VariableKey key, vg->keys())
     {
-        Variable v = vg->at(vid);
-        VariableColumn vc(vid, v.variableType());
+        Variable v = vg->at(key);
+        VariableColumn vc(key, v.variableType());
         column_list.append(vc);;
     }
 }
@@ -28,7 +28,7 @@ int VariableHeader::size(void) const
     return column_list.size();
 }
 
-VariableId VariableHeader::id(int index) const
+VariableKey VariableHeader::key(int index) const
 {
     return column_list.value(index).first;
 }

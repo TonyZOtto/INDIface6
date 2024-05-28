@@ -1,14 +1,13 @@
 #ifndef IdGenerator_H
 #define IdGenerator_H
-#include "eirCore.h"
+#include "IfCore.h"
 
 #include "VariableSet.h"
 
 #include <QtCore/QLine>
 #include <QtCore/QRect>
 
-#include "../eirTypes/MillisecondDelta.h"
-#include "../eirTypes/MillisecondTime.h"
+#include "../eIRbase/MillisecondTime.h"
 #include <Key.h>
 
 #define IDGENERATOR_VARIABLESET(TIVD) \
@@ -22,13 +21,13 @@
     TIVD(int,               FrameNumber,    int,        0) \
     TIVD(int,               BestQuality,    int,        0) \
     TIVD(int,               FaceNumber,     int,        0) \
-    TIVD(MillisecondDelta,  FrameMsd,        qint64,     0) \
+    TIVD(MillisecondTime,   FrameMst,       qint64,     0) \
     TIVD(MillisecondTime,   ModifiedMst,    qint64,     0) \
-    TIVD(BasicId,           FrameId,        QString,    QString()) \
+    TIVD(Key,               FrameKey,       QString,    QString()) \
     TIVD(QString,           FileName,       QString,    QString()) \
-    TIVD(int,               FaceKey,        int,        0) \
-    TIVD(int,               PersonKey,      int,        0) \
-    TIVD(QString,           PersonId,       QString,    QString()) \
+    TIVD(int,               FaceId,         int,        0) \
+    TIVD(int,               PersonId,       int,        0) \
+    TIVD(QString,           PersonKey,      QString,    QString()) \
 
 class KeyGenerator : public VariableSet
 {
@@ -39,14 +38,14 @@ public:
     void setFrameFormat(const QString & formatStrings);
     QString faceFormat(void) const;
     QString frameFormat(void) const;
-    BasicId face(const QString & className) const;
-    BasicId frame(const QString & className) const;
+    Key face(const QString & className) const;
+    Key frame(const QString & className) const;
 
 private:
     void setFormat(const QString & className,
                    const QString & formatString);
     QString getFormat(const QString & className) const;
-    BasicId generate(const QString & className,
+    Key generate(const QString & className,
                      const QString & outputClass) const;
     qint64 numericValue(const QChar c) const;
     QString stringValue(const QChar c,

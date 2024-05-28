@@ -3,93 +3,83 @@
 #include <QtDebug>
 #include <QtXml/QDomElement>
 
-VariableGroup::VariableGroup(const VariableId & sectionId)
-    : section_id(sectionId)
-    , csvRows(0)
+VariableGroup::VariableGroup(const VariableKey &sectionKey) : mSectionKey(sectionKey) {;}
+
+VariableKey VariableGroup::sectionKey(void) const
 {
-}
-/*
-VariableGroup::VariableGroup(const QDomElement & de)
-{
-    readXml(de);
-}
-*/
-VariableId VariableGroup::sectionId(void) const
-{
-    return section_id;
+    return mSectionKey;
 }
 
 bool VariableGroup::isEmpty(void) const
 {
-    return var_map.isEmpty();
+    return mKeyVarMap.isEmpty();
 }
 
 int VariableGroup::size(void) const
 {
-    return var_map.size();
+    return mKeyVarMap.size();
 }
 
-bool VariableGroup::contains(const VariableId & id) const
+bool VariableGroup::contains(const VariableKey & key) const
 {
-    return var_map.contains(id.sortable());
+    return mKeyVarMap.contains(key.sortable());
 }
 
 void VariableGroup::add(const Variable & var)
 {
-    VariableId vid = var.id();
-    vid.prepend(section_id);
-    id_list.append(vid);
-    var_map.insert(vid.sortable(), var);
+    VariableKey key = var.key();
+    key.prepend(mSectionKey);
+    mKeyList.append(key);
+    mKeyVarMap.insert(key.sortable(), var);
     //qDebug() << objectName() << vid() << "<+" << var.var();
-    csvRows = qMax(csvRows, var.csvHeadingCount());
+    mCsvCount = qMax(mCsvCount, var.csvHeadingCount());
 }
 
 void VariableGroup::add(VariableGroup * other,
-                        VariableId sectionId)
+                        VariableKey sectionKey)
 {
-    if (sectionId.isNull()) sectionId = other->sectionId();
-    foreach (Variable v, other->all())
+    if (sectionKey.isNull()) sectionKey = other->sectionKey();
+    foreach (Variable var, other->all())
     {
-        VariableId vid(v.id());
-        vid.prepend(sectionId);
-        set(vid, v.var());
+        VariableKey key(var.key());
+        key.prepend(sectionKey);
+        set(key, var.var());
     }
 }
 
-Variable VariableGroup::at(const VariableId & id) const
+Variable VariableGroup::at(const VariableKey & key) const
 {
-    Variable v(var_map.value(id.sortable()));
-    //qDebug() << id() << "@" << v.var();
+    Variable v(mKeyVarMap.value(key.sortable()));
     return v;
 }
 
-QVariant VariableGroup::value(const VariableId & id) const
+QVariant VariableGroup::value(const VariableKey & key) const
 {
-    return at(id).var();
+    return at(key).var();
 }
 
-bool VariableGroup::set(const VariableId & id, const Variable & var)
+bool VariableGroup::set(const VariableKey & key, const Variable & var)
 {
-    bool result = var_map.contains(id.sortable());
+    bool result = mKeyVarMap.contains(key.sortable());
     if (result)
-        var_map[id.sortable()] = var;
+        mKeyVarMap[key.sortable()] = var;
     else
         add(var);
     //qDebug() << objectName() << id() << "<-" << var.var();
     return result;
 }
 
-bool VariableGroup::set(const VariableId & id, const QVariant & var)
+bool VariableGroup::set(const VariableKey & key, const QVariant & var)
 {
-    if (var_map.contains(id.sortable()))
+    if (mKeyVarMap.contains(key.sortable()))
     {
-        var_map[id.sortable()].set(var);
+        mKeyVarMap[key.sortable()].set(var);
         //qDebug() << sectionId()() << id() << "<-" << var;
         return true;
     }
     else
     {
-        add(Variable(id, var));
+        add(Variable(key, var));
         return false;
     }
 }
@@ -97,72 +87,72 @@ bool VariableGroup::set(const VariableId & id, const QVariant & var)
 void VariableGroup::set(const VariableGroup * vars)
 {
     foreach (Variable v, vars->all())
-        set(v.id(), v);
+        set(v.key(), v);
 }
 
-int VariableGroup::implant(const VariableId & sectionId,
+int VariableGroup::implant(const VariableKey & sectionKey,
                            const VariableGroup * vars)
 {
     int count = 0;
     foreach (Variable v, vars->all())
-        if (v.id().section(0) == sectionId)
+        if (v.key().segment(0)() == sectionKey.toString())
         {
-            VariableId vid = v.id();
-            QString newId = vid.sections(1);
+            VariableKey key = v.key();
+            QString newKey = Key(key.segments(1)).toString();
             //qDebug() << newId << "<i" << v.var();
-            set(VariableId(newId), v.var());
+            set(VariableKey(newKey), v.var());
             ++count;
         }
     return count;
 }
 
-void VariableGroup::reset(const VariableId & id)
+void VariableGroup::reset(const VariableKey & key)
 {
-    if (var_map.contains(id.sortable()))
-        var_map[id.sortable()].reset();
+    if (mKeyVarMap.contains(key.sortable()))
+        mKeyVarMap[key.sortable()].reset();
 }
 
 void VariableGroup::reset()
 {
-    foreach (QString key, var_map.keys())
-        var_map[key].reset();
+    foreach (QString key, mKeyVarMap.keys())
+        mKeyVarMap[key].reset();
 }
 
 void VariableGroup::clear(void)
 {
-    var_map.clear();
-    id_list.clear();
+    mKeyVarMap.clear();
+    mKeyList.clear();
 }
 
-void VariableGroup::remove(const VariableId & id)
+void VariableGroup::remove(const VariableKey & key)
 {
-    var_map.remove(id.sortable());
-    id_list.removeAll(id);
+    mKeyVarMap.remove(key.sortable());
+    mKeyList.removeAll(key);
 }
 
-VariableIdList VariableGroup::ids(void) const
+VariableKeyList VariableGroup::keys(void) const
 {
-    return id_list;
+    return mKeyList;
 }
 
-QStringList VariableGroup::sectionIds(const VariableId & within)
+QStringList VariableGroup::sectionKeys(const VariableKey & within)
 {
     QStringList result;
 
     if (within.isNull())
-        foreach (VariableId vid, id_list)
+        foreach (VariableKey key, mKeyList)
         {
-            QString section(vid.section(0));
+            QString section(key.segment(0));
             if ( ! result.contains(section))
                 result.append(section);
         }
     else
     {
-        int n = within.sectionCount();
-        foreach (VariableId vid, id_list)
+        int n = within.count();
+        foreach (VariableKey key, mKeyList)
         {
-            QString section(vid.section(n));
-            if (QString(within) == vid.sections(0, n-1))
+            QString section(key.segment(n));
+            if (QString(within) == Key(key.segments(0, n-1)).toString())
                 if ( ! result.contains(section))
                     result.append(section);
         }
@@ -173,33 +163,20 @@ QStringList VariableGroup::sectionIds(const VariableId & within)
 
 QList<Variable> VariableGroup::all(void) const
 {
-    return var_map.values();
+    return mKeyVarMap.values();
 }
 
 void VariableGroup::dump(void) const
 {
-    qDebug() << "Dumping" << sectionId();
-    foreach (VariableId id, id_list)
+    qDebug() << "Dumping" << sectionKey();
+    foreach (VariableKey key, mKeyList)
     {
-        Variable v = var_map.value(id.sortable());
-        qDebug() << "---" << id << "=" << v.var();
+        Variable v = mKeyVarMap.value(key.sortable());
+        qDebug() << "---" << key << "=" << v.var();
     }
 }
-/*
-QDomElement VariableGroup::writeXml(void) const
-{
-    QDomElement result;
-    // TODO
-    return result;
-}
 
-bool VariableGroup::readXml(const QDomElement & de)
-{
-    // TODO
-    return false;
-}
-*/
 int VariableGroup::csvHeadingRowCount(void) const
 {
-    return csvRows;
+    return mCsvCount;
 }

@@ -127,16 +127,21 @@ VariableType * VariableType::behavior(const QMetaType::Type metaType)
     case QMetaType::QRectF:
     case QMetaType::QRect:      return new VariableRectBehavior(metaType);
     case QMetaType::QImage:     return new VariableImageBehavior(metaType);
-    default:                    qFatal("Unhandled QMetaType: %i %s", metaType,
-                                         QMetaType::typeName(metaType));
+    default:                    qFatal("Unhandled QMetaType: %i", metaType);
                                 return 0;
     }
+}
+
+QString VariableType::typeName() const
+{
+    QMetaType tMT(var_type);
+    return tMT.name();
 }
 
 VariableType::VariableType(QMetaType::Type varType,
                            const QString & partNames) :
     var_type(varType),
-    partName_list(partNames.simplified().split(' ', QString::SkipEmptyParts))
+    partName_list(partNames.simplified().split(' ', Qt::SkipEmptyParts))
 {
     behavior_map.insert(varType, this);
 }

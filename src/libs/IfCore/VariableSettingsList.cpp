@@ -3,19 +3,17 @@
 #include <QtCore/QTimer>
 #include <QtCore/QVariant>
 
-#include "../eirBase/BaseLog.h"
-#include "IsTrigger.h"
-#include "VariableIdList.h"
+#include "VariableKeyList.h"
 
 VariableSettingsList::VariableSettingsList(QObject * parent)
     : QObject(parent)
-    , default_vsi(new VariableSettings(this))
-    , update_msec(0)
-    , updateRead_b(false)
-    , watch_timer(0)
+    , mpDefault(new VariableSettings(this))
+    , mUpdateMsec(0)
+    , mIsUpdateRead(false)
+    , mpWatchTimer(0)
 {
-    default_vsi->setName("default");
-    vsi_list.append(default_vsi);
+    mpDefault->setName("default");
+    mSettingsList.append(mpDefault);
 }
 
 VariableSettingsList::~VariableSettingsList()
@@ -25,7 +23,7 @@ VariableSettingsList::~VariableSettingsList()
 
 void VariableSettingsList::add(VariableSettings * vsi)
 {
-    vsi_list.prepend(vsi);
+    mSettingsList.prepend(vsi);
 }
 
 void VariableSettingsList::add(QString string)
@@ -36,239 +34,193 @@ void VariableSettingsList::add(QString string)
         vsi->setName(string);
         vsi->read();
         if ( ! vsi->isEmpty())
-            vsi_list.prepend(vsi);
+            mSettingsList.prepend(vsi);
         else
             delete vsi;
     }
 }
 
-void VariableSettingsList::addTrigger(const VariableId & vid)
+void VariableSettingsList::addTrigger(const VariableKey & key)
 {
-    trigger_set.insert(vid);
-    set(vid, QString());
+    mTriggerSet.insert(key);
+    set(key, QString());
+}
+
+bool VariableSettingsList::isTrigger(const VariableKey &key)
+{
+    return mTriggerSet.contains(key);
 }
 
 void VariableSettingsList::setUpdateMsec(const int msec)
 {
-    update_msec = msec;
+    mUpdateMsec = msec;
     // if started, restart
-    if (watch_timer) start();
+    if (mpWatchTimer) start();
 }
 
 void VariableSettingsList::setUpdateRead(const bool readOnUpdate)
 {
-    updateRead_b = readOnUpdate;
+    mIsUpdateRead = readOnUpdate;
 }
 
-bool VariableSettingsList::contains(const VariableId & vid) const
+bool VariableSettingsList::contains(const VariableKey & key) const
 {
-    (void)vid;
-    BTODO("VariableSettingsList::contains(const VariableId & vid)");
+    (void)key;
     return false;
 }
 
 VariableSettings * VariableSettingsList::settings(const int index) const
 {
-    return (index < 0 || index >= vsi_list.size())
-            ? 0 : vsi_list.at(index);
+    return (index < 0 || index >= mSettingsList.size())
+            ? 0 : mSettingsList.at(index);
 }
 
 void VariableSettingsList::read(void)
 {
-    foreach (VariableSettings * vsi, vsi_list)
+    foreach (VariableSettings * vsi, mSettingsList)
         vsi->read(); // if flags?
 }
 
-QVariant VariableSettingsList::read(const VariableId & vid,
-                                    const QVariant & defaultValue)
+QVariant VariableSettingsList::read(const VariableKey &key, const QVariant & defaultValue)
 {
-    foreach (VariableSettings * vsi, vsi_list)
-        if (vsi->contains(vid))
-            return vsi->read(vid);
+    foreach (VariableSettings * vsi, mSettingsList)
+        if (vsi->contains(key))
+            return vsi->read(key);
     return defaultValue;
 }
 
 void VariableSettingsList::write(void) const
 {
-    foreach (VariableSettings * vsi, vsi_list)
+    foreach (VariableSettings * vsi, mSettingsList)
         vsi->write();
 }
 
-void VariableSettingsList::write(const VariableId & vid,
-                                 const QVariant & newValue)
+void VariableSettingsList::write(const VariableKey &vid, const QVariant & newValue)
 {
-    foreach (VariableSettings * vsi, vsi_list)
+    foreach (VariableSettings * vsi, mSettingsList)
         if (vsi->contains(vid)) // && isWritable()??
         {
             vsi->write(vid, newValue);
             return;
         }
-    vsi_list.first()->write(vid, newValue);
+    mSettingsList.first()->write(vid, newValue);
 }
 
-void VariableSettingsList::blog(void) const
+void VariableSettingsList::set(const Variable & var)
 {
-    foreach (VariableSettings * vsi, vsi_list)
-    {
-        vsi->blog();
-    }
-}
-
-void VariableSettingsList::set(const Variable & vbl)
-{
-    VariableId vid(vbl.id());
-    foreach (VariableSettings * vsi, vsi_list)
-        if (vsi->contains(vid))
+    VariableKey key(var.key());
+    foreach (VariableSettings * vsi, mSettingsList)
+        if (vsi->contains(key))
         {
-            vsi->set(vbl);
+            vsi->set(var);
             return;
         }
-    vsi_list.first()->set(vbl);
+    mSettingsList.first()->set(var);
 }
 
-void VariableSettingsList::set(const VariableId & vid,
-                               const QVariant & value)
+void VariableSettingsList::set(const VariableKey &key, const QVariant & value)
 {
-    foreach (VariableSettings * vsi, vsi_list)
-        if (vsi->contains(vid))
+    foreach (VariableSettings * vsi, mSettingsList)
+        if (vsi->contains(key))
         {
-            vsi->write(vid, value);
+            vsi->write(key, value);
             return;
         }
-    vsi_list.first()->write(vid, value);
+    mSettingsList.first()->write(key, value);
 }
 
 void VariableSettingsList::setDefault(const Variable & vbl)
 {
-    default_vsi->set(vbl);
+    mpDefault->set(vbl);
 }
 
-void VariableSettingsList::setDefault(const VariableId & vid,
+void VariableSettingsList::setDefault(const VariableKey &key,
                                       const QVariant & value)
 {
-    default_vsi->set(vid, value);
+    mpDefault->set(key, value);
 }
 
-Variable VariableSettingsList::at(const VariableId & vid) const
+Variable VariableSettingsList::at(const VariableKey &key) const
 {
-    foreach (VariableSettings * vsi, vsi_list)
-        if (vsi->contains(vid))
-            return vsi->at(vid);
+    foreach (VariableSettings * vsi, mSettingsList)
+        if (vsi->contains(key))
+            return vsi->at(key);
     return Variable();
 }
 
-QVariant VariableSettingsList::value(const VariableId & vid) const
+QVariant VariableSettingsList::value(const VariableKey &key) const
 {
-    foreach (VariableSettings * vsi, vsi_list)
-        if (vsi->contains(vid))
-            return vsi->value(vid);
+    foreach (VariableSettings * vsi, mSettingsList)
+        if (vsi->contains(key))
+            return vsi->value(key);
     return QVariant();
 }
 
-VariableSet VariableSettingsList::exportSection(const VariableId & sectionId) const
+VariableSet VariableSettingsList::exportSection(const VariableKey &sectionKey) const
 {
-    VariableSet result("VariableSettingsList:" + sectionId);
-    int n = sectionId.sectionCount();
-    foreach (VariableSettings * vsi, vsi_list)
+    VariableSet result("VariableSettingsList:" + sectionKey);
+    int n = sectionKey.count();
+    foreach (VariableSettings * vsi, mSettingsList)
     {
-        foreach (VariableId vid, vsi->ids(sectionId))
+        foreach (VariableKey key, vsi->keys(sectionKey))
         {
-            Variable vbl(vsi->at(vid));
-            VariableId newId(vid.sections(n));
-            if ( ! result.contains(newId))
+            Variable vbl(vsi->at(key));
+            VariableKey newKey(key.segments(n));
+            if ( ! result.contains(newKey))
             {
-                result.set(newId, vbl.var());
+                result.set(newKey, vbl.var());
             }
         }
     }
-    result.blog();
     return result;
 }
 
 void VariableSettingsList::start(void)
 {
     stop();
-
-    foreach (VariableId vid, trigger_set)
-        set(vid, QString());
-
-    watch_timer = new QTimer(this);
-    BOBJPOINTER(QTimer, watch_timer);
-    BCONNECT(watch_timer, SIGNAL(timeout()),
-            this, SLOT(update()));
-    watch_timer->setInterval(update_msec
-                             ? update_msec
-                             : 20000);
-    watch_timer->start();
-    BEMIT(started());
+    foreach (VariableKey key, mTriggerSet) set(key, QString());
+    mpWatchTimer = new QTimer(this);
+    mpWatchTimer->setInterval(mUpdateMsec ? mUpdateMsec : 20000);
+    mpWatchTimer->start();
+    emit (started());
 }
 
 void VariableSettingsList::stop(void)
 {
-    if (watch_timer)
+    if (mpWatchTimer)
     {
-        BOBJPOINTER(QTimer, watch_timer);
-        watch_timer->deleteLater();
-        watch_timer = 0;
+        mpWatchTimer->deleteLater();
+        mpWatchTimer = 0;
     }
-    BEMIT(stopped());
+    emit (stopped());
 }
 
 void VariableSettingsList::update(void)
 {
-    if (updateRead_b)
+    if (mIsUpdateRead)
     {
         read();
-        foreach (VariableId vid, trigger_set)
+        foreach (VariableKey key, mTriggerSet)
         {
-            QVariant var = value(vid);
-            if (IsTrigger(var))
+            QVariant var = value(key);
+            if (isTrigger(key))
             {
-                BEMIT(triggered(vid, var));
-                set(vid, QString());
+                emit (triggered(key, var));
+                set(key, QString());
             }
         }
         write();
     }
     else
     {
-        foreach (VariableId vid, trigger_set)
+        foreach (VariableKey key, mTriggerSet)
         {
-            QVariant var = read(vid);
-            if (IsTrigger(var))
+            QVariant var = read(key);
+            if (isTrigger(key))
             {
-                BEMIT(triggered(vid, var));
-                write(vid, QString());
+                emit (triggered(key, var));
+                write(key, QString());
             }
         }
     }
 }
-/*
-
-void OptionSet::checkWatch(void)
-{
-    int updateMsec = value("Options/UpdateMsec").toInt();
-    if (updateMsec && updateMsec != watch_timer->interval())
-        watch_timer->setInterval(updateMsec);
-    if ( ! updateMsec)  return;
-
-    read();
-    foreach (VariableId id, watch_list)
-    {
-        QVariant var = value(id);
-        switch (var.type())
-        {
-        case QVariant::Invalid:     continue;
-
-        default:
-            if (var.canConvert(QVariant::String))
-                if (var.toString().isEmpty())
-                    continue;
-        }
-        TRACE("%1 = %2", id, var);
-        EMIT(watched(id, var));
-        set(id, QString());
-    }
-
-}
-*/

@@ -21,27 +21,24 @@ public:
     ~VariableSettingsList();
     void add(VariableSettings * vsi);
     void add(QString string);
-    void addTrigger(const VariableId & key);
+    void addTrigger(const VariableKey & key);
+    bool isTrigger(const VariableKey & key);
     void setUpdateMsec(const int msec);
     void setUpdateRead(const bool readOnUpdate);
-    bool contains(const VariableId & vid) const;
+    bool contains(const VariableKey & key) const;
     VariableSettings * settings(const int index) const;
     void read(void);
-    QVariant read(const VariableId & key,
+    QVariant read(const VariableKey & key,
                   const QVariant & defaultValue=QVariant());
     void write(void) const;
-    void write(const VariableId & key,
-               const QVariant & newValue);
-    void blog(void) const;
+    void write(const VariableKey & key, const QVariant & newValue);
     void set(const Variable & vbl);
-    void set(const VariableId & vid,
-             const QVariant & value);
+    void set(const VariableKey & key, const QVariant & value);
     void setDefault(const Variable & vbl);
-    void setDefault(const VariableId & vid,
-             const QVariant & value);
-    Variable at(const VariableId & vid) const;
-    QVariant value(const VariableId & vid) const;
-    VariableSet exportSection(const VariableId & sectionId) const;
+    void setDefault(const VariableKey & key, const QVariant & value);
+    Variable at(const VariableKey & key) const;
+    QVariant value(const VariableKey & key) const;
+    VariableSet exportSection(const VariableKey & sectionKey) const;
 
 signals:
     void started(void);
@@ -56,12 +53,12 @@ public slots:
     void stop(void);
 
 private:
-    VariableSettings * default_vsi;
-    QList<VariableSettings *> vsi_list;
-    QSet<VariableId> trigger_set;
-    int update_msec;
-    bool updateRead_b;
-    QTimer * watch_timer;
+    VariableSettings * mpDefault;
+    QList<VariableSettings *> mSettingsList;
+    QSet<VariableKey> mTriggerSet;
+    int mUpdateMsec;
+    bool mIsUpdateRead;
+    QTimer * mpWatchTimer;
 };
 
 #endif // VariableSettingsLIST_H

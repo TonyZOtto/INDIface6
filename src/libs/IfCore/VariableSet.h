@@ -6,7 +6,7 @@
 #include <QtCore/QSharedDataPointer>
 
 #include "Variable.h"
-class VariableIdList;
+class VariableKeyList;
 
 class VariableSetData : public QSharedData
 {
@@ -192,30 +192,29 @@ public:
     int binarySize(void) const;
     int listSize(void) const;
     int mapSize(void) const;
-    bool contains(const VariableId & vid) const;
-    void blog(void) const;
+    bool contains(const VariableKey & key) const;
 
     void set(const QVariantList & vl);
     void set(const Variable & vbl);
-    void set(const VariableId & vid,
+    void set(const VariableKey & key,
              const QVariant & value);
     void set(const int index,
              const QVariant & value);
     void set(const QByteArray & ba);
-    void reset(const VariableId & id);
+    void reset(const VariableKey & key);
     void append(const QVariant & value);
-    Variable at(const VariableId & id) const;
-    QVariant value(const VariableId & id,
+    Variable at(const VariableKey & key) const;
+    QVariant value(const VariableKey & key,
                    const QVariant &defaultValue=QVariant()) const;
     QVariant value(const int index) const;
     QByteArray value(void) const;
     QVariantList values(void) const;
 
-    VariableSet exportSection(const VariableId & sectionId) const;
-    VariableIdList sectionIds(const VariableId & within=VariableId()) const;
-    VariableIdList ids(const VariableId & within=VariableId()) const;
+    VariableSet exportSection(const VariableKey & sectionKey) const;
+    VariableKeyList sectionIds(const VariableKey & within=VariableKey()) const;
+    VariableKeyList keys(const VariableKey & within=VariableKey()) const;
     void import(const VariableSet & other,
-                const VariableId & sectionId=VariableId());
+                const VariableKey & sectionId=VariableKey());
     QList<Variable> all(void) const;
 
 private:
@@ -226,13 +225,13 @@ private:
 Q_DECLARE_TYPEINFO(VariableSet, Q_PRIMITIVE_TYPE);
 Q_DECLARE_METATYPE(VariableSet)
 
-#define VARIABLESET_DECLARE(TYPE, ID, VTYPE, DFLT) \
-        void reset##ID(void)        { reset(VariableId(#ID)); } \
-        TYPE get##ID(void) const    { return (TYPE)value(VariableId(#ID)).value<VTYPE>(); } \
-        void set##ID(TYPE v)        { set(VariableId(#ID), QVariant(VTYPE(v))); } \
+#define VARIABLESET_DECLARE(TYPE, KEY, VTYPE, DFLT) \
+        void reset##KEY(void)        { reset(VariableKey(#KEY)); } \
+        TYPE get##KEY(void) const    { return (TYPE)value(VariableKey(#KEY)).value<VTYPE>(); } \
+        void set##KEY(TYPE v)        { set(VariableKey(#KEY), QVariant(VTYPE(v))); } \
 
-#define VARIABLESET_CTOR(TYPE, ID, VTYPE, DFLT) \
-        VariableSet::set(Variable(VariableId(#ID), QVariant((VTYPE)DFLT))); \
+#define VARIABLESET_CTOR(TYPE, KEY, VTYPE, DFLT) \
+        VariableSet::set(Variable(VariableKey(#KEY), QVariant((VTYPE)DFLT))); \
 
 #define DECLARE_VARIABLESET(DEF) \
         DEF(VARIABLESET_DECLARE) \

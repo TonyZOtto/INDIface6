@@ -10,32 +10,32 @@
 Variable::Variable(void)
 {
 }
-
-Variable::Variable(const VariableId & id,
+#if 0
+Variable::Variable(const VariableKey &key,
                    const QMetaType::Type varType) :
-    _id(id),
-    _behavior(VariableType::behavior(varType)),
-    current_var(QVariant(varType)),
-    default_var(QVariant(varType))
+    mKey(key),
+    mpType(VariableType::behavior(varType)),
+    mCurrentVar(QVariant(varType)),
+    mDefaultVar(QVariant(varType))
 {
 }
-
-Variable::Variable(const VariableId & id,
+#endif
+Variable::Variable(const VariableKey &key,
                    const QVariant defaultValue) :
-    _id(id),
-    _behavior(VariableType::behavior((QMetaType::Type)defaultValue.userType())),
-    current_var(defaultValue),
-    default_var(defaultValue)
+    mKey(key),
+    mpType(VariableType::behavior((QMetaType::Type)defaultValue.userType())),
+    mCurrentVar(defaultValue),
+    mDefaultVar(defaultValue)
 {
 }
 
-Variable::Variable(const VariableId & id,
-         const QVariant currentValue,
-         const QVariant defaultValue) :
-    _id(id),
-    _behavior(VariableType::behavior((QMetaType::Type)defaultValue.userType())),
-    current_var(currentValue),
-    default_var(defaultValue)
+Variable::Variable(const VariableKey &key,
+                   const QVariant currentValue,
+                   const QVariant defaultValue) :
+    mKey(key),
+    mpType(VariableType::behavior((QMetaType::Type)defaultValue.userType())),
+    mCurrentVar(currentValue),
+    mDefaultVar(defaultValue)
 {
 }
 
@@ -43,108 +43,94 @@ Variable Variable::fromString(const QString & string)
 {
     int x = string.indexOf('=');
     if (x < 0)
-        return Variable(VariableId(string), true);
+        return Variable(VariableKey(string), true);
     else
     {
         QString name = string.left(x);
         QString value = string.mid(x+1);
-        return Variable(VariableId(name), value);
+        return Variable(VariableKey(name), value);
     }
 }
 
 bool Variable::isNull(void) const
 {
-    if (_id.isNull()) return true;
-    if ( ! _behavior) return true;
-    if (default_var.isNull()) return true;
+    if (mKey.isNull()) return true;
+    if ( ! mpType) return true;
+    if (mDefaultVar.isNull()) return true;
     return false;
 }
 
-VariableId Variable::id(void) const
+VariableKey Variable::key(void) const
 {
-    return _id;
+    return mKey;
 }
 
 QVariant Variable::var(void) const
 {
-    return current_var;
+    return mCurrentVar;
 }
 
 QVariant Variable::defaultVar(void) const
 {
-    return default_var;
+    return mDefaultVar;
 }
 
 VariableType * Variable::variableType(void) const
 {
-    return _behavior;
+    return mpType;
 }
 
 QString Variable::typeName(void) const
 {
-    return QMetaType::typeName(_behavior->metaType());
+    return mpType->typeName();
 }
 
 void Variable::reset(void)
 {
-    current_var = default_var;
+    mCurrentVar = mDefaultVar;
 }
 
 void Variable::clear(void)
 {
-    current_var = QVariant(default_var.type());
+    mCurrentVar = QVariant(mDefaultVar.metaType());
 }
 
 void Variable::set(const QVariant newValue)
 {
-    current_var.setValue(newValue);
+    mCurrentVar.setValue(newValue);
 }
 
 int Variable::csvEntryCount(void) const
 {
-    return _behavior ? _behavior->csvColumns() : 0;
+    return mpType ? mpType->csvColumns() : 0;
 }
 
 int Variable::csvHeadingCount(void) const
 {
-    int result = _id.sectionCount();
-    if (_behavior && _behavior->csvParts())
+    int result = mKey.count();
+    if (mpType && mpType->csvParts())
         ++result;
     return result;
 }
 
 QString Variable::csvEntryString(void) const
 {
-    return _behavior
-            ? _behavior->csvString(current_var)
-            : current_var.toString();
+    return mpType
+            ? mpType->csvString(mCurrentVar)
+            : mCurrentVar.toString();
 }
 
 QString Variable::csvEntryHeading(int row) const
 {
-    if (_id.isSectioned())
+    if (mKey.isSectioned())
     {
-        if (row < _id.sectionCount())
-            return _id.section(row, _behavior->csvColumns());
-        else if (row == _id.sectionCount())
-            return _behavior ? _behavior->csvHeader() : QString();
+        if (row < (int)(mKey.count()))
+            return Key(mKey.segments(row, mpType->csvColumns())).toString();
+        else if (row == (int)(mKey.count()))
+            return mpType ? mpType->csvHeader() : QString();
     }
     else if (0 == row)
-        return _id;
+        return mKey;
 
     return QString();
 }
-/*
-bool Variable::readXml(const QDomElement & de)
-{
-    (void)de;
-    // TODO
-    return false;
-}
-
-QDomElement Variable::writeXml(void) const
-{
-    // TODO
-    return QDomElement();
-}
-*/

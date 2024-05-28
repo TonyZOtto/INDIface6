@@ -20,8 +20,8 @@ SOURCES += \
     Variable.cpp \
     VariableGroup.cpp \
     VariableHeader.cpp \
-    VariableIdList.cpp \
     VariableKey.cpp \
+    VariableKeyList.cpp \
     VariableSet.cpp \
     VariableSetInterface.cpp \
     VariableSettings.cpp \
@@ -42,8 +42,8 @@ HEADERS += \
     Variable.h \
     VariableGroup.h \
     VariableHeader.h \
-    VariableIdList.h \
     VariableKey.h \
+    VariableKeyList.h \
     VariableSet.h \
     VariableSetInterface.h \
     VariableSettings.h \

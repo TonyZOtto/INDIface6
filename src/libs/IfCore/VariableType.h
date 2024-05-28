@@ -18,6 +18,7 @@ protected:
 
 public:
     static VariableType * behavior(const QMetaType::Type metaType);
+    QString typeName() const;
     QMetaType::Type metaType(void) const;
     virtual int csvColumns(void) const;
     virtual int csvParts(void) const;
