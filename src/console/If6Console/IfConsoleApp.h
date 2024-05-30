@@ -2,7 +2,8 @@
 
 #include <QObject>
 
-#include <BaseExecutable.h>
+class QSettings;
+
 #include <ConsoleApplication.h>
 #include <IfCache.h>
 
@@ -23,5 +24,5 @@ signals:
 
 private:
     IfCache mImageCache;
-
+    QSettings * mpSettings=nullptr;
 };

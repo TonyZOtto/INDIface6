@@ -10,8 +10,11 @@ include(../../useExe.pri)
 include(../../useIfCore.pri)
 
 SOURCES += \
+        BaseIfModule.cpp \
+        BaseSettingsObject.cpp \
         IfConsoleApp.cpp \
         ImageAcquisition.cpp \
+        InputSettings.cpp \
         main.cpp
 
 # Default rules for deployment.
@@ -21,6 +24,12 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     ../../version.h \
+    BaseIfModule.h \
+    BaseSettingsObject.h \
     IfConsoleApp.h \
     ImageAcquisition.h \
+    InputSettings.h \
     version.h
+
+DISTFILES += \
+    ../../../doc/Settings2.txt

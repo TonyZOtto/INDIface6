@@ -5,10 +5,17 @@
 
 #include <BaseImage.h>
 
+#include "InputSettings.h"
+
 ImageAcquisition::ImageAcquisition(QObject *parent)
     : QObject{parent}
 {
     setObjectName("ImageAcquisition");
+}
+
+void ImageAcquisition::initialize()
+{
+//    settings()->read();
 }
 
 void ImageAcquisition::start(const QUrl &url)
@@ -37,12 +44,13 @@ void ImageAcquisition::startFiles(const QUrl &url, const QUrlQuery &query)
 void ImageAcquisition::startHotDir(const QUrl &url, const QUrlQuery &query)
 {
     Q_ASSERT(!"MUSTDO"); // MUSTDO startHotDir()
-
+    Q_UNUSED(url); Q_UNUSED(query);
 }
 
 void ImageAcquisition::startHttp(const QUrl &url, const QUrlQuery &query)
 {
     Q_ASSERT(!"MUSTDO"); // MUSTDO startHttp()
+    Q_UNUSED(url); Q_UNUSED(query);
 }
 
 QQStringList ImageAcquisition::enumerateExtensions(const QUrlQuery &query)

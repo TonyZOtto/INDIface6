@@ -8,11 +8,16 @@
 #include <QQString.h>
 #include <QQStringList.h>
 
+class InputSettings;
+
 class ImageAcquisition : public QObject
 {
     Q_OBJECT
 public:
     explicit ImageAcquisition(QObject *parent = nullptr);
+
+public slots:
+    void initialize();
 
 public: // const
     QFileInfoList fileInfoList() const;
@@ -21,6 +26,9 @@ signals:
 
 public: // non-const
     void start(const QUrl &url);
+
+public: // pointers
+    InputSettings * settings();
 
 private:
     void startFiles(const QUrl &url, const QUrlQuery &query);
@@ -31,6 +39,7 @@ private:
     static QDir dir(const QUrl &url);
 
 private:
+    InputSettings * mpInputSettings=nullptr;
     QFileInfoList mFileInfoList;
 };
 
