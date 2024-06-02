@@ -17,6 +17,13 @@ IfConsoleApp::IfConsoleApp(int argc, char *argv[])
     QTimer::singleShot(500, this, &IfConsoleApp::initialize);
 }
 
+Uid IfConsoleApp::addCache(const Key &key, const BaseImage &img)
+{
+    Q_UNUSED(key); Q_UNUSED(img);
+    Q_ASSERT("!MUSTDO"); // MUSTDO
+    return Uid();
+}
+
 void IfConsoleApp::initialize()
 {
     ConsoleApplication::initialize();

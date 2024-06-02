@@ -4,15 +4,32 @@
 #include <QByteArrayList>
 #include <QImageReader>
 
-#include <QQString.h>
+BaseImage::BaseImage() {;}
+BaseImage::BaseImage(const QImage in, const QImage::Format format, const Count clip) { set(in, format, clip); }
 
-BaseImage::BaseImage() {}
+bool BaseImage::isNull() const
+{
+    return QImage::Format_Invalid == format() || image().isNull();
+}
 
 BaseImage BaseImage::convertedTo(const QImage::Format fmt) const
 {
     BaseImage result = *this;
     result.image().convertTo(fmt);
     result.format(fmt);
+    return result;
+}
+
+bool BaseImage::set(const QImage in, const QImage::Format format, const unsigned clip)
+{
+    const Rect cRectIn(in.rect());
+    Q_UNUSED(clip); // TODO Handle clip
+//    const Rect cRect = cRectIn.clipped(clip);
+//    const QRect cQRect(cRect.topLeft().toQPoint(), cRect.size().toQSize());
+//    const QImage tImage = in.convertedTo(format).copy(cQRect);
+    const QImage tImage = in.convertedTo(format);
+    bool result = ! tImage.isNull();
+    if (result) image(tImage);
     return result;
 }
 

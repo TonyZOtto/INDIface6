@@ -16,6 +16,7 @@ public: // ctors
 public: // const
     U width() const { return mWidth; }
     U height() const { return mHeight; }
+    QSize toQSize() const { return QSize(int(width()), int(height())); }
     bool isEmpty() const { return 0 == width() || 0 == height(); }
     bool isNull() const { return 0 == width() && 0 == height(); }
     bool isValid() const { return 0 < width() && 0 < height(); }

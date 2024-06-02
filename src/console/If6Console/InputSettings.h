@@ -15,26 +15,36 @@ public:
     QUrl url() const;
 
     // ========================== Properties ========================
-private:
-    Q_PROPERTY(QString Url READ Url WRITE Url NOTIFY changed_Url FINAL)
-    Q_PROPERTY(EpochMilliseconds SampleMsec READ SampleMsec WRITE SampleMsec NOTIFY changed_SampleMsec FINAL)
-    Q_PROPERTY(bool DeleteAfter READ DeleteAfter WRITE DeleteAfter RESET reset_DeleteAfter NOTIFY changed_DeleteAfter FINAL)
 public:
     QString Url() const;
     void Url(const QString &new_Url);
-    EpochMilliseconds SampleMsec() const;
-    void SampleMsec(EpochMilliseconds new_SampleMsec);
-    bool DeleteAfter() const;
-    void DeleteAfter(bool new_DeleteAfter);
-    void reset_DeleteAfter();
+    QString ImageId() const;
+    void ImageId(const QString &new_ImageId);
+    unsigned int FramesProcessed() const;
+    void FramesProcessed(unsigned int new_FramesProcessed);
+    void reset_FramesProcessed();
+    unsigned int NullFrames() const;
+    void NullFrames(unsigned int new_NullFrames);
+    void reset_NullFrames();
+    QString Processing() const;
+    void Processing(const QString &new_Processing);
 signals:
     void changed_Url();
-    void changed_SampleMsec();
-    void changed_DeleteAfter();
+    void changed_ImageId();
+    void changed_FramesProcessed();
+    void changed_NullFrames();
+    void changed_Processing();
 private:
     QString m_Url;
-    EpochMilliseconds m_SampleMsec;
-    bool m_DeleteAfter;
+    QString m_ImageId;
+    unsigned m_FramesProcessed;
+    unsigned m_NullFrames;
+    QString m_Processing;
+    Q_PROPERTY(QString Url READ Url WRITE Url NOTIFY changed_Url FINAL)
+    Q_PROPERTY(QString ImageId READ ImageId WRITE ImageId NOTIFY changed_ImageId FINAL)
+    Q_PROPERTY(unsigned int FramesProcessed READ FramesProcessed WRITE FramesProcessed RESET reset_FramesProcessed NOTIFY changed_FramesProcessed FINAL)
+    Q_PROPERTY(unsigned int NullFrames READ NullFrames WRITE NullFrames RESET reset_NullFrames NOTIFY changed_NullFrames FINAL)
+    Q_PROPERTY(QString Processing READ Processing WRITE Processing NOTIFY changed_Processing FINAL)
 };
 
 inline QString InputSettings::Url() const
@@ -50,33 +60,64 @@ inline void InputSettings::Url(const QString &new_Url)
     emit changed_Url();
 }
 
-inline EpochMilliseconds InputSettings::SampleMsec() const
+inline QString InputSettings::ImageId() const
 {
-    return m_SampleMsec;
+    return m_ImageId;
 }
 
-inline void InputSettings::SampleMsec(EpochMilliseconds new_SampleMsec)
+inline void InputSettings::ImageId(const QString &new_ImageId)
 {
-    if (m_SampleMsec == new_SampleMsec)
+    if (m_ImageId == new_ImageId)
         return;
-    m_SampleMsec = new_SampleMsec;
-    emit changed_SampleMsec();
+    m_ImageId = new_ImageId;
+    emit changed_ImageId();
 }
 
-inline bool InputSettings::DeleteAfter() const
+inline unsigned int InputSettings::FramesProcessed() const
 {
-    return m_DeleteAfter;
+    return m_FramesProcessed;
 }
 
-inline void InputSettings::DeleteAfter(bool new_DeleteAfter)
+inline void InputSettings::FramesProcessed(unsigned int new_FramesProcessed)
 {
-    if (m_DeleteAfter == new_DeleteAfter)
+    if (m_FramesProcessed == new_FramesProcessed)
         return;
-    m_DeleteAfter = new_DeleteAfter;
-    emit changed_DeleteAfter();
+    m_FramesProcessed = new_FramesProcessed;
+    emit changed_FramesProcessed();
 }
 
-inline void InputSettings::reset_DeleteAfter()
+inline void InputSettings::reset_FramesProcessed()
 {
-    DeleteAfter(false);
+    FramesProcessed({}); // TODO: Adapt to use your actual default value
+}
+
+inline unsigned int InputSettings::NullFrames() const
+{
+    return m_NullFrames;
+}
+
+inline void InputSettings::NullFrames(unsigned int new_NullFrames)
+{
+    if (m_NullFrames == new_NullFrames)
+        return;
+    m_NullFrames = new_NullFrames;
+    emit changed_NullFrames();
+}
+
+inline void InputSettings::reset_NullFrames()
+{
+    NullFrames({}); // TODO: Adapt to use your actual default value
+}
+
+inline QString InputSettings::Processing() const
+{
+    return m_Processing;
+}
+
+inline void InputSettings::Processing(const QString &new_Processing)
+{
+    if (m_Processing == new_Processing)
+        return;
+    m_Processing = new_Processing;
+    emit changed_Processing();
 }

@@ -14,6 +14,7 @@ public:
     IfConsoleApp(int argc, char *argv[]);
 
 public: // non-const
+    Uid addCache(const Key &key, const BaseImage &img);
 
 public slots:
     virtual void initialize();

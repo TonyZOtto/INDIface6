@@ -7,8 +7,8 @@ include(../libs.pri)
 
 SOURCES += \
     AText.cpp \
+    BaseErrorCode.cpp \
     Boolean.cpp \
-    ErrorCode.cpp \
     Ident.cpp \
     IdentMap.cpp \
     Key.cpp \
@@ -27,8 +27,8 @@ SOURCES += \
 
 HEADERS += \
     AText.h \
+    BaseErrorCode.h \
     Boolean.h \
-    ErrorCode.h \
     Ident.h \
     IdentMap.h \
     Key.h \

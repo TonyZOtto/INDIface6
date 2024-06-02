@@ -5,7 +5,8 @@ ColorImage::ColorImage()
     format(ColorFormat);
 }
 
-ColorImage::ColorImage(const BaseImage &base)
-    : BaseImage(base.convertedTo(ColorFormat))
+ColorImage::ColorImage(const QImage &qi)
+    : BaseImage(qi, ColorFormat)
 {
+
 }

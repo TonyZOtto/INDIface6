@@ -3,12 +3,15 @@
 #include <QDir>
 #include <QUrlQuery>
 
+#include <BaseErrorCode.h>
 #include <BaseImage.h>
+#include <ColorImage.h>
 
+#include "IfConsoleApp.h"
 #include "InputSettings.h"
 
-ImageAcquisition::ImageAcquisition(QObject *parent)
-    : QObject{parent}
+ImageAcquisition::ImageAcquisition(IfConsoleApp *parent)
+    : BaseIfModule{parent}
 {
     setObjectName("ImageAcquisition");
 }
@@ -39,6 +42,10 @@ void ImageAcquisition::startFiles(const QUrl &url, const QUrlQuery &query)
     const QQStringList cNameFilters = BaseImage::nameFilters(cExtList);
     const QFileInfoList cFIs = cDir.entryInfoList(cNameFilters);
     qDebug() << Q_FUNC_INFO << cFIs;
+    if (cFIs.isEmpty())
+        emit empty();
+    else
+        processFiles(cFIs);
 }
 
 void ImageAcquisition::startHotDir(const QUrl &url, const QUrlQuery &query)
@@ -51,6 +58,44 @@ void ImageAcquisition::startHttp(const QUrl &url, const QUrlQuery &query)
 {
     Q_ASSERT(!"MUSTDO"); // MUSTDO startHttp()
     Q_UNUSED(url); Q_UNUSED(query);
+}
+
+bool ImageAcquisition::processFiles(const QFileInfoList fis)
+{
+    emit allFiles(fis);
+    emit startProcessing(fis.count());
+    Count nProcessed = 0, nNull = 0;
+    foreach (const QFileInfo cFI, fis)
+    {
+        emit processing(cFI);
+        const BaseErrorCode cEC = processFile(cFI);
+        if (cEC.isError())
+            emit processError(++nNull, cFI, cEC);
+        else
+            emit processed(++nProcessed, cFI);
+    }
+    emit finishedProcessing(nProcessed);
+    return 0 == nNull;
+}
+
+BaseErrorCode ImageAcquisition::processFile(const QFileInfo fi)
+{
+    BaseErrorCode result;
+    const QImage cFileImage(fi.filePath());
+    if (cFileImage.isNull())
+        result = BaseErrorCode("ImageAcquisition/processFile/NullFileImage",
+                               "File QImage " + fi.filePath() + " is null");
+    if (result.notError())
+    {
+        const ColorImage cColorImage(cFileImage);
+        if (cColorImage.isNull())
+            result = BaseErrorCode("ImageAcquisition/processFile/NullColorImage",
+                                   "ColorImage for" + fi.filePath() + " is null");
+        if (result.notError())
+            const Uid cUid = app()->addCache(fi.baseName(), cColorImage);
+    }
+
+    return result;
 }
 
 QQStringList ImageAcquisition::enumerateExtensions(const QUrlQuery &query)

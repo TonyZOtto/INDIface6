@@ -192,6 +192,7 @@ Output/VectorDir} = empty
 Output/WriteFaceInfo} = true
 Output/XmlDir} = empty
 PreProcess/Aspect} for 7efef8 = 0
+PreProcess/Clip new
 PreProcess/Crop} for 7efef8 = empty
 PreProcess/Rotate} for 7efef8 = 0
 PreProcess/Scale} for 7efef8 = 0

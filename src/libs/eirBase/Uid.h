@@ -119,10 +119,10 @@ public: // types
 public: // ctors
     Uid(); // null
     Uid(const bool init); // ver4 var7 random
-//    Uid(const Type t, const int typeValue);
 
 public: // const
     bool isNull() const;
+    bool notNull() const { return ! isNull(); }
     QUuid::Variant variant() const;
     QUuid::Version version() const;
     Union toUnion() const;

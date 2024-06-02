@@ -7,6 +7,6 @@ class IFCORE_EXPORT ColorImage : public BaseImage
 {
 public:
     ColorImage();
-    ColorImage(const BaseImage &base);
+    ColorImage(const QImage &qi);
 
 };

@@ -10,15 +10,18 @@
 template <typename U> class PointT
 {
 public: // ctors
-    Point() : mX(0), mY(0) {;}
-    Point(const U w, const U h) : mX(w), mY(h) {;}
-    Point(const QPoint qpt) : mX(qpt.width()), mY(qpt.height()) {;}
-    Point(const QPointF qptf) : mX(qptf.width()), mY(qptf.height()) {;}
+    PointT() : mX(0), mY(0) {;}
+    PointT(const U w, const U h) : mX(w), mY(h) {;}
+    PointT(const QPoint qpt) : mX(qpt.x()), mY(qpt.y()) {;}
+    PointT(const QPointF qptf) : mX(qptf.x()), mY(qptf.y()) {;}
 
 public: // const
     U x() const { return mX; }
     U y() const { return mY; }
+    int intX() const { return (int)(x()); }
+    int intY() const { return (int)(y()); }
     bool isNull() const { return 0 == x() && 0 == y(); }
+    QPoint toQPoint() const { return QPoint(intX, intY); }
 
 public: // non-const
     void x(const U xx) { mX = xx; }

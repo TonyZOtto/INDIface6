@@ -9,7 +9,10 @@
 
 #include "../eIRbase/KeySeg.h"
 #include "../eIRbase/KeySegList.h"
+#include "../eIRbase/Types.h"
+#include "../eIRcore/QQString.h"
 #include "../eIRcore/QQStringList.h"
+#include "../eIRcore/RectT.h"
 #include "../eIRcore/SizeT.h"
 
 class IFCORE_EXPORT BaseImage
@@ -45,12 +48,16 @@ public: // types
 public: // ctors
     BaseImage();
     BaseImage(const QImage::Format format, const Size size=Size());
+    BaseImage(const BaseImage other, const QImage::Format format, const Count clip=0);
+    BaseImage(const QImage in, const QImage::Format format, const Count clip=0);
     BaseImage(const Type type, const Size size=Size());
 
 public: // const
+    bool isNull() const;
     BaseImage convertedTo(const QImage::Format fmt) const;
 
 public: // non-const
+    bool set(const QImage in, const QImage::Format format, const unsigned clip=0);
     void convertTo(const QImage::Format fmt);
 
 public: // static
@@ -62,6 +69,7 @@ public: // static
 
 
     // --------------------- properties -------------------
+public:
     void type(Type new_type);
     QImage::Format format() const;
     void format(const QImage::Format &new_format);
@@ -73,11 +81,14 @@ public: // static
     void image(const QImage &new_image);
     QImage alphaImage() const;
     void alphaImage(const QImage &new_alphaImage);
+    Rect rect() const;
+    void rect(const Rect &new_rect);
+
 protected:
     Type            p_type;
     QImage::Format  p_format;
     ColorTable      p_colorTable;
-    Size            p_size;
+    Rect            p_rect;
     QImage          p_image;
     QImage          p_alphaImage;
     static KeySegList smSupportedFileFormats;
@@ -111,12 +122,12 @@ inline void BaseImage::colorTable(const BaseImage::ColorTable &new_colorTable)
 
 inline Size BaseImage::size() const
 {
-    return p_size;
+    return p_rect.size();
 }
 
 inline void BaseImage::size(const Size &new_size)
 {
-    p_size = new_size;
+    p_rect.size(new_size);
 }
 
 inline QImage BaseImage::image() const
@@ -137,4 +148,14 @@ inline QImage BaseImage::alphaImage() const
 inline void BaseImage::alphaImage(const QImage &new_alphaImage)
 {
     p_alphaImage = new_alphaImage;
+}
+
+inline Rect BaseImage::rect() const
+{
+    return p_rect;
+}
+
+inline void BaseImage::rect(const Rect &new_p_rect)
+{
+    p_rect = new_p_rect;
 }

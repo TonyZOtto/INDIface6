@@ -22,5 +22,6 @@ public: // non-const
 public: // static
     static QQStringList intersect(const QQStringList &lhs, const QQStringList &rhs);
 
+public: // friends
     friend QQStringList operator & (const QQStringList &lhs, const QQStringList &rhs);
 };
