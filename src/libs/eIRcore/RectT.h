@@ -46,7 +46,7 @@ public: // const
     PointT<U> topLeft() const { return PointT(mCenterX - mWidth / 2.0, mCenterY - mHeight / 2.0); }
     SizeT<U> size() const { return SizeT<U>(mWidth, mHeight); }
     RectT clipped(const U clip) const;
-    QRect toQRect() const { return QRect(topLeft().toQPoint(), size().toQSize()); }
+    QRect toQRect() const;
     QRectF toQRectF() const { return QRectF(topLeft(), size()); }
     bool operator == (const RectT<U> &other);
 
@@ -71,6 +71,17 @@ inline RectT<U> RectT<U>::clipped(const U clip) const
     U tClipWidth = mWidth, tClipHeight = mHeight;
     if (clip) tClipWidth = (tClipWidth / clip) * clip, tClipHeight = (tClipHeight / clip) * clip;
     return RectT(center(), SizeT(tClipWidth, tClipHeight));
+}
+
+template<typename U>
+inline QRect RectT<U>::toQRect() const
+{
+    PointT<U> tPointT = topLeft();
+    SizeT<U> tSizeT = size();
+    QPoint tQPoint = tPointT.toQPoint();
+    QSize tQSize = tSizeT.toQSize();
+    return QRect(tQPoint, tQSize);
+//    return QRect(topLeft().toQPoint(), size().toQSize());
 }
 
 template<typename U>

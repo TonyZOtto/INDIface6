@@ -8,6 +8,7 @@
 
 #include "../eIRbase/Types.h"
 #include "../eIRbase/Uid.h"
+#include "../eIRcore/DualMap.h"
 #include "BaseCacheEntry.h"
 class BaseCacheWorker;
 
@@ -40,6 +41,7 @@ public slots:
 private:
     const BaseCacheWorker * cmpWorker=nullptr;
     QMap<Uid, BaseCacheEntry> mUidEntryMap;
+    DualMap<Uid, Key> mUidKeyDMap;
     QMultiMap<EpochMilliseconds, Uid> mTouchEmsUidMap;
 
     // ------------------------ Properties --------------------------

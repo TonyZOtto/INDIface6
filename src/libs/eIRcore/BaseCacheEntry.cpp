@@ -5,6 +5,11 @@
 BaseCacheEntry::BaseCacheEntry() {;}
 BaseCacheEntry::BaseCacheEntry(const Key &entryKey, const Id id) : mIdent(entryKey, id) {;}
 
+Uid BaseCacheEntry::uid() const
+{
+    return ident().uid();
+}
+
 bool BaseCacheEntry::contains(const Key &valueKey) const
 {
     return mKeyMap.contains(valueKey);
@@ -18,11 +23,6 @@ bool BaseCacheEntry::isHeld() const
 QVariant BaseCacheEntry::read(const Key &valueKey) const
 {
     return mKeyMap.value(valueKey);
-}
-
-void BaseCacheEntry::set(const Ident &i)
-{
-    mIdent = i;
 }
 
 void BaseCacheEntry::hold(void *holder)

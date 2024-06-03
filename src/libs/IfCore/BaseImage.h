@@ -3,10 +3,12 @@
 
 #include <QObject>
 
+#include <QVariant>
 #include <QImage>
 #include <QList>
 #include <QRgb>
 
+#include "../eIRbase/Key.h"
 #include "../eIRbase/KeySeg.h"
 #include "../eIRbase/KeySegList.h"
 #include "../eIRbase/Types.h"
@@ -14,6 +16,8 @@
 #include "../eIRcore/QQStringList.h"
 #include "../eIRcore/RectT.h"
 #include "../eIRcore/SizeT.h"
+
+
 
 class IFCORE_EXPORT BaseImage
 {
@@ -34,16 +38,16 @@ public: // types
         FloatPlane,
     };
     typedef QList<QRgb> ColorTable;
-    const QImage::Format MonoFormat = QImage::Format_Mono;
-    const QImage::Format TableFormat = QImage::Format_Indexed8;
-    const QImage::Format Table16Format = QImage::Format_Grayscale16;
-    const QImage::Format GreyScaleFormat = QImage::Format_Grayscale8;
-    const QImage::Format GreyScale16Format = QImage::Format_Grayscale16;
-    const QImage::Format ColorFormat = QImage::Format_ARGB32;
-    const QImage::Format FloatColorFormat = QImage::Format_RGBA16FPx4;
-    const QImage::Format AlphaFormat = QImage::Format_Alpha8;
-    const QImage::Format PlaneFormat = QImage::Format_Indexed8;
-    const QImage::Format FloatPlaneFormat = QImage::Format_Indexed8;
+    static const QImage::Format MonoFormat;
+    static const QImage::Format TableFormat;
+    static const QImage::Format Table16Format;
+    static const QImage::Format GreyScaleFormat;
+    static const QImage::Format GreyScale16Format;
+    static const QImage::Format ColorFormat;
+    static const QImage::Format FloatColorFormat;
+    static const QImage::Format AlphaFormat;
+    static const QImage::Format PlaneFormat;
+    static const QImage::Format FloatPlaneFormat;
 
 public: // ctors
     BaseImage();
@@ -54,22 +58,25 @@ public: // ctors
 
 public: // const
     bool isNull() const;
+    bool notNull() const { return ! isNull(); }
     BaseImage convertedTo(const QImage::Format fmt) const;
+    QVariant toVariant() const;
 
 public: // non-const
     bool set(const QImage in, const QImage::Format format, const unsigned clip=0);
     void convertTo(const QImage::Format fmt);
 
 public: // static
+    static BaseImage fromVariant(const QVariant &var);
     static QImage::Format format(const Type t);
     static Type type(const QImage::Format f);
     static KeySegList supportedFileFormats();
     static QQStringList supportedFileExtensionList();
     static QQStringList nameFilters(const QQStringList &extList);
 
-
     // --------------------- properties -------------------
 public:
+    Type type() const { return p_type; }
     void type(Type new_type);
     QImage::Format format() const;
     void format(const QImage::Format &new_format);
@@ -86,14 +93,18 @@ public:
 
 protected:
     Type            p_type;
-    QImage::Format  p_format;
+    QImage::Format  p_format=QImage::Format_Invalid;
     ColorTable      p_colorTable;
     Rect            p_rect;
     QImage          p_image;
     QImage          p_alphaImage;
+    static const Key smDatastreamKey;
     static KeySegList smSupportedFileFormats;
     static QQStringList smSupportedFileExtensionList;
 };
+
+
+// --------------------- properties -------------------
 
 inline void BaseImage::type(BaseImage::Type new_type)
 {

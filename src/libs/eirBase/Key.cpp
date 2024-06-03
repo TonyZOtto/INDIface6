@@ -60,6 +60,11 @@ bool Key::operator <(const Key &rhs) const
     return toString() < rhs.toString();
 }
 
+bool Key::operator ==(const Key &rhs) const
+{
+    return toString() == rhs.toString();
+}
+
 KeySeg::List Key::split(const AText &atx, const QChar hinge)
 {
     KeySeg::List result;

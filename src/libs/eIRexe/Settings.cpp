@@ -57,6 +57,21 @@ void Settings::setValue(const QString &key, const QVariant &newValue)
     QSettings::setValue(key, newValue);
 }
 
+const KeyMap Settings::map(const Key groupKey)
+{
+    KeyMap result;
+    if (groupKey.notNull()) beginGroup(groupKey());
+    const QStringList tKeys = allKeys();
+    foreach (const QString cSKey, tKeys)
+    {
+        const Key cKey(cSKey);
+        const QVariant cVar = QSettings::value(cSKey);
+        result.insert(cKey, cVar);
+    }
+    if (groupKey.notNull()) endGroup();
+    return result;
+}
+
 void Settings::insert(const SettingsMap &map)
 {
     foreach(const QString cKey, map.keys())
@@ -231,8 +246,8 @@ QString Settings::source() const
     case QSettings::Registry32Format:
     case QSettings::Registry64Format:
     case QSettings::NativeFormat:
-        result = QString("%3:%1/%2").arg(organizationName(), applicationName(),
-                    scope() ? "HKLM" : "HKCU");
+        result = QString("%3:/Software/%1/%2").arg(organizationName(), applicationName(),
+                                                    scope() ? "HKLM" : "HKCU");
         break;
     case QSettings::IniFormat:
         result = fileName();

@@ -6,6 +6,7 @@
 #include <BaseErrorCode.h>
 #include <BaseImage.h>
 #include <ColorImage.h>
+#include <MillisecondTime.h>
 
 #include "IfConsoleApp.h"
 #include "InputSettings.h"
@@ -18,7 +19,6 @@ ImageAcquisition::ImageAcquisition(IfConsoleApp *parent)
 
 void ImageAcquisition::initialize()
 {
-//    settings()->read();
 }
 
 void ImageAcquisition::start(const QUrl &url)
@@ -92,9 +92,19 @@ BaseErrorCode ImageAcquisition::processFile(const QFileInfo fi)
             result = BaseErrorCode("ImageAcquisition/processFile/NullColorImage",
                                    "ColorImage for" + fi.filePath() + " is null");
         if (result.notError())
-            const Uid cUid = app()->addCache(fi.baseName(), cColorImage);
+        {
+            Ident tFrameIdent(fi.baseName());
+            FrameData tFrameData(tFrameIdent);
+            QVariant tColorImageVar = cColorImage.toVariant();
+            tFrameData.insert("Input/Source/URL", app()->inputMap().value("URL"));
+            tFrameData.insert("Input/Source/EMS", MillisecondTime::current().toString("DyyyyMMdd-Thhmmsszzz"));
+            tFrameData.insert("Input/Source/FileName", fi.baseName());
+            tFrameData.insert("Input/Source/FileImage", cFileImage);
+            tFrameData.insert("Input/Source/ColorImage", tColorImageVar);
+            const Uid cUid = app()->cache().frame(tFrameData);
+            mCacheUidQueue.enqueue(cUid);
+        }
     }
-
     return result;
 }
 

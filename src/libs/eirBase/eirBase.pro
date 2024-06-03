@@ -35,6 +35,7 @@ HEADERS += \
     KeyMap.h \
     KeySeg.h \
     KeySegList.h \
+    MetaType.h \
     MillisecondTime.h \
     Nibble.h \
     NibbleArray.h \

@@ -16,7 +16,7 @@ public: // types
 
 public: // ctors
     Key() {;}
-    Key(const char * pch) { set(pch); }
+    Key(const char * psz) { set(psz); }
     Key(const AText &atx) { set(atx); }
     Key(const QString &qs) { set(qs); }
     Key(const KeySeg::List &segs) { set(segs); }
@@ -41,6 +41,7 @@ public: // const
     operator QString () const { return toString(); }
     QString operator () () const { return toString(); }
     bool operator < (const Key &rhs) const;
+    bool operator == (const Key &rhs) const;
 
 public: // non-const
     void set(const char * pch);

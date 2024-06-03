@@ -7,6 +7,8 @@
 #include <QUrl>
 
 #include <Types.h>
+#include <Uid.h>
+#include <MutexQueue.h>
 #include <QQString.h>
 #include <QQStringList.h>
 class BaseErrorCode;
@@ -38,7 +40,6 @@ public: // non-const
     void start(const QUrl &url);
 
 public: // pointers
-    InputSettings * inputSettings();
 
 private:
     void startFiles(const QUrl &url, const QUrlQuery &query);
@@ -51,9 +52,8 @@ private:
     static QDir dir(const QUrl &url);
 
 private:
-    InputSettings * mpInputSettings=nullptr;
     QFileInfoList mFileInfoList;
+    MutexQueue<Uid> mCacheUidQueue;
 };
 
 inline QFileInfoList ImageAcquisition::fileInfoList() const { return mFileInfoList; }
-inline InputSettings *ImageAcquisition::inputSettings() { Q_CHECK_PTR(mpInputSettings); return mpInputSettings; }

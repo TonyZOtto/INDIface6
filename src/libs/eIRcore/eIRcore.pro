@@ -26,6 +26,7 @@ HEADERS += \
     BaseCacheEntry.h \
     BaseCacheWorker.h \
     BaseUidCache.h \
+    DualMap.h \
     IODevice.h \
     MutexQueue.h \
     ObjectHelper.h \

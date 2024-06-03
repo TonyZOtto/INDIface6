@@ -7,6 +7,9 @@
 #include <QVariant>
 class QTimer;
 
+#include "../eIRbase/Key.h"
+#include "../eIRbase/KeyMap.h"
+
 class Setting;
 class SettingProperty;
 class SettingsScanner;
@@ -39,6 +42,7 @@ public: // overrides
     void setValue(const QString & key, const QVariant &newValue);
 
 public: // const
+    const KeyMap map(const Key groupKey=Key());
     const QString pollCountKey() const;
     const QString updateMsecKey() const;
 

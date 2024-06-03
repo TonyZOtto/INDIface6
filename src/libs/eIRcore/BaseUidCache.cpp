@@ -1,5 +1,7 @@
 #include "BaseUidCache.h"
 
+#include "../eIRbase/MillisecondTime.h"
+
 #include "BaseCacheWorker.h"
 
 BaseUidCache::BaseUidCache(QObject *parent)
@@ -35,6 +37,15 @@ Uid::List BaseUidCache::uidsInTouchOrder() const
     return mTouchEmsUidMap.values();
 }
 
+Uid BaseUidCache::add(const BaseCacheEntry &entry)
+{
+    const Uid cCacheUid = entry.uid().isNull() ? Uid(true) : entry.uid();
+    mUidEntryMap.insert(cCacheUid, entry);
+    mUidKeyDMap.insertUnique(cCacheUid, entry.ident().key());
+    mTouchEmsUidMap.insert(MillisecondTime::current(), cCacheUid);
+    return cCacheUid;
+}
+
 void BaseUidCache::remove(const Uid uid)
 {
     const BaseCacheEntry cBCE = read(uid);
@@ -42,5 +53,7 @@ void BaseUidCache::remove(const Uid uid)
     const EpochMilliseconds cEms= cBCE.lastTouch();
     if (mTouchEmsUidMap.contains(cEms, uid))
         mTouchEmsUidMap.remove(cEms, uid);
+    if (mUidKeyDMap.contains(uid))
+        mUidKeyDMap.remove(uid);
     mUidEntryMap.remove(uid);
 }
