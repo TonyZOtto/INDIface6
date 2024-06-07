@@ -2,10 +2,10 @@
 
 #include "Types.h"
 
-AText::AText(const char *pch)
-    : QByteArray(pch)
+AText::AText(const char *psz)
+    : QByteArray(psz)
 {
-//    qDebug() << Q_FUNC_INFO << pch << constData();
+    qDebug() << Q_FUNC_INFO << psz << constData();
 }
 
 QString AText::toString() const

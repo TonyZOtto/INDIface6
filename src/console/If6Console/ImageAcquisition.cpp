@@ -25,7 +25,8 @@ void ImageAcquisition::start(const QUrl &url)
 {
     setObjectName("ImageAcquisition:" + url.toString());
     const QString cScheme = url.scheme();
-    QUrlQuery cQuery = QUrlQuery(url.query());
+    const QUrlQuery cQuery = QUrlQuery(url.query());
+    qInfo() << "Input/URL:" << url << cScheme << cQuery.toString();
     if ("files" == cScheme)
         startFiles(url, cQuery);
     else if ("dir" == cScheme)
@@ -64,6 +65,7 @@ bool ImageAcquisition::processFiles(const QFileInfoList fis)
 {
     emit allFiles(fis);
     emit startProcessing(fis.count());
+    qInfo() << "===Prtocessing Files: ";
     Count nProcessed = 0, nNull = 0;
     foreach (const QFileInfo cFI, fis)
     {
@@ -73,6 +75,7 @@ bool ImageAcquisition::processFiles(const QFileInfoList fis)
             emit processError(++nNull, cFI, cEC);
         else
             emit processed(++nProcessed, cFI);
+        qInfo() << nProcessed << cFI.baseName();
     }
     emit finishedProcessing(nProcessed);
     return 0 == nNull;

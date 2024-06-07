@@ -52,12 +52,38 @@ bool Logger::start()
                                      .arg(QCoreApplication::applicationVersion())
                                      .arg(QCoreApplication::applicationDirPath())
                                      .arg(QCoreApplication::applicationPid())
-                                     .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm"));
+                                     .arg(QDateTime::currentDateTime()
+                                              .toString("yyyy-MM-dd hh:mm"));
     LogItem tLI(LOGCTX(Log::Progress), cStartString);
     LOG->add(&tLI);
     return true;
 }
+/*
+ #include <QApplication>
+ #include <stdio.h>
+ #include <stdlib.h>
 
+ QtMessageHandler originalHandler = nullptr;
+
+ void logToFile(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+ {
+     QString message = qFormatLogMessage(type, context, msg);
+     static FILE *f = fopen("log.txt", "a");
+     fprintf(f, "%s\n", qPrintable(message));
+     fflush(f);
+
+     if (originalHandler)
+         *originalHandler(type, context, msg);
+ }
+
+ int main(int argc, char **argv)
+ {
+     originalHandler = qInstallMessageHandler(logToFile);
+     QApplication app(argc, argv);
+     ...
+     return app.exec();
+ }
+*/
 void Logger::add(LogItem * li)
 {
     mInputItemQueue.append(li);
@@ -68,6 +94,8 @@ void Logger::add(LogItem * li)
 
 bool Logger::openFile(const OutputLogUrl &url, const Log::LevelFlags flags)
 {
+    QString tFileName = url.toLocalFile();
+
     Q_UNUSED(url); Q_UNUSED(flags); return true;// MUSTDO
     // TODO replace % with Org-App
     // TODO replace @ with timestamp

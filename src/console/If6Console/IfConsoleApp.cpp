@@ -19,25 +19,29 @@ IfConsoleApp::IfConsoleApp(int argc, char *argv[])
     QTimer::singleShot(500, this, &IfConsoleApp::initialize);
 }
 
-KeyMap IfConsoleApp::settingsMap(const Key &groupKey)
+QSettings::SettingsMap IfConsoleApp::settingsMap()
 {
-    KeyMap result;
-    const QString cPrefix = groupKey();
-    if (groupKey.notNull()) settings()->beginGroup(cPrefix);
+    QSettings::SettingsMap result;
     const QStringList tKeys = settings()->allKeys();
     foreach (const QString cSKey, tKeys)
     {
-        const Key cKey(cSKey);
         const QVariant cVar = settings()->value(cSKey);
-        result.insert(cKey, cVar);
+        result.insert(cSKey, cVar);
     }
-    if ( ! cPrefix.isEmpty()) settings()->endGroup();
     return result;
 }
 
-KeyMap IfConsoleApp::settingsMap(const char *psz)
+QSettings::SettingsMap IfConsoleApp::settingsMap(const QString &groupKey)
 {
-    return settingsMap(Key(psz));
+    settings()->beginGroup(groupKey);
+    QSettings::SettingsMap result = settingsMap();
+    settings()->endGroup();
+    return result;
+}
+
+QSettings::SettingsMap IfConsoleApp::settingsMap(const char *psz)
+{
+    return settingsMap(QString(psz));
 }
 
 #if 0
@@ -52,11 +56,11 @@ Uid IfConsoleApp::addCache(const Key &key, const BaseImage &img)
 void IfConsoleApp::initialize()
 {
     ConsoleApplication::initialize();
-    //const QUrl cLogUrl = settings()->value("Output/LogUrl", "file://./log/%-@.log").toUrl();
-//    const Log::LevelFlags cLogFlags = Log::LevelFlags(settings()->value("Output/LogFlags",
-  //                                      unsigned(Log::UserFlags | Log::TraceFlags)).toUInt());
-    //Q_ASSERT(LOG->open(QUrl("troll:"), cLogFlags));
-    //Q_ASSERT(LOG->open(cLogUrl, cLogFlags));
+    const QUrl cLogUrl = settings()->value("Output/LogUrl", "file://./log/%-@.log").toUrl();
+    const Log::LevelFlags cLogFlags = Log::LevelFlags(settings()->value("Output/LogFlags",
+                            unsigned(Log::UserFlags | Log::TraceFlags)).toUInt());
+    Q_ASSERT(LOG->open(QUrl("troll:"), cLogFlags));
+    Q_ASSERT(LOG->open(cLogUrl, cLogFlags));
     mpAcquisition = new ImageAcquisition(this);
     emit initialized();
 }

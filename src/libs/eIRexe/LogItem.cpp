@@ -157,7 +157,7 @@ void LogItem::set(const char *pchFormat, const ArgumentInfoList &args)
         m_arguments = args;
 }
 
-QVariant LogItem::format(const Log::FileOutputFormat fmt) const
+QVariant LogItem::format(const Log::OutputFormat fmt) const
 {
     QVariant result;
     switch (fmt)

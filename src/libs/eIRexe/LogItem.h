@@ -66,7 +66,7 @@ public: // const
     LogMsgType msgtype() const;
     QVariantList argumentVars() const;
     QVariant format() const;
-    QVariant format(const Log::FileOutputFormat fmt) const;
+    QVariant format(const Log::OutputFormat fmt) const;
 
 public: // non-const
 

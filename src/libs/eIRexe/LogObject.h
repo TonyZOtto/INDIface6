@@ -114,26 +114,26 @@ public: // types
 
     enum UrlType
     {
-        $nullUrlType = 0,
-        OutputUrl,
+        $nullUrlType          = 0,
+        OutputUrl             = 101,
         CacheUrl,
     };
     Q_ENUM(UrlType);
 
     enum OutputScheme
     {
-        $nullOutputScheme = 0,
-        NoneOutputScheme,
+        $nullOutputScheme     = 0,
+        NoneOutputScheme      = 201,
         FileOutputScheme,
         TrollOutputScheme,
         SqlOutputScheme,
     };
     Q_ENUM(OutputScheme);
 
-    enum FileOutputFormat
+    enum OutputFormat
     {
-        $nullFileOutputFormat = 0,
-        TextFileSingleOutput,
+        $nullOutputFormat       = 0,
+        TextFileSingleOutput    = 301,
         TextFileMultiOutput,
         XmlFileOutput,
         DataFileOutput,
@@ -142,7 +142,7 @@ public: // types
         XmlSqlOutput,
         XmlNoSqlOutput,
     };
-    Q_ENUM(FileOutputFormat);
+    Q_ENUM(OutputFormat);
 
 public:
     explicit Log(QObject *parent = nullptr);

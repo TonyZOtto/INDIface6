@@ -2,7 +2,7 @@
 
 #include <QObject>
 
-class QSettings;
+#include <QSettings>
 
 #include <ConsoleApplication.h>
 #include <IfCache.h>
@@ -15,17 +15,17 @@ public:
     IfConsoleApp(int argc, char *argv[]);
 
 public: // const
-    KeyMap settingsMap(const Key &groupKey=Key());
-    KeyMap settingsMap(const char * psz);
+    QSettings::SettingsMap settingsMap();
+    QSettings::SettingsMap settingsMap(const QString &groupKey);
+    QSettings::SettingsMap settingsMap(const char * psz);
 
 public: // non-const
     IfCache & cache();
-//    Uid addCache(const Key &key, const BaseImage &img);
 
 public: // pointers
     QSettings * settings();
     ImageAcquisition * acquisition();
-    KeyMap & inputMap();
+    QSettings::SettingsMap & inputMap();
 
 public slots:
     virtual void initialize();
@@ -38,10 +38,10 @@ private:
     IfCache mCache;
     QSettings * mpSettings=nullptr;
     ImageAcquisition * mpAcquisition=nullptr;
-    KeyMap mInputMap;
+    QSettings::SettingsMap mInputMap;
 };
 
 inline IfCache &IfConsoleApp::cache() { return mCache; }
 inline QSettings *IfConsoleApp::settings() { Q_CHECK_PTR(mpSettings); return mpSettings; }
 inline ImageAcquisition *IfConsoleApp::acquisition() { Q_CHECK_PTR(mpAcquisition); return mpAcquisition; }
-inline KeyMap &IfConsoleApp::inputMap() { return mInputMap; }
+inline QSettings::SettingsMap &IfConsoleApp::inputMap() { return mInputMap; }

@@ -9,12 +9,10 @@ TrollLogOutput::TrollLogOutput(const OutputLogUrl &url, const Log::LevelFlags fl
     setObjectName("TrollLogOutput");
 }
 
-bool TrollLogOutput::open(const OutputLogUrl &url, const Log::LevelFlags flags)
+bool TrollLogOutput::open(const OutputLogUrl &u, const Log::LevelFlags fs)
 {
-    // TODO TrollLogOutput::open() Anything?
-    Q_UNUSED(url);
-    mOpenMode = QIODevice::WriteOnly | QIODevice::Append;
-    mLevelFlags = flags;
+    url(u), flags(fs), mode(QIODevice::WriteOnly | QIODevice::Append);
+
     return true;
 }
 
