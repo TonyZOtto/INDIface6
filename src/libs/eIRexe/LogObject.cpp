@@ -77,3 +77,18 @@ Log::OutputScheme Log::outputScheme(const AText key)
 #endif
     return result;
 }
+
+Log::OutputFormat Log::outputFormat(const AText key)
+{
+    Log::OutputFormat result = Log::$nullOutputFormat;
+    const AText cKey = key.toLower();
+    if ("txtfile" == cKey)          result = Log::TextFileSingleOutput;
+    else if ("mtxtfile" == cKey)    result = Log::TextFileMultiOutput;
+    else if ("mtxtfile" == cKey)    result = Log::TextFileMultiOutput;
+    else if ("xmlfile" == cKey)    result = Log::TextFileMultiOutput;
+    else if ("datafile" == cKey)    result = Log::TextFileMultiOutput;
+    else if ("sqlrec" == cKey)    result = Log::TextFileMultiOutput;
+    else if ("sqlxmlfile" == cKey)    result = Log::TextFileMultiOutput;
+    else if ("nosqlxmlfile" == cKey)    result = Log::TextFileMultiOutput;
+    return result;
+}

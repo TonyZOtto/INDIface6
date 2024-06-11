@@ -23,11 +23,11 @@ Log::OutputFormat OutputLogUrl::parseOutFormat()
         else if ("TextStream" == cFormat)
             result = Log::StreamFileOutput;
         else if ("XmlRecord" == cFormat)
-            result = Log::RecordSqlOutput;
+            result = Log::SqlRecordOutput;
         else if ("XmlSql" == cFormat)
-            result = Log::XmlSqlOutput;
+            result = Log::SqlXmlOutput;
         else if ("XmlNoSql" == cFormat)
-            result = Log::XmlNoSqlOutput;
+            result = Log::NoSqlXmlOutput;
         else
             qWarning() << "Unhandled Log Output Format:" << cFormat;
     }

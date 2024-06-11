@@ -138,9 +138,9 @@ public: // types
         XmlFileOutput,
         DataFileOutput,
         StreamFileOutput,
-        RecordSqlOutput,
-        XmlSqlOutput,
-        XmlNoSqlOutput,
+        SqlRecordOutput,
+        SqlXmlOutput,
+        NoSqlXmlOutput,
     };
     Q_ENUM(OutputFormat);
 
@@ -152,6 +152,7 @@ public: // static
     static LogMsgType msgType(const Log::Level lvl);
     static QChar levelChar(const Log::Level lvl);
     static OutputScheme outputScheme(const AText key);
+    static OutputFormat outputFormat(const AText key);
 
 signals:
 };

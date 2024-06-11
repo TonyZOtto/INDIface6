@@ -167,9 +167,9 @@ QVariant LogItem::format(const Log::OutputFormat fmt) const
     case Log::XmlFileOutput:            Q_ASSERT(!"TODO"); /* TODO(XmlFileOutput); */       break;
     case Log::DataFileOutput:           Q_ASSERT(!"TODO"); /* TODO(DataFileOutput); */      break;
     case Log::StreamFileOutput:         Q_ASSERT(!"TODO"); /* TODO(StreamFileOutput); */    break;
-    case Log::RecordSqlOutput:          Q_ASSERT(!"TODO"); /* TODO(RecordSqlOutput); */     break;
-    case Log::XmlSqlOutput:             Q_ASSERT(!"TODO"); /* TODO(XmlSqlOutput); */        break;
-    case Log::XmlNoSqlOutput:           Q_ASSERT(!"TODO"); /* TODO(XmlNoSqlOutput); */      break;
+    case Log::SqlRecordOutput:          Q_ASSERT(!"TODO"); /* TODO(RecordSqlOutput); */     break;
+    case Log::SqlXmlOutput:             Q_ASSERT(!"TODO"); /* TODO(XmlSqlOutput); */        break;
+    case Log::NoSqlXmlOutput:           Q_ASSERT(!"TODO"); /* TODO(XmlNoSqlOutput); */      break;
     default:                            /* leave null result */         break;
     }
     return result;

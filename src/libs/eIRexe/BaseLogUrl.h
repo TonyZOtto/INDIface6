@@ -20,14 +20,16 @@ protected:
 
 public:
     virtual Log::UrlType type() const = 0;
-    bool hasQuery(const QString &key) const;
-    QString queryValue(const QString &key) const;
-    QIODevice::OpenMode openMode() const;
 
 public:
     void set(const Log::UrlType luty);
     void set(const QString &s);
     void set(const QUrl &url);
+
+protected:
+    bool hasQuery(const QString &key) const;
+    QString queryValue(const QString &key) const;
+    QIODevice::OpenMode openMode() const;
 
 private:
     void parseOpenMode();

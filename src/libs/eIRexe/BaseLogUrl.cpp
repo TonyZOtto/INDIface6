@@ -4,6 +4,8 @@
 
 #include "../eIRcore/IODevice.h"
 
+#include "LogObject.h"
+
 BaseLogUrl::BaseLogUrl() { set(Log::$nullUrlType); }
 
 BaseLogUrl::BaseLogUrl(const Log::UrlType luty, const QString &s)
@@ -14,16 +16,6 @@ BaseLogUrl::BaseLogUrl(const Log::UrlType luty, const QString &s)
 BaseLogUrl::BaseLogUrl(const Log::UrlType luty, const QUrl &url)
 {
     set(luty); set(url);
-}
-
-bool BaseLogUrl::hasQuery(const QString &key) const
-{
-    return mQuery.hasQueryItem(key);
-}
-
-QString BaseLogUrl::queryValue(const QString &key) const
-{
-    return mQuery.queryItemValue(key);
 }
 
 void BaseLogUrl::set(const Log::UrlType luty)
@@ -45,6 +37,17 @@ void BaseLogUrl::set(const QUrl &url)
     parseOpenMode();
 }
 
+bool BaseLogUrl::hasQuery(const QString &key) const
+{
+    return mQuery.hasQueryItem(key);
+}
+
+QString BaseLogUrl::queryValue(const QString &key) const
+{
+    return mQuery.queryItemValue(key);
+}
+
+
 void BaseLogUrl::parseOpenMode()
 {
     mOpenMode = QIODevice::NotOpen;
@@ -54,4 +57,5 @@ void BaseLogUrl::parseOpenMode()
         mOpenMode = IODevice::openMode(tOMValues);
     }
 }
+
 
