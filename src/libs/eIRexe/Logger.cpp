@@ -10,6 +10,7 @@
 #include "../eIRcore/ObjectHelper.h"
 #include "Log.h"
 #include "LogMacros.h"
+#include "OutputLogUrlList.h"
 #include "TrollLogOutput.h"
 
 Logger::Logger(QObject *parent)
@@ -21,10 +22,10 @@ Logger::Logger(QObject *parent)
 bool Logger::open(const QString &aOutputLogUrlStrings)
 {
     const OutputLogUrlList cOutputLogUrlList(aOutputLogUrlStrings);
+    Q_ASSERT(!"MUSTDO"); return false; // MUSTDO
 }
 
 bool Logger::start()
-
 {
     const QString cStartString = QString("Starting %1 v%2 from %3 on PID %4 at %5")
                                      .arg(QCoreApplication::applicationName())

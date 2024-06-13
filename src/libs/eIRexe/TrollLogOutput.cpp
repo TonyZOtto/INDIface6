@@ -12,7 +12,6 @@ TrollLogOutput::TrollLogOutput(const OutputLogUrl &url, QObject *parent)
 bool TrollLogOutput::open(const OutputLogUrl &u)
 {
     url(u), mode(QIODevice::WriteOnly | QIODevice::Append);
-
     return true;
 }
 

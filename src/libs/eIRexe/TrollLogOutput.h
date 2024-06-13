@@ -12,8 +12,8 @@ public:
     explicit TrollLogOutput(const OutputLogUrl &url, QObject *parent = nullptr);
 
 public:
-    virtual bool open(const OutputLogUrl &url);
-    virtual bool write(const LogItem &item);
+    virtual bool open(const OutputLogUrl &url) override;
+    virtual bool write(const LogItem &item) override;
 
 private:
     void write(const LogMsgType lmt, const QString &s);

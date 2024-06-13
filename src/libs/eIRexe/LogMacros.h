@@ -6,7 +6,7 @@ Q_GLOBAL_STATIC(Logger, LOG);
 
 
 #define LOGCTX(lvl) Context(Q_FUNC_INFO, __FILE__, __LINE__, lvl)
-#define LOGITEMSG(lvl, msg) (new LogItem(LOGCTX(lvl), msg))
+#define LOGITEMSG(lvl, msg) (LogItem(LOGCTX(lvl), msg))
 #define LOGITEMF1(lvl, fmt, arg1) LogItem(LOGCTX(lvl), fmt, #arg1, arg1)
 #define LOGITEMF2(lvl, fmt, arg1, arg2) LogItem(LOGCTX(lvl), fmt, #arg1, arg1, #arg2, arg2)
 #define LOGITEMF3(lvl, fmt, arg1, arg2, arg3) LogItem(LOGCTX(lvl), fmt, #arg1, arg1, #arg2, arg2, #arg3, arg3)

@@ -20,7 +20,7 @@ public: // const
     bool isFlag(const Log::LevelFlag level) const;
 
 public: // virtual
-    virtual bool open(const OutputLogUrl &url, const Log::LevelFlags flags) = 0;
+    virtual bool open(const OutputLogUrl &url) = 0;
     virtual bool write(const LogItem &item) = 0;
 
 public: // non-const

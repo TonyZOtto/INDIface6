@@ -6,7 +6,7 @@
 #include "../eIRbase/KeySeg.h"
 #include "../eIRbase/KeySegList.h"
 
-class EIREXE_EXPORT FunctionInfo : public QObject
+class EIREXE_EXPORT FunctionInfo
 {
     Q_GADGET
 public: // types

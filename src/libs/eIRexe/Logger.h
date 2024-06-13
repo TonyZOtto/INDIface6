@@ -54,7 +54,7 @@ signals:
     void queueEmpty();
 
 private:
-    MutexQueue<LogItem *> mInputItemQueue;
+    MutexQueue<LogItem> mInputItemQueue;
     Log::LevelFlags mMasterOutputLevelFlags = Log::LevelFlags(0);
     QList<BaseLogOutput *> mOutputList;
 };

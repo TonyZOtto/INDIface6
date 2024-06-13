@@ -44,6 +44,7 @@ public: // types
 
 public: // ctors
     explicit LogItem();
+    explicit LogItem(const LogItem &other);
     LogItem(const Context &ctx, const char * pchMessage);
     LogItem(const Context &ctx, const QString msg);
     LogItem(const Context &ctx, const char * pchFormat,
