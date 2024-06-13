@@ -4,6 +4,7 @@
 #include <QObject>
 
 #include <QQueue>
+#include <QMap>
 #include <QString>
 #include <QUrl>
 class QVariant;
@@ -31,6 +32,8 @@ public slots:
 
 public: // non-const
     Success open(const QString &aOutputLogUrlStrings);
+    Success close();
+    Success close(const OutputLogUrl aOutputLogUrl);
     bool start();
     bool hookTrollIn();
     bool hookTrollOut();
@@ -57,5 +60,5 @@ signals:
 private:
     MutexQueue<LogItem> mInputItemQueue;
     Log::LevelFlags mMasterOutputLevelFlags = Log::LevelFlags(0);
-    QList<BaseLogOutput *> mOutputList;
+    QMap<OutputLogUrl, BaseLogOutput *> mUrlOutputMap;
 };

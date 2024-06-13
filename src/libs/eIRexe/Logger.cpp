@@ -7,6 +7,7 @@
 #include <QVariant>
 
 #include "../eIRbase/AText.h"
+#include "../eIRbase/Success.h"
 #include "../eIRcore/ObjectHelper.h"
 #include "Log.h"
 #include "LogMacros.h"
@@ -25,6 +26,22 @@ Success Logger::open(const QString &aOutputLogUrlStrings)
     const OutputLogUrlList cOutputLogUrlList(aOutputLogUrlStrings);
     foreach (const OutputLogUrl cUrl, cOutputLogUrlList)
         success.expect(open(cUrl));
+    return success;
+}
+
+Success Logger::close()
+{
+    Success success;
+    foreach (const OutputLogUrl cUrl, mUrlOutputMap.keys())
+        success.expect(close(cUrl).isTrue());
+    return success;
+}
+
+Success Logger::close(const OutputLogUrl aOutputLogUrl)
+{
+    Success success;
+    // TODO remove from list
+    success.expect(false);
     return success;
 }
 

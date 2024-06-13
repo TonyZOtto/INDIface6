@@ -58,6 +58,9 @@ void IfConsoleApp::initialize()
     ConsoleApplication::initialize();
     const QString cLogUrlsString = settings()->value("Output/LogUrls",
                             "file://./log/%-@.log;troll:").toString();
+    LOG->closeAll();
+    if ("{none}" != cLogUrlsString)
+        LOG->open(cLogUrlsString);
     mpAcquisition = new ImageAcquisition(this);
     emit initialized();
 }

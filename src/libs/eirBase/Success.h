@@ -28,4 +28,5 @@ public: // const
 
 public: // non-const
     bool expect(const bool is);
+    bool expect(const Success aSuccess);
 };
