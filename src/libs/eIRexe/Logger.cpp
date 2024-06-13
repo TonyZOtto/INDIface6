@@ -19,10 +19,13 @@ Logger::Logger(QObject *parent)
     setObjectName("Logger");
 }
 
-bool Logger::open(const QString &aOutputLogUrlStrings)
+Success Logger::open(const QString &aOutputLogUrlStrings)
 {
+    Success success;
     const OutputLogUrlList cOutputLogUrlList(aOutputLogUrlStrings);
-    Q_ASSERT(!"MUSTDO"); return false; // MUSTDO
+    foreach (const OutputLogUrl cUrl, cOutputLogUrlList)
+        success.expect(open(cUrl));
+    return success;
 }
 
 bool Logger::start()
@@ -96,9 +99,9 @@ bool Logger::open(const OutputLogUrl &aOutputLogUrl)
     const Log::OutputScheme cOutScheme = Log::outputScheme(cUrlScheme);
     switch (cOutScheme)
     {
-    case Log::FileOutputScheme:     result = openFile(aOutputLogUrl);      break;
-    case Log::TrollOutputScheme:    result = openTroll(aOutputLogUrl);     break;
-    case Log::SqlOutputScheme:      result = openSql(aOutputLogUrl);       break;
+    case Log::FileOutputScheme:     result = openFile(aOutputLogUrl);   break;
+    case Log::TrollOutputScheme:    result = openTroll(aOutputLogUrl);  break;
+    case Log::SqlOutputScheme:      result = openSql(aOutputLogUrl);    break;
     default:                        /* false result */                  break;
     };
 
@@ -110,12 +113,14 @@ bool Logger::openFile(const OutputLogUrl &aOutputLogUrl)
 {
     Q_UNUSED(aOutputLogUrl); return true; // MUSTDO
     QString tFileName = aOutputLogUrl.toLocalFile();
+    Q_ASSERT(!"MUSTDO")    ;
     // TODO replace % with Org-App
     // TODO replace @ with timestamp
 }
 
 bool Logger::openTroll(const OutputLogUrl &aOutputLogUrl)
 {
+    Q_ASSERT(!"MUSTDO")    ;
     bool result = false;
     TrollLogOutput * pOut = new TrollLogOutput(aOutputLogUrl, this);
     Q_CHECK_PTR(pOut);
@@ -126,6 +131,7 @@ bool Logger::openTroll(const OutputLogUrl &aOutputLogUrl)
 
 bool Logger::openSql(const OutputLogUrl &aOutputLogUrl)
 {
+    Q_ASSERT(!"MUSTDO")    ;
     Q_UNUSED(aOutputLogUrl); return false;// MUSTDO
 }
 

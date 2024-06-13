@@ -1,4 +1,6 @@
+//!file {Eclipse6}/root/src/libs/eirBase6/AText.h ASCII Text
 #pragma once
+#include "eirBase.h"
 
 #include "Boolean.h"
 
@@ -15,7 +17,7 @@
  *
  */
 
-class Success : public Boolean
+class EIRBASE_EXPORT Success : public Boolean
 {
 public: // ctors
     Success();  // invalid

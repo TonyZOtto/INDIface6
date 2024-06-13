@@ -9,6 +9,7 @@
 class QVariant;
 
 #include "../eIRbase/Boolean.h"
+#include "../eIRbase/Success.h"
 #include "../eIRbase/Types.h"
 #include "../eIRcore/MutexQueue.h"
 #include "LogItem.h"
@@ -29,7 +30,7 @@ public: // const
 public slots:
 
 public: // non-const
-    bool open(const QString &aOutputLogUrlStrings);
+    Success open(const QString &aOutputLogUrlStrings);
     bool start();
     bool hookTrollIn();
     bool hookTrollOut();
