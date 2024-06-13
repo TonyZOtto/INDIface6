@@ -12,7 +12,7 @@ class BaseLogOutput : public QObject
 public: // ctors
     explicit BaseLogOutput(QObject *parent = nullptr);
 protected:
-    BaseLogOutput(const OutputLogUrl &url, const Log::LevelFlags flags, QObject *parent = nullptr);
+    BaseLogOutput(const OutputLogUrl &url, QObject *parent = nullptr);
 
 public: // const
     QIODevice::OpenMode mode() const;
@@ -26,37 +26,15 @@ public: // virtual
 public: // non-const
     void url(const OutputLogUrl u);
     void mode(const QIODevice::OpenMode m);
-    void flags(const Log::LevelFlags fs);
 
 signals:
 
 protected:
     OutputLogUrl mUrl;
     QIODevice::OpenMode mOpenMode=QIODevice::NotOpen;
-    Log::LevelFlags mLevelFlags;
 };
 
-inline QIODeviceBase::OpenMode BaseLogOutput::mode() const
-{
-    return mOpenMode;
-}
-
-inline Log::LevelFlags BaseLogOutput::flags() const
-{
-    return mLevelFlags;
-}
-
-inline void BaseLogOutput::url(const OutputLogUrl u)
-{
-    mUrl = u;
-}
-
-inline void BaseLogOutput::mode(const QIODeviceBase::OpenMode m)
-{
-    mOpenMode = m;
-}
-
-inline void BaseLogOutput::flags(const Log::LevelFlags fs)
-{
-    mLevelFlags = fs;
-}
+inline QIODeviceBase::OpenMode BaseLogOutput::mode() const { return mOpenMode; }
+inline Log::LevelFlags BaseLogOutput::flags() const { return mUrl.levelFlags(); }
+inline void BaseLogOutput::url(const OutputLogUrl u) { mUrl = u; }
+inline void BaseLogOutput::mode(const QIODeviceBase::OpenMode m) { mOpenMode = m; }

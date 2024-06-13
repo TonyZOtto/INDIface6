@@ -6,47 +6,49 @@
 
 #include "LogObject.h"
 
-BaseLogUrl::BaseLogUrl() { set(Log::$nullUrlType); }
-
-BaseLogUrl::BaseLogUrl(const Log::UrlType luty, const QString &s)
+BaseLogUrl::BaseLogUrl(const Log::UrlType aUrlType)
 {
-    set(luty); set(s);
+    set(aUrlType);
 }
 
-BaseLogUrl::BaseLogUrl(const Log::UrlType luty, const QUrl &url)
+BaseLogUrl::BaseLogUrl(const Log::UrlType aUrlType, const QString &aUrlString)
 {
-    set(luty); set(url);
+    set(aUrlType); set(aUrlString);
 }
 
-void BaseLogUrl::set(const Log::UrlType luty)
+BaseLogUrl::BaseLogUrl(const Log::UrlType aUrlType, const QUrl &aUrl)
 {
-    mType = luty;
+    set(aUrlType); set(aUrl);
 }
 
-void BaseLogUrl::set(const QString &s)
+void BaseLogUrl::set(const Log::UrlType aUrlType)
 {
-    QUrl::setUrl(s);
+    mUrlType = aUrlType;
+}
+
+void BaseLogUrl::set(const QString &aUrlString)
+{
+    QUrl::setUrl(aUrlString);
     mQuery = QUrlQuery(*this);
     parseOpenMode();
 }
 
-void BaseLogUrl::set(const QUrl &url)
+void BaseLogUrl::set(const QUrl &aUrl)
 {
-    QUrl::setUrl(url.toString());
+    QUrl::setUrl(aUrl.toString());
     mQuery = QUrlQuery(*this);
     parseOpenMode();
 }
 
-bool BaseLogUrl::hasQuery(const QString &key) const
+bool BaseLogUrl::hasQuery(const QString &aQueryKey) const
 {
-    return mQuery.hasQueryItem(key);
+    return mQuery.hasQueryItem(aQueryKey);
 }
 
-QString BaseLogUrl::queryValue(const QString &key) const
+QString BaseLogUrl::queryValue(const QString &aQueryKey) const
 {
-    return mQuery.queryItemValue(key);
+    return mQuery.queryItemValue(aQueryKey);
 }
-
 
 void BaseLogUrl::parseOpenMode()
 {

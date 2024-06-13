@@ -13,29 +13,29 @@ class BaseLogUrl : public QUrl
 public:
 
 public: // ctors
-    BaseLogUrl();
+    BaseLogUrl(const Log::UrlType aUrlType=Log::$nullUrlType);
 protected:
-    BaseLogUrl(const Log::UrlType luty, const QString &s);
-    BaseLogUrl(const Log::UrlType luty, const QUrl &url);
+    BaseLogUrl(const Log::UrlType aUrlType, const QString &aUrlString);
+    BaseLogUrl(const Log::UrlType aUrlType, const QUrl &aUrl);
 
 public:
     virtual Log::UrlType type() const = 0;
 
 public:
-    void set(const Log::UrlType luty);
-    void set(const QString &s);
-    void set(const QUrl &url);
+    void set(const Log::UrlType aUrlType);
+    void set(const QString &aUrlString);
+    void set(const QUrl &aUrl);
 
 protected:
-    bool hasQuery(const QString &key) const;
-    QString queryValue(const QString &key) const;
+    bool hasQuery(const QString &aQueryKey) const;
+    QString queryValue(const QString &aQueryKey) const;
     QIODevice::OpenMode openMode() const;
 
 private:
     void parseOpenMode();
 
 private:
-    Log::UrlType mType=Log::$nullUrlType;
+    Log::UrlType mUrlType=Log::$nullUrlType;
     QUrlQuery mQuery;
     QIODevice::OpenMode mOpenMode=QIODevice::NotOpen;
 };

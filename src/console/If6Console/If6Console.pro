@@ -15,6 +15,7 @@ SOURCES += \
         IfConsoleApp.cpp \
         ImageAcquisition.cpp \
         InputSettings.cpp \
+        OutputSettings.cpp \
         main.cpp
 
 # Default rules for deployment.
@@ -29,6 +30,7 @@ HEADERS += \
     IfConsoleApp.h \
     ImageAcquisition.h \
     InputSettings.h \
+    OutputSettings.h \
     version.h
 
 DISTFILES += \

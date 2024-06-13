@@ -4,11 +4,13 @@
 #include <QObject>
 
 #include <QQueue>
+#include <QString>
 #include <QUrl>
 class QVariant;
 
 #include "../eIRbase/Boolean.h"
 #include "../eIRbase/Types.h"
+#include "../eIRcore/MutexQueue.h"
 #include "LogItem.h"
 #include "LogObject.h"
 #include "OutputLogUrl.h"
@@ -27,20 +29,18 @@ public: // const
 public slots:
 
 public: // non-const
-    bool open(const OutputLogUrl &url,
-              const Log::Level maxLevel=Log::$nullLevel,
-              const Log::Level minLevel=Log::$nullLevel);
-    bool open(const OutputLogUrl &url, const Log::LevelFlags flags);
+    bool open(const QString &aOutputLogUrlStrings);
     bool start();
     bool hookTrollIn();
     bool hookTrollOut();
-    void add(LogItem *li);
+    void add(const LogItem &aLogItem);
 
 private:
-    bool openFile(const OutputLogUrl &url, const Log::LevelFlags flags);
-    bool openTroll(const OutputLogUrl &url, const Log::LevelFlags flags);
-    bool openSql(const OutputLogUrl &url, const Log::LevelFlags flags);
 
+    bool open(const OutputLogUrl &aOutputLogUrl);
+    bool openFile(const OutputLogUrl &aOutputLogUrl);
+    bool openTroll(const OutputLogUrl &aOutputLogUrl);
+    bool openSql(const OutputLogUrl &aOutputLogUrl);
 
 private: // static
     static Boolean compare(const Log::Compare c, const QVariant &expected, const QVariant &actual);
@@ -54,6 +54,7 @@ signals:
     void queueEmpty();
 
 private:
-    QQueue<LogItem *> mInputItemQueue;
+    MutexQueue<LogItem *> mInputItemQueue;
+    Log::LevelFlags mMasterOutputLevelFlags = Log::LevelFlags(0);
     QList<BaseLogOutput *> mOutputList;
 };

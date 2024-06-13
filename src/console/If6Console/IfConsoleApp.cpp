@@ -56,11 +56,8 @@ Uid IfConsoleApp::addCache(const Key &key, const BaseImage &img)
 void IfConsoleApp::initialize()
 {
     ConsoleApplication::initialize();
-    const QUrl cLogUrl = settings()->value("Output/LogUrl", "file://./log/%-@.log").toUrl();
-    const Log::LevelFlags cLogFlags = Log::LevelFlags(settings()->value("Output/LogFlags",
-                            unsigned(Log::UserFlags | Log::TraceFlags)).toUInt());
-    Q_ASSERT(LOG->open(QUrl("troll:"), cLogFlags));
-    Q_ASSERT(LOG->open(cLogUrl, cLogFlags));
+    const QString cLogUrlsString = settings()->value("Output/LogUrls",
+                            "file://./log/%-@.log;troll:").toString();
     mpAcquisition = new ImageAcquisition(this);
     emit initialized();
 }

@@ -26,6 +26,7 @@ public: // pointers
     QSettings * settings();
     ImageAcquisition * acquisition();
     QSettings::SettingsMap & inputMap();
+    QSettings::SettingsMap & outputMap();
 
 public slots:
     virtual void initialize();
@@ -39,9 +40,11 @@ private:
     QSettings * mpSettings=nullptr;
     ImageAcquisition * mpAcquisition=nullptr;
     QSettings::SettingsMap mInputMap;
+    QSettings::SettingsMap mOutputMap;
 };
 
 inline IfCache &IfConsoleApp::cache() { return mCache; }
 inline QSettings *IfConsoleApp::settings() { Q_CHECK_PTR(mpSettings); return mpSettings; }
 inline ImageAcquisition *IfConsoleApp::acquisition() { Q_CHECK_PTR(mpAcquisition); return mpAcquisition; }
 inline QSettings::SettingsMap &IfConsoleApp::inputMap() { return mInputMap; }
+inline QSettings::SettingsMap &IfConsoleApp::outputMap() { return mOutputMap; }

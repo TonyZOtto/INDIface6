@@ -1,27 +1,27 @@
 #pragma once
 #include "eIRexe.h"
 
-#include <QObject>
+#include <QObject> // Q_GADGET
 
 #include <QDateTime>
 #include <QString>
 #include <QStringList>
 #include <QVariant>
 #include <QVariantList>
-//#include <QSqlRecord>
 
 #include "../eIRbase/Boolean.h"
 #include "../eIRcore/QQFileInfo.h"
 #include "../eIRbase/KeySeg.h"
 #include "../eIRbase/Uid.h"
+
 #include "FunctionInfo.h"
 #include "LogObject.h"
 class Context;
 class LogMsgType;
 
-class EIREXE_EXPORT LogItem : public QObject
+class EIREXE_EXPORT LogItem
 {
-    Q_OBJECT
+    Q_GADGET
 public: // types
     enum Flag
     {
@@ -108,7 +108,6 @@ private: // ------------------------ properties ------------------------
     QString             m_debugHead;
     QString             m_debugFoot;
     QStringList         m_debugStrings;
-//    QSqlRecord          m_outputRecord;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(LogItem::Flags);

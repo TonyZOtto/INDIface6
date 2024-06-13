@@ -3,15 +3,15 @@
 #include "LogItem.h"
 #include "LogMsgType.h"
 
-TrollLogOutput::TrollLogOutput(const OutputLogUrl &url, const Log::LevelFlags flags, QObject *parent)
-    : BaseLogOutput{url, flags, parent}
+TrollLogOutput::TrollLogOutput(const OutputLogUrl &url, QObject *parent)
+    : BaseLogOutput{url, parent}
 {
     setObjectName("TrollLogOutput");
 }
 
-bool TrollLogOutput::open(const OutputLogUrl &u, const Log::LevelFlags fs)
+bool TrollLogOutput::open(const OutputLogUrl &u)
 {
-    url(u), flags(fs), mode(QIODevice::WriteOnly | QIODevice::Append);
+    url(u), mode(QIODevice::WriteOnly | QIODevice::Append);
 
     return true;
 }

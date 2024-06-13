@@ -9,10 +9,10 @@ class TrollLogOutput : public BaseLogOutput
 {
     Q_OBJECT
 public:
-    explicit TrollLogOutput(const OutputLogUrl &url, const Log::LevelFlags flags, QObject *parent = nullptr);
+    explicit TrollLogOutput(const OutputLogUrl &url, QObject *parent = nullptr);
 
 public:
-    virtual bool open(const OutputLogUrl &url, const Log::LevelFlags flags);
+    virtual bool open(const OutputLogUrl &url);
     virtual bool write(const LogItem &item);
 
 private:

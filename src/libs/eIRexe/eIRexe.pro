@@ -24,6 +24,7 @@ SOURCES += \
     LogObject.cpp \
     Logger.cpp \
     OutputLogUrl.cpp \
+    OutputLogUrlList.cpp \
     Setting.cpp \
     SettingProperty.cpp \
     Settings.cpp \
@@ -47,6 +48,7 @@ HEADERS += \
     LogObject.h \
     Logger.h \
     OutputLogUrl.h \
+    OutputLogUrlList.h \
     Setting.h \
     SettingProperty.h \
     Settings.h \

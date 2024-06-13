@@ -2,7 +2,6 @@
 
 #include <QCoreApplication>
 #include <QDateTime>
-#include <QMetaEnum>
 #include <QPartialOrdering>
 #include <QString>
 #include <QVariant>
@@ -19,33 +18,13 @@ Logger::Logger(QObject *parent)
     setObjectName("Logger");
 }
 
-bool Logger::open(const OutputLogUrl &url, const Log::Level maxLevel, const Log::Level minLevel)
+bool Logger::open(const QString &aOutputLogUrlStrings)
 {
-    ObjectHelper tOH(LOG);
-    const QMetaEnum cME = tOH.metaEnum("Level");
-    const AText cFromName = cME.valueToKey(minLevel ? minLevel : Log::$minLevel);
-    const AText cToName   = cME.valueToKey(maxLevel ? maxLevel : Log::$maxLevel);
-    Log::LevelFlags flags = Log::LevelFlags(tOH.flagRange("Level", cFromName, cToName));
-    return open(url, flags);
-}
-
-bool Logger::open(const OutputLogUrl &url, const Log::LevelFlags flags)
-{
-    bool result = false;
-    const QString cUrlScheme = url.scheme();
-    //qDebug() << url << cUrlScheme;
-    const Log::OutputScheme cOutScheme = Log::outputScheme(cUrlScheme);
-    switch (cOutScheme)
-    {
-    case Log::FileOutputScheme:     result = openFile(url, flags);      break;
-    case Log::TrollOutputScheme:    result = openTroll(url, flags);     break;
-    case Log::SqlOutputScheme:      result = openSql(url, flags);       break;
-    default:                        /* false result */                  break;
-    };
-    return result;
+    const OutputLogUrlList cOutputLogUrlList(aOutputLogUrlStrings);
 }
 
 bool Logger::start()
+
 {
     const QString cStartString = QString("Starting %1 v%2 from %3 on PID %4 at %5")
                                      .arg(QCoreApplication::applicationName())
@@ -55,7 +34,7 @@ bool Logger::start()
                                      .arg(QDateTime::currentDateTime()
                                               .toString("yyyy-MM-dd hh:mm"));
     LogItem tLI(LOGCTX(Log::Progress), cStartString);
-    LOG->add(&tLI);
+    LOG->add(tLI);
     return true;
 }
 /*
@@ -84,36 +63,69 @@ bool Logger::start()
      return app.exec();
  }
 */
-void Logger::add(LogItem * li)
+
+#if 0
+bool Logger::open(const OutputLogUrl &url, const Log::Level maxLevel, const Log::Level minLevel)
 {
-    mInputItemQueue.append(li);
-    li->setParent(this);
-    emit queued(*li);
+    ObjectHelper tOH(LOG);
+    const QMetaEnum cME = tOH.metaEnum("Level");
+    const AText cFromName = cME.valueToKey(minLevel ? minLevel : Log::$minLevel);
+    const AText cToName   = cME.valueToKey(maxLevel ? maxLevel : Log::$maxLevel);
+    Log::LevelFlags flags = Log::LevelFlags(tOH.flagRange("Level", cFromName, cToName));
+    return open(url, flags);
+}
+bool Logger::open(const OutputLogUrl &url, const Log::LevelFlags flags)
+{
+    bool result = false;
+    return result;
+}
+#endif
+
+void Logger::add(const LogItem &aLogItem)
+{
+    mInputItemQueue.enqueue(aLogItem);
+    emit queued(aLogItem);
     emit queueCount(mInputItemQueue.count());
 }
 
-bool Logger::openFile(const OutputLogUrl &url, const Log::LevelFlags flags)
+bool Logger::open(const OutputLogUrl &aOutputLogUrl)
 {
-    QString tFileName = url.toLocalFile();
+    bool result = false;
+    const QString cUrlScheme = aOutputLogUrl.scheme();
+    const Log::OutputScheme cOutScheme = Log::outputScheme(cUrlScheme);
+    switch (cOutScheme)
+    {
+    case Log::FileOutputScheme:     result = openFile(aOutputLogUrl);      break;
+    case Log::TrollOutputScheme:    result = openTroll(aOutputLogUrl);     break;
+    case Log::SqlOutputScheme:      result = openSql(aOutputLogUrl);       break;
+    default:                        /* false result */                  break;
+    };
 
-    Q_UNUSED(url); Q_UNUSED(flags); return true;// MUSTDO
+    if (result)     mMasterOutputLevelFlags |= aOutputLogUrl.levelFlags();
+    return result;
+}
+
+bool Logger::openFile(const OutputLogUrl &aOutputLogUrl)
+{
+    Q_UNUSED(aOutputLogUrl); return true; // MUSTDO
+    QString tFileName = aOutputLogUrl.toLocalFile();
     // TODO replace % with Org-App
     // TODO replace @ with timestamp
 }
 
-bool Logger::openTroll(const OutputLogUrl &url, const Log::LevelFlags flags)
+bool Logger::openTroll(const OutputLogUrl &aOutputLogUrl)
 {
     bool result = false;
-    TrollLogOutput * pOut = new TrollLogOutput(url, flags, this);
+    TrollLogOutput * pOut = new TrollLogOutput(aOutputLogUrl, this);
     Q_CHECK_PTR(pOut);
-    result = pOut->open(url, flags);
+    result = pOut->open(aOutputLogUrl);
     pOut->mode(result ? QIODevice::WriteOnly : QIODevice::NotOpen);
     return result;
 }
 
-bool Logger::openSql(const OutputLogUrl &url, const Log::LevelFlags flags)
+bool Logger::openSql(const OutputLogUrl &aOutputLogUrl)
 {
-    Q_UNUSED(url); Q_UNUSED(flags); return false;// MUSTDO
+    Q_UNUSED(aOutputLogUrl); return false;// MUSTDO
 }
 
 Boolean Logger::compare(const Log::Compare c, const QVariant &expected, const QVariant &actual)

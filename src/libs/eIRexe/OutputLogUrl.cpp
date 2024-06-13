@@ -1,12 +1,38 @@
 #include "OutputLogUrl.h"
 
-#include "Log.h"
+#include "../eIRcore/ObjectHelper.h"
 
-OutputLogUrl::OutputLogUrl() {;}
-OutputLogUrl::OutputLogUrl(const QString &s) : BaseLogUrl(Log::OutputUrl, s) {;}
-OutputLogUrl::OutputLogUrl(const QUrl &url)  : BaseLogUrl(Log::OutputUrl, url) {;}
+#include "Logger.h"
+Q_GLOBAL_STATIC(Logger, LOG);
 
-Log::OutputFormat OutputLogUrl::parseOutFormat()
+OutputLogUrl::OutputLogUrl()
+    : BaseLogUrl(Log::OutputUrl)
+    , mOutputFormat(Log::$nullOutputFormat)
+    , mLevelFlags(0)
+{
+}
+
+OutputLogUrl::OutputLogUrl(const QString &aUrlString)
+    : BaseLogUrl(Log::OutputUrl, aUrlString)
+{
+    mpLogObjectHelper = new ObjectHelper(LOG);
+    Q_CHECK_PTR(mpLogObjectHelper);
+    mMetaEnum = mpLogObjectHelper->metaEnum("Level");
+    parseOutputFormat();
+    parseLevels();
+}
+
+OutputLogUrl::OutputLogUrl(const QUrl &aUrl)
+    : BaseLogUrl(Log::OutputUrl, aUrl)
+{
+    mpLogObjectHelper = new ObjectHelper(LOG);
+    Q_CHECK_PTR(mpLogObjectHelper);
+    mMetaEnum = mpLogObjectHelper->metaEnum("Level");
+    parseOutputFormat();
+    parseLevels();
+}
+
+Log::OutputFormat OutputLogUrl::parseOutputFormat()
 {
     Log::OutputFormat result = Log::$nullOutputFormat;
     if (hasQuery("Format"))
@@ -31,5 +57,63 @@ Log::OutputFormat OutputLogUrl::parseOutFormat()
         else
             qWarning() << "Unhandled Log Output Format:" << cFormat;
     }
+    return result;
+}
+
+Log::LevelFlags OutputLogUrl::parseLevels()
+{
+    Log::LevelFlags result = Log::LevelFlags(0);
+    if (hasQuery("Level"))
+    {
+        const QString cLevelQueryString = queryValue("Level");
+        const QStringList cLevelStrings = cLevelQueryString.split(",");
+        foreach (const QString cLevelString, cLevelStrings)
+            result |= parseLevelString(cLevelString);
+    }
+    return result;
+}
+
+Log::LevelFlags OutputLogUrl::parseLevelString(const QString &aLevelString)
+{
+    Log::LevelFlags result = Log::LevelFlags(0);
+    if (aLevelString == "User")
+    {
+        result |= Log::UserFlags;
+    }
+    else if (aLevelString == "Trace")
+    {
+        result |= Log::TraceFlags;
+    }
+    else if (aLevelString.contains('-'))
+    {
+        const QStringList cFromToStrings = aLevelString.split("-");
+        Q_ASSERT(cFromToStrings.count() > 1);
+        result = parseLevelString(cFromToStrings[0], cFromToStrings[1]);
+    }
+    else
+    {
+        const AText cLevelText(aLevelString);
+        const Log::LevelFlag cFlag = Log::LevelFlag(mMetaEnum.keyToValue(cLevelText));
+        result.setFlag(cFlag);
+    }
+    return result;
+}
+
+Log::LevelFlags OutputLogUrl::parseLevelString(const QString &aFromString, const QString &aToString)
+{
+    Log::LevelFlags result = Log::LevelFlags(0);
+    Log::Level tFromLevel = Log::$minLevel, tToLevel = Log::$maxLevel;
+    if ( ! aFromString.isEmpty())
+        tFromLevel = Log::Level(mMetaEnum.keyToValue(AText(aFromString)));
+    if ( ! aToString.isEmpty())
+        tToLevel = Log::Level(mMetaEnum.keyToValue(AText(aToString)));
+    if (tFromLevel > tToLevel)
+    {
+        Log::Level tTempLevel = tToLevel;
+        tToLevel = tFromLevel;
+        tFromLevel = tTempLevel;
+    }
+    for (int tLevelInt = tFromLevel; tLevelInt < tToLevel; ++tLevelInt)
+        result.setFlag(Log::LevelFlag(tLevelInt));
     return result;
 }
