@@ -8,7 +8,7 @@
 #include <QtCore/QRect>
 
 #include "../eIRbase/MillisecondTime.h"
-#include <Key.h>
+// #include <Key.h> // TODO
 
 #define IDGENERATOR_VARIABLESET(TIVD) \
     TIVD(QRect,             DetectRect,     QRect,      QRect()) \
@@ -23,7 +23,7 @@
     TIVD(int,               FaceNumber,     int,        0) \
     TIVD(MillisecondTime,   FrameMst,       qint64,     0) \
     TIVD(MillisecondTime,   ModifiedMst,    qint64,     0) \
-    TIVD(Key,               FrameKey,       QString,    QString()) \
+    TIVD(QString,           FrameKey,       QString,    QString()) \
     TIVD(QString,           FileName,       QString,    QString()) \
     TIVD(int,               FaceId,         int,        0) \
     TIVD(int,               PersonId,       int,        0) \
