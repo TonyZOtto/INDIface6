@@ -1,8 +1,8 @@
-#include "BaseIfModule.h"
+#include "VirtualIfModule.h"
 
 #include "IfConsoleApp.h"
 
-BaseIfModule::BaseIfModule(IfConsoleApp *parent)
+VirtualIfModule::VirtualIfModule(IfConsoleApp *parent)
     : QObject{parent}
     , mpApp(parent)
 {

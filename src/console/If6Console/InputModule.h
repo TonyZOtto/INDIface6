@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseIfModule.h"
+#include "VirtualIfModule.h"
 
 #include <QFileInfo>
 #include <QFileInfoList>
@@ -15,19 +15,19 @@ class BaseErrorCode;
 
 class InputSettings;
 
-class InputModule : public BaseIfModule
+class InputModule : public VirtualIfModule
 {
     Q_OBJECT
 public:
     explicit InputModule(IfConsoleApp *parent = nullptr);
 
 public slots:
-    void initialize();
-
-public: // const
-    QFileInfoList fileInfoList() const;
+    virtual void initialize();
+    virtual void run();
 
 signals:
+    void initialized(VirtualIfModule * pThis);
+    void running();
     void allFiles(const QFileInfoList &fis);
     void empty();
     void startProcessing(const Count nFiles);
@@ -35,6 +35,9 @@ signals:
     void processing(const QFileInfo &fi);
     void processed(const Count nProcessed, const QFileInfo &fi);
     void processError(const Count nNull, const QFileInfo &fi, const BaseErrorCode &ec);
+
+public: // const
+    QFileInfoList fileInfoList() const;
 
 public: // non-const
     void start(const QUrl &url);

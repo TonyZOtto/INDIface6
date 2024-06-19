@@ -10,10 +10,10 @@ include(../../useExe.pri)
 include(../../useIfCore.pri)
 
 SOURCES += \
-        BaseIfModule.cpp \
         IfConsoleApp.cpp \
         InputModule.cpp \
         OutputModule.cpp \
+        VirtualIfModule.cpp \
         main.cpp
 
 # Default rules for deployment.
@@ -23,10 +23,10 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     ../../version.h \
-    BaseIfModule.h \
     IfConsoleApp.h \
     InputModule.h \
     OutputModule.h \
+    VirtualIfModule.h \
     version.h
 
 DISTFILES += \

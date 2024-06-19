@@ -53,22 +53,7 @@ private:
     QFileInfoList mPositionalFileInfos;
 };
 
-inline QString CommandLine::iniFileName() const
-{
-    return mIniFileName;
-}
-
-inline QString CommandLine::orgName() const
-{
-    return mOrgName;
-}
-
-inline QString CommandLine::appName() const
-{
-    return mAppName;
-}
-
-inline QSettings::SettingsMap CommandLine::settingsMap() const
-{
-    return mSettingsMap;
-}
+inline QString CommandLine::iniFileName() const { return mIniFileName; }
+inline QString CommandLine::orgName() const { return mOrgName; }
+inline QString CommandLine::appName() const { return mAppName; }
+inline QSettings::SettingsMap CommandLine::settingsMap() const { return mSettingsMap; }

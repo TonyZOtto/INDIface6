@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
     VersionInfo vi(VER_MAJOR, VER_MINOR, VER_RELEASE, VER_BRANCH,
                    VER_BUILD, VER_BRANCHNAME, VER_APPNAME, VER_ORGNAME);
     vi.setApp();
-    qInfo() << a.idString();
+    qInfo() << a.applicationName() << a.applicationVersion();
     qInfo() << a.arguments();
     return a.exec();
 }

@@ -112,4 +112,4 @@ private: // ------------------------ properties ------------------------
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(LogItem::Flags);
-typedef LogItem::Flags      LogItemFlags;
+typedef LogItem::Flags  LogItemFlags;

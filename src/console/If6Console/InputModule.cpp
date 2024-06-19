@@ -6,24 +6,35 @@
 #include <BaseErrorCode.h>
 #include <BaseImage.h>
 #include <ColorImage.h>
+#include <FrameData.h>
+#include <Ident.h>
+#include <IfCache.h>
 #include <MillisecondTime.h>
 
 #include "IfConsoleApp.h"
 #include "InputSettings.h"
 
 InputModule::InputModule(IfConsoleApp *parent)
-    : BaseIfModule{parent}
+    : VirtualIfModule{parent}
 {
-    setObjectName("ImageAcquisition");
+    setObjectName("InputModule");
 }
 
 void InputModule::initialize()
 {
+    emit initialized(this);
+}
+
+void InputModule::run()
+{
+    emit running();
+    const QUrl cUrl = app()->get("Input/Url").toUrl();
+    start(cUrl);
 }
 
 void InputModule::start(const QUrl &url)
 {
-    setObjectName("ImageAcquisition:" + url.toString());
+    setObjectName("InputModule:" + url.toString());
     const QString cScheme = url.scheme();
     const QUrlQuery cQuery = QUrlQuery(url.query());
     qInfo() << "Input/URL:" << url << cScheme << cQuery.toString();
@@ -104,7 +115,7 @@ BaseErrorCode InputModule::processFile(const QFileInfo fi)
             tFrameData.insert("Input/Source/FileName", fi.baseName());
             tFrameData.insert("Input/Source/FileImage", cFileImage);
             tFrameData.insert("Input/Source/ColorImage", tColorImageVar);
-            const Uid cUid = app()->cache().frame(tFrameData);
+            const Uid cUid = app()->cache()->frame(tFrameData);
             mCacheUidQueue.enqueue(cUid);
         }
     }

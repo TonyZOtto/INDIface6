@@ -40,7 +40,7 @@ Success Logger::close()
 Success Logger::close(const OutputLogUrl aOutputLogUrl)
 {
     Success success;
-    // TODO remove from list
+    Q_UNUSED(aOutputLogUrl); // TODO remove from list
     success.expect(false);
     return success;
 }

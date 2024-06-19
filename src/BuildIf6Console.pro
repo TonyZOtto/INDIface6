@@ -1,12 +1,12 @@
 TEMPLATE = subdirs
-#CONFIG += ORDERED
 
-SUBDIRS =           \
-    ./libs/eIRbase         \
-    ./libs/eIRcore         \
-    ./libs/eIRexe          \
-    ./libs/IfCore          \
-    ./console/If6Console      \
+SUBDIRS =                   \
+    ./libs/eIRbase          \
+    ./libs/eIRcore          \
+    ./libs/eIRexe           \
+    ./libs/IfCore           \
+    ./console/If6Console    \
+
 
 eIRbase.depends     =
 eIRcore.depends     =   eIRbase
