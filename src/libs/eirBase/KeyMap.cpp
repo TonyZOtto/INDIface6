@@ -1,6 +1,8 @@
 #include "KeyMap.h"
 
 KeyMap::KeyMap() {}
+KeyMap::KeyMap(const Ident aIdent) : mIdent(aIdent) {;}
+KeyMap::KeyMap(const Key aKey) : mIdent(aKey) {;}
 
 bool KeyMap::contains(const Key &key) const
 {

@@ -1,4 +1,4 @@
-#include "ImageAcquisition.h"
+#include "InputModule.h"
 
 #include <QDir>
 #include <QUrlQuery>
@@ -11,17 +11,17 @@
 #include "IfConsoleApp.h"
 #include "InputSettings.h"
 
-ImageAcquisition::ImageAcquisition(IfConsoleApp *parent)
+InputModule::InputModule(IfConsoleApp *parent)
     : BaseIfModule{parent}
 {
     setObjectName("ImageAcquisition");
 }
 
-void ImageAcquisition::initialize()
+void InputModule::initialize()
 {
 }
 
-void ImageAcquisition::start(const QUrl &url)
+void InputModule::start(const QUrl &url)
 {
     setObjectName("ImageAcquisition:" + url.toString());
     const QString cScheme = url.scheme();
@@ -35,7 +35,7 @@ void ImageAcquisition::start(const QUrl &url)
         startHttp(url, cQuery);
 }
 
-void ImageAcquisition::startFiles(const QUrl &url, const QUrlQuery &query)
+void InputModule::startFiles(const QUrl &url, const QUrlQuery &query)
 {
     QQStringList cExtList = enumerateExtensions(query);
     // TODO handle file name wildcard query item
@@ -49,19 +49,19 @@ void ImageAcquisition::startFiles(const QUrl &url, const QUrlQuery &query)
         processFiles(cFIs);
 }
 
-void ImageAcquisition::startHotDir(const QUrl &url, const QUrlQuery &query)
+void InputModule::startHotDir(const QUrl &url, const QUrlQuery &query)
 {
     Q_ASSERT(!"MUSTDO"); // MUSTDO startHotDir()
     Q_UNUSED(url); Q_UNUSED(query);
 }
 
-void ImageAcquisition::startHttp(const QUrl &url, const QUrlQuery &query)
+void InputModule::startHttp(const QUrl &url, const QUrlQuery &query)
 {
     Q_ASSERT(!"MUSTDO"); // MUSTDO startHttp()
     Q_UNUSED(url); Q_UNUSED(query);
 }
 
-bool ImageAcquisition::processFiles(const QFileInfoList fis)
+bool InputModule::processFiles(const QFileInfoList fis)
 {
     emit allFiles(fis);
     emit startProcessing(fis.count());
@@ -81,7 +81,7 @@ bool ImageAcquisition::processFiles(const QFileInfoList fis)
     return 0 == nNull;
 }
 
-BaseErrorCode ImageAcquisition::processFile(const QFileInfo fi)
+BaseErrorCode InputModule::processFile(const QFileInfo fi)
 {
     BaseErrorCode result;
     const QImage cFileImage(fi.filePath());
@@ -111,7 +111,7 @@ BaseErrorCode ImageAcquisition::processFile(const QFileInfo fi)
     return result;
 }
 
-QQStringList ImageAcquisition::enumerateExtensions(const QUrlQuery &query)
+QQStringList InputModule::enumerateExtensions(const QUrlQuery &query)
 {
     QQStringList result;
     if (query.hasQueryItem("FileExt"))
@@ -124,7 +124,7 @@ QQStringList ImageAcquisition::enumerateExtensions(const QUrlQuery &query)
     return result;
 }
 
-QDir ImageAcquisition::dir(const QUrl &url)
+QDir InputModule::dir(const QUrl &url)
 {
     QDir result;
     const QString cPath = url.path();

@@ -22,7 +22,4 @@ private:
     IfConsoleApp * mpApp;
 };
 
-inline IfConsoleApp *BaseIfModule::app()
-{
-    Q_CHECK_PTR(mpApp); return mpApp;
-}
+inline IfConsoleApp *BaseIfModule::app() { Q_CHECK_PTR(mpApp); return mpApp; }

@@ -7,7 +7,7 @@
 #include <Log.h>
 #include <Settings.h>
 
-#include "ImageAcquisition.h"
+#include "InputModule.h"
 
 IfConsoleApp::IfConsoleApp(int argc, char *argv[])
     : ConsoleApplication{argc, argv}
@@ -61,7 +61,7 @@ void IfConsoleApp::initialize()
     LOG->close();
     if ("{none}" != cLogUrlsString)
         LOG->open(cLogUrlsString);
-    mpAcquisition = new ImageAcquisition(this);
+    mpAcquisition = new InputModule(this);
     emit initialized();
 }
 

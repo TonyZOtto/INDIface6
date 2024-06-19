@@ -16,18 +16,6 @@ SOURCES += \
     FrameData.cpp \
     IfCache.cpp \
     IfCore.cpp \
-    KeyGenerator.cpp \
-    Variable.cpp \
-    VariableGroup.cpp \
-    VariableHeader.cpp \
-    VariableKey.cpp \
-    VariableKeyList.cpp \
-    VariableSet.cpp \
-    VariableSetInterface.cpp \
-    VariableSettings.cpp \
-    VariableSettingsList.cpp \
-    VariableTable.cpp \
-    VariableType.cpp
 
 
 HEADERS += \
@@ -38,18 +26,7 @@ HEADERS += \
     IfCache.h \
     IfCore_global.h \
     IfCore.h \
-    KeyGenerator.h \
-    Variable.h \
-    VariableGroup.h \
-    VariableHeader.h \
-    VariableKey.h \
-    VariableKeyList.h \
-    VariableSet.h \
-    VariableSetInterface.h \
-    VariableSettings.h \
-    VariableSettingsList.h \
-    VariableTable.h \
-    VariableType.h
+
 
 # Default rules for deployment.
 unix {

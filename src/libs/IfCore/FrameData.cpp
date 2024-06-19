@@ -1,7 +1,8 @@
 #include "FrameData.h"
 
 FrameData::FrameData() {;}
-FrameData::FrameData(const Ident i) : mIdent(i) {;}
+FrameData::FrameData(const Ident aIdent) : KeyMap(aIdent) {;}
+FrameData::FrameData(const Key aKey) : KeyMap(aKey) {;}
 
 Uid FrameData::frameUid() const
 {

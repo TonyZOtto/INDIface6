@@ -15,11 +15,11 @@ class BaseErrorCode;
 
 class InputSettings;
 
-class ImageAcquisition : public BaseIfModule
+class InputModule : public BaseIfModule
 {
     Q_OBJECT
 public:
-    explicit ImageAcquisition(IfConsoleApp *parent = nullptr);
+    explicit InputModule(IfConsoleApp *parent = nullptr);
 
 public slots:
     void initialize();
@@ -56,4 +56,4 @@ private:
     MutexQueue<Uid> mCacheUidQueue;
 };
 
-inline QFileInfoList ImageAcquisition::fileInfoList() const { return mFileInfoList; }
+inline QFileInfoList InputModule::fileInfoList() const { return mFileInfoList; }

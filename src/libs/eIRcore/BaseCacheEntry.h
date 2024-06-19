@@ -20,25 +20,29 @@ public: // ctors
     BaseCacheEntry(const Key &entryKey, const Id id=0);
 
 public: // const
-    Ident ident() const;
     Uid uid() const;
+    Ident ident() const;
+    QVariant data() const;
+    KeyMap map() const;
     bool contains(const Key &valueKey) const;
     bool isHeld() const;
-    QVariant read(const Key &valueKey) const;
+    QVariant get(const Key &valueKey) const;
     EpochMilliseconds lastTouch() const;
 
 public: // non-const
     void ident(const Ident &i);
+    void data(const QVariant &km);
     void map(const KeyMap &km);
     void hold(void *holder);
     void release(void * holder);
     void touch();
-    void write(const Key &valueKey, const QVariant &value);
+    void set(const Key &valueKey, const QVariant &value);
 
 private:
     Ident mIdent;
     EpochMilliseconds mLastTouchEms;
     QList<void *> mHolderList;
+    QVariant mData;
     KeyMap mKeyMap;
 };
 

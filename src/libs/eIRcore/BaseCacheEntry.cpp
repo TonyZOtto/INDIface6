@@ -20,7 +20,7 @@ bool BaseCacheEntry::isHeld() const
     return ! mHolderList.isEmpty();
 }
 
-QVariant BaseCacheEntry::read(const Key &valueKey) const
+QVariant BaseCacheEntry::get(const Key &valueKey) const
 {
     return mKeyMap.value(valueKey);
 }
@@ -40,7 +40,7 @@ void BaseCacheEntry::touch()
     mLastTouchEms = QDateTime::currentMSecsSinceEpoch();
 }
 
-void BaseCacheEntry::write(const Key &valueKey, const QVariant &value)
+void BaseCacheEntry::set(const Key &valueKey, const QVariant &value)
 {
     mKeyMap.insert(valueKey, value);
 }

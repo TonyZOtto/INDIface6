@@ -1,0 +1,4 @@
+[submodule "ottoZcode"]
+	path = ottoZcode
+	url = ../ottoZcode.git
+	branch = develop

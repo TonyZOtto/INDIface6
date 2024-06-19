@@ -6,7 +6,7 @@
 
 #include <ConsoleApplication.h>
 #include <IfCache.h>
-class ImageAcquisition;
+class InputModule;
 
 class IfConsoleApp : public ConsoleApplication
 {
@@ -24,7 +24,7 @@ public: // non-const
 
 public: // pointers
     QSettings * settings();
-    ImageAcquisition * acquisition();
+    InputModule * acquisition();
     QSettings::SettingsMap & inputMap();
     QSettings::SettingsMap & outputMap();
 
@@ -38,13 +38,13 @@ signals:
 private:
     IfCache mCache;
     QSettings * mpSettings=nullptr;
-    ImageAcquisition * mpAcquisition=nullptr;
+    InputModule * mpAcquisition=nullptr;
     QSettings::SettingsMap mInputMap;
     QSettings::SettingsMap mOutputMap;
 };
 
 inline IfCache &IfConsoleApp::cache() { return mCache; }
 inline QSettings *IfConsoleApp::settings() { Q_CHECK_PTR(mpSettings); return mpSettings; }
-inline ImageAcquisition *IfConsoleApp::acquisition() { Q_CHECK_PTR(mpAcquisition); return mpAcquisition; }
+inline InputModule *IfConsoleApp::acquisition() { Q_CHECK_PTR(mpAcquisition); return mpAcquisition; }
 inline QSettings::SettingsMap &IfConsoleApp::inputMap() { return mInputMap; }
 inline QSettings::SettingsMap &IfConsoleApp::outputMap() { return mOutputMap; }
