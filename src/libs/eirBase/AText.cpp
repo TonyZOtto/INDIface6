@@ -5,7 +5,7 @@
 AText::AText(const char *psz)
     : QByteArray(psz)
 {
-    qDebug() << Q_FUNC_INFO << psz << constData();
+//    qDebug() << Q_FUNC_INFO << psz << constData();
 }
 
 QString AText::toString() const

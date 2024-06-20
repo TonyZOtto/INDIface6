@@ -63,7 +63,8 @@ public: // const
     QVariant toVariant() const;
 
 public: // non-const
-    bool set(const QImage in, const QImage::Format format, const unsigned clip=0);
+    void clear();
+    bool set(const QImage aImage, const QImage::Format aFormat, const unsigned aClip=0);
     void convertTo(const QImage::Format fmt);
 
 public: // static

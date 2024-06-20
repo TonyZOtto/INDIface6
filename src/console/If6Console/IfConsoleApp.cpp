@@ -16,52 +16,37 @@ IfConsoleApp::IfConsoleApp(int argc, char *argv[])
     : QCoreApplication{argc, argv}
 {
     setObjectName("IfConsoleApp");
-    connect(this, &IfConsoleApp::initialized,
-            this, &IfConsoleApp::start);
     QTimer::singleShot(500, this, &IfConsoleApp::initialize);
 }
 
 void IfConsoleApp::initialize()
 {
-    initializeLog();
     mpCache = new IfCache(this);
     mpCommandLine = new CommandLine(this);
     mpInputModule = new InputModule(this);
     mpOutputModule = new OutputModule(this);
-    mWaiting.setFlag(WaitInputModule);
-    connect(this, &IfConsoleApp::initialized,
-            inputModule(), &InputModule::initialize);
-    connect(inputModule(), &InputModule::initialized,
-            this, &IfConsoleApp::setup);
-    mWaiting.setFlag(WaitOutputModule);
-    connect(this, &IfConsoleApp::initialized,
-            outputModule(), &OutputModule::initialize);
-    connect(outputModule(), &OutputModule::initialized,
-            this, &IfConsoleApp::setup);
-
-    emit initialized();
+    inputModule()->initialize();
+    outputModule()->initialize();
+    QTimer::singleShot(100, this, &IfConsoleApp::setup);
 }
 
-void IfConsoleApp::setup(VirtualIfModule *pModule)
+void IfConsoleApp::setup()
 {
-    if (inputModule() == pModule)
-        mWaiting.setFlag(WaitInputModule, false);
-    else if (outputModule() == pModule)
-        mWaiting.setFlag(WaitOutputModule, false);
-    if (mWaiting)
-        return;                                         /*====*/
     // command line
     // settings org/app/ini
+    mpSettings = new QSettings(QSettings::UserScope);
+    settings()->setValue("Control/InitPath", QCoreApplication::applicationFilePath());
+    settings()->setValue("Control/InitVer", QCoreApplication::applicationVersion());
+    settings()->setValue("Control/InitTime", QDateTime::currentDateTime()
+                                                 .toString("DyyyyMMdd-Thhmmsszzz"));
+//    startLog();
+    QTimer::singleShot(100, this, &IfConsoleApp::run);
 }
 
-void IfConsoleApp::start()
+void IfConsoleApp::run()
 {
-    LOG->start();
-    inputMap() = settingsMap("Input");
-    const QUrl cInputUrl = inputMap().value("URL").toUrl();
-    LOG->INFO(QString("Input Url=%1").arg(cInputUrl.toString()));
-    inputModule()->initialize();
-    inputModule()->start(cInputUrl);
+    inputModule()->run();
+    outputModule()->run();
 }
 
 QVariant IfConsoleApp::get(const QString &aKey, const QVariant &aDephalt) const
@@ -94,10 +79,11 @@ QSettings::SettingsMap IfConsoleApp::settingsMap(const char *psz)
     return settingsMap(QString(psz));
 }
 
-void IfConsoleApp::initializeLog()
+void IfConsoleApp::startLog()
 {
-    const QString cLogUrlsString = settings()->value("Output/LogUrls",
-                                                     "file://./log/%-@.log;troll:").toString();
+    const QString cLogUrlsString
+        = settings()->value("Output/LogUrls",
+                        "file://./log/%-@.log;troll:").toString();
     LOG->close();
     if ("{none}" != cLogUrlsString)
     {

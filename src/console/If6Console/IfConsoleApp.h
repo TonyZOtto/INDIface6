@@ -17,25 +17,16 @@ class IfConsoleApp : public QCoreApplication
 {
     Q_OBJECT
 public:
-    enum WaitingFlag
-    {
-        $null = 0,
-        WaitInputModule,
-        WaitOutputModule,
-    };
-    Q_DECLARE_FLAGS(WaitingFlags, WaitingFlag);
 
 public:
     IfConsoleApp(int argc, char *argv[]);
 
 public slots:
     void initialize();
-    void setup(VirtualIfModule * pModule);
-    void start();
+    void setup();
+    void run();
 
 signals:
-    void initialized();
-    void setuped();
     void logOpened(const QString aLogUrls);
 
 public: // const
@@ -57,10 +48,9 @@ public: // pointers
     QSettings::SettingsMap & outputMap();
 
 private slots:
-    void initializeLog();
+    void startLog();
 
 private:
-    WaitingFlags mWaiting;
     IfCache * mpCache;
     CommandLine * mpCommandLine=nullptr;
     QSettings * mpSettings=nullptr;
@@ -69,8 +59,6 @@ private:
     QSettings::SettingsMap mInputMap;
     QSettings::SettingsMap mOutputMap;
 };
-
-Q_DECLARE_OPERATORS_FOR_FLAGS(IfConsoleApp::WaitingFlags);
 
 inline IfCache *IfConsoleApp::cache() { return mpCache; }
 inline QSettings *IfConsoleApp::settings() const { Q_CHECK_PTR(mpSettings); return mpSettings; }

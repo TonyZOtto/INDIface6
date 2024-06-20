@@ -58,16 +58,27 @@ QVariant BaseImage::toVariant() const
     return result;
 }
 
-bool BaseImage::set(const QImage in, const QImage::Format format, const unsigned clip)
+void BaseImage::clear()
 {
-    const Rect cRectIn(in.rect());
-    Q_UNUSED(clip); // TODO Handle clip
-//    const Rect cRect = cRectIn.clipped(clip);
-//    const QRect cQRect(cRect.topLeft().toQPoint(), cRect.size().toQSize());
-//    const QImage tImage = in.convertedTo(format).copy(cQRect);
-    const QImage tImage = in.convertedTo(format);
-    bool result = ! tImage.isNull();
-    if (result) image(tImage);
+    p_type = $nullType,
+    p_format=QImage::Format_Invalid;
+    p_colorTable.clear();
+    p_rect.clear();
+    p_image = QImage();
+    p_alphaImage = QImage();
+}
+
+bool BaseImage::set(const QImage aImage, const QImage::Format aFormat, const unsigned aClip)
+{
+    clear();
+    Q_UNUSED(aClip); // TODO handle aClip
+    // const Rect cRectIn(aImage.rect());
+    // const Rect cRerect = cRectIn.clipped(aClip);
+    // const QImage cImage = aImage.copy(cRerect.toQRect()).convertedTo(aFormat);
+    const QImage cImage = aImage.convertedTo(aFormat);
+    bool result = ! cImage.isNull();
+    if (result)
+        type(Color), rect(cImage.rect()), image(cImage), format(aFormat);
     return result;
 }
 

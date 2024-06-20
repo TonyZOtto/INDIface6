@@ -21,7 +21,7 @@ public: // const
     int intX() const { return (int)(x()); }
     int intY() const { return (int)(y()); }
     bool isNull() const { return 0 == x() && 0 == y(); }
-    QPoint toQPoint() const { return QPoint((int)(x()), (int)(y())); }
+    QPoint toQPoint() const { return QPoint(intX(), intY()); }
 
 public: // non-const
     void x(const U xx) { mX = xx; }

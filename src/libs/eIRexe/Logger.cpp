@@ -137,12 +137,17 @@ bool Logger::openFile(const OutputLogUrl &aOutputLogUrl)
 
 bool Logger::openTroll(const OutputLogUrl &aOutputLogUrl)
 {
-    Q_ASSERT(!"MUSTDO")    ;
+    // MUSTDO Logger::openTroll()
     bool result = false;
+#if 1
+    result = true;
+#else
+    Q_ASSERT(!"MUSTDO");
     TrollLogOutput * pOut = new TrollLogOutput(aOutputLogUrl, this);
     Q_CHECK_PTR(pOut);
     result = pOut->open(aOutputLogUrl);
     pOut->mode(result ? QIODevice::WriteOnly : QIODevice::NotOpen);
+#endif
     return result;
 }
 

@@ -1,6 +1,9 @@
 #include "InputModule.h"
 
 #include <QDir>
+#include <QByteArray>
+#include <QFile>
+#include <QFileInfo>
 #include <QUrlQuery>
 
 #include <BaseErrorCode.h>
@@ -50,14 +53,18 @@ void InputModule::startFiles(const QUrl &url, const QUrlQuery &query)
 {
     QQStringList cExtList = enumerateExtensions(query);
     // TODO handle file name wildcard query item
+    QFileInfoList tFIs;
     const QDir cDir = dir(url);
-    const QQStringList cNameFilters = BaseImage::nameFilters(cExtList);
-    const QFileInfoList cFIs = cDir.entryInfoList(cNameFilters);
-    qDebug() << Q_FUNC_INFO << cFIs;
-    if (cFIs.isEmpty())
+    if ( ! cDir.isEmpty())
+    {
+        const QQStringList cNameFilters = BaseImage::nameFilters(cExtList);
+        tFIs = cDir.entryInfoList(cNameFilters, QDir::Files);
+    }
+    qDebug() << Q_FUNC_INFO << url << query.toString() << cDir << tFIs;
+    if (tFIs.isEmpty())
         emit empty();
     else
-        processFiles(cFIs);
+        processFiles(tFIs);
 }
 
 void InputModule::startHotDir(const QUrl &url, const QUrlQuery &query)
@@ -76,7 +83,7 @@ bool InputModule::processFiles(const QFileInfoList fis)
 {
     emit allFiles(fis);
     emit startProcessing(fis.count());
-    qInfo() << "===Prtocessing Files: ";
+    qInfo() << "===Processing Files: " << fis;
     Count nProcessed = 0, nNull = 0;
     foreach (const QFileInfo cFI, fis)
     {
@@ -86,7 +93,7 @@ bool InputModule::processFiles(const QFileInfoList fis)
             emit processError(++nNull, cFI, cEC);
         else
             emit processed(++nProcessed, cFI);
-        qInfo() << nProcessed << cFI.baseName();
+        qInfo() << nProcessed << cFI.fileName();
     }
     emit finishedProcessing(nProcessed);
     return 0 == nNull;
@@ -95,15 +102,31 @@ bool InputModule::processFiles(const QFileInfoList fis)
 BaseErrorCode InputModule::processFile(const QFileInfo fi)
 {
     BaseErrorCode result;
-    const QImage cFileImage(fi.filePath());
-    if (cFileImage.isNull())
-        result = BaseErrorCode("ImageAcquisition/processFile/NullFileImage",
-                               "File QImage " + fi.filePath() + " is null");
+    QImage tFileImage;
+    QFile tFile(fi.filePath());
+    tFile.open(QIODevice::ReadOnly);
+    if ( ! tFile.isOpen())
+        result = BaseErrorCode(&tFile);
+
+    QByteArray tBytes = tFile.readAll();
+    if (tBytes.isEmpty())
+        result = BaseErrorCode("InputModule/processFile/NullFileData",
+                           "File " + fi.filePath() + " is empty");
+    else
+        tFileImage = QImage::fromData(tBytes);
+
     if (result.notError())
     {
-        const ColorImage cColorImage(cFileImage);
+        if (tFileImage.isNull())
+            result = BaseErrorCode("InputModule/processFile/NullFileImage",
+                                   "File QImage " + fi.filePath() + " is null");
+    }
+
+    if (result.notError())
+    {
+        const ColorImage cColorImage(tFileImage);
         if (cColorImage.isNull())
-            result = BaseErrorCode("ImageAcquisition/processFile/NullColorImage",
+            result = BaseErrorCode("InputModule/processFile/NullColorImage",
                                    "ColorImage for" + fi.filePath() + " is null");
         if (result.notError())
         {
@@ -113,12 +136,13 @@ BaseErrorCode InputModule::processFile(const QFileInfo fi)
             tFrameData.insert("Input/Source/URL", app()->inputMap().value("URL"));
             tFrameData.insert("Input/Source/EMS", MillisecondTime::current().toString("DyyyyMMdd-Thhmmsszzz"));
             tFrameData.insert("Input/Source/FileName", fi.baseName());
-            tFrameData.insert("Input/Source/FileImage", cFileImage);
+            tFrameData.insert("Input/Source/FileImage", tFileImage);
             tFrameData.insert("Input/Source/ColorImage", tColorImageVar);
             const Uid cUid = app()->cache()->frame(tFrameData);
             mCacheUidQueue.enqueue(cUid);
         }
     }
+    qDebug() << result.toString();
     return result;
 }
 
@@ -138,9 +162,9 @@ QQStringList InputModule::enumerateExtensions(const QUrlQuery &query)
 QDir InputModule::dir(const QUrl &url)
 {
     QDir result;
-    const QString cPath = url.path();
-    const QFileInfo cFI = QFileInfo(cPath);
-    if (cFI.exists() && cFI.isReadable())
-        result = cFI.dir();
+    const QString cPath(url.path());
+    const QDir cDir(cPath);
+    if (cDir.isReadable()) result = cDir;
+    qDebug() << Q_FUNC_INFO << result.absolutePath() << cPath;
     return result;
 }

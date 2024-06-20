@@ -45,12 +45,15 @@ public: // const
     PointT<U> center() const { return PointT(mCenterX, mCenterY); }
     PointT<U> topLeft() const { return PointT(mCenterX - mWidth / 2.0, mCenterY - mHeight / 2.0); }
     SizeT<U> size() const { return SizeT<U>(mWidth, mHeight); }
-    RectT clipped(const U clip) const;
+//    RectT clipped(const U clip) const;
     QRect toQRect() const;
     QRectF toQRectF() const { return QRectF(topLeft(), size()); }
     bool operator == (const RectT<U> &other);
 
 public: // non-const
+    void clear() { size(0), center(0, 0); }
+    void center(const U x, const U y) { mCenterX = x, mCenterY = y; }
+    void size(const U d) { mWidth = d, mHeight = d; }
     void size(const U w, const U h) { mWidth = w, mHeight = h; }
     void size(const SizeT<U> sz) { size(sz.width(), sz.height()); }
 
@@ -64,24 +67,25 @@ private:
 typedef RectT<int> Rect;
 typedef RectT<qreal> RectF;
 typedef RectT<Rational> RectR;
-
+/*
 template<typename U>
-inline RectT<U> RectT<U>::clipped(const U clip) const
+inline RectT<U> Rect::clipped(const U aClip) const
 {
-    U tClipWidth = mWidth, tClipHeight = mHeight;
-    if (clip) tClipWidth = (tClipWidth / clip) * clip, tClipHeight = (tClipHeight / clip) * clip;
-    return RectT(center(), SizeT(tClipWidth, tClipHeight));
+    if (aClip < 2) return *this;
+    int tClipWidth = mWidth, tClipHeight = mHeight;
+    tClipWidth  = (tClipWidth  / aClip) * aClip,
+    tClipHeight = (tClipHeight / aClip) * aClip;
+    return RectT<U>(center(), SizeT<U>(tClipWidth, tClipHeight));
 }
-
+*/
 template<typename U>
 inline QRect RectT<U>::toQRect() const
 {
-    PointT<U> tPointT = topLeft();
-    SizeT<U> tSizeT = size();
-    QPoint tQPoint = tPointT.toQPoint();
-    QSize tQSize = tSizeT.toQSize();
-    return QRect(tQPoint, tQSize);
-//    return QRect(topLeft().toQPoint(), size().toQSize());
+    const PointT<U> cPointT = topLeft();
+    const SizeT<U> cSizeT = size();
+    const QPoint cQPoint = cPointT.toQPoint();
+    const QSize cQSize = cSizeT.toQSize();
+    return QRect(cQPoint, cQSize);
 }
 
 template<typename U>
