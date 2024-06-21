@@ -119,7 +119,7 @@ bool Logger::open(const OutputLogUrl &aOutputLogUrl)
     case Log::FileOutputScheme:     result = openFile(aOutputLogUrl);   break;
     case Log::TrollOutputScheme:    result = openTroll(aOutputLogUrl);  break;
     case Log::SqlOutputScheme:      result = openSql(aOutputLogUrl);    break;
-    default:                        /* false result */                  break;
+    default:                        /* leave false result */            break;
     };
 
     if (result)     mMasterOutputLevelFlags |= aOutputLogUrl.levelFlags();

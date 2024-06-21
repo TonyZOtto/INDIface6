@@ -4,6 +4,7 @@
 #include <QObject> // Q_GADGET
 
 #include <QDateTime>
+#include <QMetaType>
 #include <QString>
 #include <QStringList>
 #include <QVariant>
@@ -43,8 +44,6 @@ public: // types
     typedef QList<ArgumentInfo> ArgumentInfoList;
 
 public: // ctors
-    explicit LogItem();
-    explicit LogItem(const LogItem &other);
     LogItem(const Context &ctx, const char * pchMessage);
     LogItem(const Context &ctx, const QString msg);
     LogItem(const Context &ctx, const char * pchFormat,
@@ -88,6 +87,12 @@ private: // non-const;
     void set(const ArgumentInfoList &args);
     void set(const char * pchFormat, const ArgumentInfoList &args);
 
+public: // QMetaType
+    LogItem() = default;
+    ~LogItem() = default;
+    LogItem(const LogItem &) = default;
+    LogItem &operator=(const LogItem &) = default;
+
 private:
     Uid     mUid;
     Boolean mBoolean;
@@ -111,5 +116,8 @@ private: // ------------------------ properties ------------------------
     QStringList         m_debugStrings;
 };
 
+Q_DECLARE_METATYPE(LogItem);
 Q_DECLARE_OPERATORS_FOR_FLAGS(LogItem::Flags);
 typedef LogItem::Flags  LogItemFlags;
+
+

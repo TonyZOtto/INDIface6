@@ -1,11 +1,11 @@
 TEMPLATE = subdirs
 
-SUBDIRS =                   \
-    eIRbase          \
-    eIRcore          \
-    eIRexe           \
-    IfCore           \
-    If6Console    \
+SUBDIRS =           \
+    eIRbase         \
+    eIRcore         \
+    eIRexe          \
+    IfCore          \
+    If6Console      \
 
 eIRbase.subdir      = libs/eIRbase
 eIRcore.subdir      = libs/eIRcore

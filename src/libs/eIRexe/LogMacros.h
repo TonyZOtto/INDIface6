@@ -15,7 +15,7 @@ Q_GLOBAL_STATIC(Logger, LOG);
 #define LOGITEMXP(lvl, comp, exp, act) LogItem(LOGCTX(lvl), comp, #exp, exp, #act, act);
 #define LOGITEMAS(lvl, flag, bexp) LogItem(LOGCTX(lvl), flag, #bexp, bexp);
 
-#define LOGADD(item) add(item);
+#define LOGADD(item) LOG->add(item);
 #define LOGMSG(lvl, msg) LOGADD(LOGITEMSG(lvl, msg));
 #define LOGFMT1(lvl, fmt, arg1) LOGADD(LOGITEMF1(lvl, fmt, arg1));
 #define LOGFMT2(lvl, fmt, arg1, arg2) LOGADD(LOGITEMF2(lvl, fmt, arg1, arg2));

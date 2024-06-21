@@ -9,13 +9,14 @@ class TrollLogOutput : public BaseLogOutput
 {
     Q_OBJECT
 public:
-    explicit TrollLogOutput(const OutputLogUrl &url, QObject *parent = nullptr);
+    explicit TrollLogOutput(const OutputLogUrl &aUrl, QObject *parent = nullptr);
 
 public:
-    virtual bool open(const OutputLogUrl &url) override;
-    virtual bool write(const LogItem &item) override;
+    virtual bool open(const OutputLogUrl &aUrl) override;
+    virtual bool write(const LogItem &aItem) override;
 
 private:
-    void write(const LogMsgType lmt, const QString &s);
-    void write(const LogMsgType lmt, const char *pch);
+    void write(const LogMsgType aMsgType, const QStringList &aStrings);
+    void write(const LogMsgType aMsgType, const QString &aString);
+    void write(const LogMsgType aMsgType, const char *pch);
 };

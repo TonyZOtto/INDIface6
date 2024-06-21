@@ -6,14 +6,6 @@
 
 Index LogItem::smNextSequence = 0;
 
-LogItem::LogItem() {;}
-
-LogItem::LogItem(const LogItem &other)
-    : mUid(other.mUid)
-{
-    m_functionInfo = other.m_functionInfo;
-}
-
 LogItem::LogItem(const Context &ctx, const char *pchMessage)
     : mUid(true)
 {

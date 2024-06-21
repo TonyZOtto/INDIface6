@@ -27,6 +27,8 @@ void IfConsoleApp::initialize()
     mpOutputModule = new OutputModule(this);
     inputModule()->initialize();
     outputModule()->initialize();
+    //PROGRESS("Initialization Complete");
+    // TODO queue items before output open and logging started
     QTimer::singleShot(100, this, &IfConsoleApp::setup);
 }
 
@@ -39,12 +41,14 @@ void IfConsoleApp::setup()
     settings()->setValue("Control/InitVer", QCoreApplication::applicationVersion());
     settings()->setValue("Control/InitTime", QDateTime::currentDateTime()
                                                  .toString("DyyyyMMdd-Thhmmsszzz"));
-//    startLog();
+    startLog();
+    PROGRESS("Initialization & Setup Complete");
     QTimer::singleShot(100, this, &IfConsoleApp::run);
 }
 
 void IfConsoleApp::run()
 {
+    PROGRESS("Start Running");
     inputModule()->run();
     outputModule()->run();
 }
@@ -83,7 +87,7 @@ void IfConsoleApp::startLog()
 {
     const QString cLogUrlsString
         = settings()->value("Output/LogUrls",
-                        "file://./log/%-@.log;troll:").toString();
+                        "file:///./log/%-@.log;troll:").toString();
     LOG->close();
     if ("{none}" != cLogUrlsString)
     {

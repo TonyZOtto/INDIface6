@@ -7,7 +7,9 @@ OutputLogUrlList::OutputLogUrlList(const QString &aString)
     const QStringList cStringList = aString.split(hinge());
     foreach (const QString cUrlString, cStringList)
     {
-        append(OutputLogUrl(QUrl(cUrlString)));
+        const QUrl cUrl(cUrlString);
+        const OutputLogUrl cLogUrl(cUrl);
+        append(cLogUrl);
     }
 }
 
