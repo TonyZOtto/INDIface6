@@ -4,12 +4,13 @@
 
 BaseErrorCode::BaseErrorCode() : mUCode(0) {}
 BaseErrorCode::BaseErrorCode(const unsigned int u) : mUCode(u) {;}
-BaseErrorCode::BaseErrorCode(const Key key, const QString desc) : mUCode(0), mKey(key), mDescription(desc) {;}
+BaseErrorCode::BaseErrorCode(const Key key, const QString desc)
+    : mUCode(0), mKey(key), mDescription(desc) {;}
 
 BaseErrorCode::BaseErrorCode(QFile *pFile)
 {
     Q_CHECK_PTR(pFile);
-    if (mUCode = pFile->error())
+    if ((mUCode = pFile->error()))
     {
         mKey = "BaseErrorCode/FileError";
         mName = pFile->fileName();

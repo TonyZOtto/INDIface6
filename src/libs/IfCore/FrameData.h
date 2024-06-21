@@ -16,8 +16,10 @@ public: // ctors
 public: // const
     Uid frameUid() const;
     Key frameKey() const;
+    QByteArray rawBytes() const;
 
 public: // non-const
+    void set(const Key aKey, const QVariant &aValue);
 
 private:
 };

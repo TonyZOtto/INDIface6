@@ -18,6 +18,7 @@ const QImage::Format BaseImage::FloatPlaneFormat = QImage::Format_Indexed8;
 
 
 BaseImage::BaseImage() : p_type($nullType), p_format(QImage::Format_Invalid) {;}
+BaseImage::BaseImage(const BaseImage other, const QImage::Format format, const Count clip) { set(other.p_image, format, clip); }
 BaseImage::BaseImage(const QImage in, const QImage::Format format, const Count clip) { set(in, format, clip); }
 
 bool BaseImage::isNull() const
@@ -75,7 +76,7 @@ bool BaseImage::set(const QImage aImage, const QImage::Format aFormat, const uns
     // const Rect cRectIn(aImage.rect());
     // const Rect cRerect = cRectIn.clipped(aClip);
     // const QImage cImage = aImage.copy(cRerect.toQRect()).convertedTo(aFormat);
-    const QImage cImage = aImage.convertedTo(aFormat);
+    const QImage cImage = (aImage.format() == aFormat) ? aImage : aImage.convertedTo(aFormat);
     bool result = ! cImage.isNull();
     if (result)
         type(Color), rect(cImage.rect()), image(cImage), format(aFormat);

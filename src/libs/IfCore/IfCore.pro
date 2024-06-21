@@ -16,6 +16,11 @@ SOURCES += \
     FrameData.cpp \
     IfCache.cpp \
     IfCore.cpp \
+    Image.cpp \
+    ImageMarker.cpp \
+    ImageWriterItem.cpp \
+    ImageWriterManager.cpp \
+    ImageWriterThread.cpp   \
 
 
 HEADERS += \
@@ -26,6 +31,11 @@ HEADERS += \
     IfCache.h \
     IfCore_global.h \
     IfCore.h \
+    Image.h \
+    ImageMarker.h \
+    ImageWriterItem.h \
+    ImageWriterManager.h \
+    ImageWriterThread.h \
 
 
 # Default rules for deployment.

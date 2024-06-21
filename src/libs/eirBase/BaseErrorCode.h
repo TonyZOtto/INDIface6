@@ -19,7 +19,7 @@ public:
     bool isError() const;
     bool notError() const { return ! isError(); }
     QString toString() const;
-
+    operator bool () const { return isError(); }
 
 private:
     unsigned mUCode;

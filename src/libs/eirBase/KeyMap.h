@@ -17,8 +17,10 @@ public: // ctors
 public: // const
     Ident ident() const;
     bool contains(const Key &key) const;
-    const QVariant value(const Key &key) const;
-    const QVariant value(const Key &key, const QVariant &defalt) const;
+    QVariant get(const Key &aKey) const;
+    QVariant get(const Key &aKey, const QVariant &aDefault) const;
+    const QVariant value(const Key &aKey) const;
+    const QVariant value(const Key &aKey, const QVariant &aDefault) const;
     const Key::List keys() const;
 
 public: // non-const

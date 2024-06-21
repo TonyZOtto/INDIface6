@@ -137,7 +137,7 @@ bool Logger::openFile(const OutputLogUrl &aOutputLogUrl)
 
 bool Logger::openTroll(const OutputLogUrl &aOutputLogUrl)
 {
-    // MUSTDO Logger::openTroll()
+    Q_UNUSED(aOutputLogUrl); // MUSTDO Logger::openTroll()
     bool result = false;
 #if 1
     result = true;

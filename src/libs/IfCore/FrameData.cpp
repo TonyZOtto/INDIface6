@@ -13,3 +13,8 @@ Key FrameData::frameKey() const
 {
     return ident().key();
 }
+
+QByteArray FrameData::rawBytes() const
+{
+    return get("Input/Source/FileBytes").toByteArray();
+}

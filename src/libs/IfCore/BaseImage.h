@@ -17,8 +17,6 @@
 #include "../eIRcore/RectT.h"
 #include "../eIRcore/SizeT.h"
 
-
-
 class IFCORE_EXPORT BaseImage
 {
     Q_GADGET

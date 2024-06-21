@@ -136,6 +136,7 @@ BaseErrorCode InputModule::processFile(const QFileInfo fi)
             tFrameData.insert("Input/Source/URL", app()->inputMap().value("URL"));
             tFrameData.insert("Input/Source/EMS", MillisecondTime::current().toString("DyyyyMMdd-Thhmmsszzz"));
             tFrameData.insert("Input/Source/FileName", fi.baseName());
+            tFrameData.insert("Input/Source/FileBytes", tBytes);
             tFrameData.insert("Input/Source/FileImage", tFileImage);
             tFrameData.insert("Input/Source/ColorImage", tColorImageVar);
             const Uid cUid = app()->cache()->frame(tFrameData);
