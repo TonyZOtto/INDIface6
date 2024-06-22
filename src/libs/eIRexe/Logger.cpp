@@ -139,10 +139,9 @@ bool Logger::openTroll(const OutputLogUrl &aOutputLogUrl)
 {
     Q_UNUSED(aOutputLogUrl); // MUSTDO Logger::openTroll()
     bool result = false;
-#if 1
+#if 0
     result = true;
 #else
-    Q_ASSERT(!"MUSTDO");
     TrollLogOutput * pOut = new TrollLogOutput(aOutputLogUrl, this);
     Q_CHECK_PTR(pOut);
     result = pOut->open(aOutputLogUrl);

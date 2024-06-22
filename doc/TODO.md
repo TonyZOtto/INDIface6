@@ -8,3 +8,4 @@ Revised Fri Jun 21 2024
 * [ ] troll://?format=multitext
 * [ ] Connect output format
 * [ ] replace % with org/app and @ with timestamp on file: log output urls
+* [ ] random Uid mostly zero

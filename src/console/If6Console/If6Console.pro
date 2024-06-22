@@ -30,4 +30,5 @@ HEADERS += \
     version.h
 
 DISTFILES += \
-    ../../../doc/Settings2.txt
+    ../../../doc/Settings2.txt \
+    ../../../doc/TODO.md
