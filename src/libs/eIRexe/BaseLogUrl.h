@@ -6,6 +6,7 @@
 #include <QString>
 #include <QUrlQuery>
 
+#include "../eIRbase/AText.h"
 #include "LogObject.h"
 
 class BaseLogUrl : public QUrl
@@ -40,7 +41,4 @@ private:
     QIODevice::OpenMode mOpenMode=QIODevice::NotOpen;
 };
 
-inline QIODeviceBase::OpenMode BaseLogUrl::openMode() const
-{
-    return mOpenMode;
-}
+inline QIODeviceBase::OpenMode BaseLogUrl::openMode() const { return mOpenMode; }

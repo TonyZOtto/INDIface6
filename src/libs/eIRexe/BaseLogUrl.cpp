@@ -13,12 +13,12 @@ BaseLogUrl::BaseLogUrl(const Log::UrlType aUrlType)
 
 BaseLogUrl::BaseLogUrl(const Log::UrlType aUrlType, const QString &aUrlString)
 {
-    set(aUrlType); set(aUrlString);
+    set(aUrlType), set(aUrlString);
 }
 
 BaseLogUrl::BaseLogUrl(const Log::UrlType aUrlType, const QUrl &aUrl)
 {
-    set(aUrlType); set(aUrl);
+    set(aUrlType), set(aUrl);
 }
 
 void BaseLogUrl::set(const Log::UrlType aUrlType)
@@ -35,9 +35,7 @@ void BaseLogUrl::set(const QString &aUrlString)
 
 void BaseLogUrl::set(const QUrl &aUrl)
 {
-    QUrl::setUrl(aUrl.toString());
-    mQuery = QUrlQuery(*this);
-    parseOpenMode();
+    set(aUrl.toString());
 }
 
 bool BaseLogUrl::hasQuery(const QString &aQueryKey) const

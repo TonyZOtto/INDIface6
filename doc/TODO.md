@@ -5,7 +5,10 @@ Revised Fri Jun 21 2024
 
 ### Logging
 
-* [ ] troll://?format=multitext
+* [x] troll://?format=multitext
 * [ ] Connect output format
 * [ ] replace % with org/app and @ with timestamp on file: log output urls
-* [ ] random Uid mostly zero
+- [ ] Refactor OutputLogUrl ctors with set() functions
+- [ ] Use or remove QMetaType and ObjectHelper in OutputLogUrl
+- [ ] OutputLogUrl::parseLevels() - Handle TraceFlags and UserFlags
+- [ ] 

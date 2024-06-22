@@ -18,8 +18,8 @@ OutputLogUrl::OutputLogUrl(const QString &aUrlString)
     mpLogObjectHelper = new ObjectHelper(LOG);
     Q_CHECK_PTR(mpLogObjectHelper);
     mMetaEnum = mpLogObjectHelper->metaEnum("Level");
-    parseOutputFormat();
-    parseLevels();
+    mOutputFormat = parseOutputFormat();
+    mLevelFlags = parseLevels();
 }
 
 OutputLogUrl::OutputLogUrl(const QUrl &aUrl)
@@ -28,8 +28,8 @@ OutputLogUrl::OutputLogUrl(const QUrl &aUrl)
     mpLogObjectHelper = new ObjectHelper(LOG);
     Q_CHECK_PTR(mpLogObjectHelper);
     mMetaEnum = mpLogObjectHelper->metaEnum("Level");
-    parseOutputFormat();
-    parseLevels();
+    mOutputFormat = parseOutputFormat();
+    mLevelFlags = parseLevels();
 }
 
 Log::OutputFormat OutputLogUrl::parseOutputFormat()
@@ -69,6 +69,14 @@ Log::LevelFlags OutputLogUrl::parseLevels()
         const QStringList cLevelStrings = cLevelQueryString.split(",");
         foreach (const QString cLevelString, cLevelStrings)
             result |= parseLevelString(cLevelString);
+        // TODO Handle TraceFlags and UserFlags
+    }
+    else
+    {
+        if ("troll" == scheme())
+            result = Log::TraceFlags;
+        else if ("file" == scheme())
+            result = Log::TraceFlags | Log::UserFlags;
     }
     return result;
 }

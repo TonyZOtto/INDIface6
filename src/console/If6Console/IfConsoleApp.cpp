@@ -87,7 +87,8 @@ void IfConsoleApp::startLog()
 {
     const QString cLogUrlsString
         = settings()->value("Output/LogUrls",
-                        "file:///./log/%-@.log;troll:").toString();
+            "file:///./log/%-@.log;"
+            "troll:///?Format=multitext").toString();
     LOG->close();
     if ("{none}" != cLogUrlsString)
     {
