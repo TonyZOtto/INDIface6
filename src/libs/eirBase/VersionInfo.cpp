@@ -3,6 +3,10 @@
 #include <QCoreApplication>
 #include <QChar>
 
+#include <ctype.h>
+
+#include "AText.h"
+
 VersionInfo::VersionInfo() { clear(); }
 
 VersionInfo::VersionInfo(const BYTE maj, const WORD min, const BYTE rls, const WORD bch,
@@ -158,6 +162,30 @@ UText VersionInfo::company() const
 UText VersionInfo::legal() const
 {
     return m_legal;
+}
+
+// static
+QVersionNumber VersionInfo::appVersion()
+{
+    AText tAppVerText = qApp->applicationVersion();
+    QList<int> tResultList;
+    int tBuildingValue = 0;
+    while ( ! tAppVerText.isEmpty())
+    {
+        const char cChar = tAppVerText.takeFirstChar();
+        if (isdigit(cChar))
+        {
+            tBuildingValue *= 10;
+            tBuildingValue += cChar - '0';
+        }
+        else if ('.' == cChar)
+        {
+            tResultList.append(tBuildingValue);
+            tBuildingValue = 0;
+        }
+        // else ignore character
+    }
+    return QVersionNumber(tResultList);
 }
 
 QString VersionInfo::dottedString() const

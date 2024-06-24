@@ -3,12 +3,12 @@
 #include "VirtualIfModule.h"
 
 #include <QFileInfo>
-#include <QFileInfoList>
 #include <QUrl>
 
 #include <Types.h>
 #include <Uid.h>
 #include <MutexQueue.h>
+#include <QQFileInfo.h>
 #include <QQString.h>
 #include <QQStringList.h>
 class BaseErrorCode;
@@ -28,7 +28,7 @@ public slots:
 signals:
     void initialized(VirtualIfModule * pThis);
     void running();
-    void allFiles(const QFileInfoList &fis);
+    void allFiles(const QFileInfoList &fileList);
     void empty();
     void startProcessing(const Count nFiles);
     void finishedProcessing(const Count nProcessed);
@@ -48,7 +48,7 @@ private:
     void startFiles(const QUrl &url, const QUrlQuery &query);
     void startHotDir(const QUrl &url, const QUrlQuery &query);
     void startHttp(const QUrl &url, const QUrlQuery &query);
-    bool processFiles(const QFileInfoList fis);
+    bool processFiles(const QFileInfoList &aFIList);
     BaseErrorCode processFile(const QFileInfo fi);
 
     static QQStringList enumerateExtensions(const QUrlQuery &query);

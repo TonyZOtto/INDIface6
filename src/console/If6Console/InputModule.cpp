@@ -1,9 +1,9 @@
 #include "InputModule.h"
 
-#include <QDir>
 #include <QByteArray>
 #include <QFile>
 #include <QFileInfo>
+#include <QFileInfoList>
 #include <QUrlQuery>
 
 #include <BaseErrorCode.h>
@@ -12,6 +12,7 @@
 #include <FrameData.h>
 #include <Ident.h>
 #include <IfCache.h>
+#include <Log.h>
 #include <MillisecondTime.h>
 
 #include "IfConsoleApp.h"
@@ -53,18 +54,19 @@ void InputModule::startFiles(const QUrl &url, const QUrlQuery &query)
 {
     QQStringList cExtList = enumerateExtensions(query);
     // TODO handle file name wildcard query item
-    QFileInfoList tFIs;
+    QFileInfoList tFIList;
     const QDir cDir = dir(url);
     if ( ! cDir.isEmpty())
     {
         const QQStringList cNameFilters = BaseImage::nameFilters(cExtList);
-        tFIs = cDir.entryInfoList(cNameFilters, QDir::Files);
+        const QFileInfoList cQFIL = cDir.entryInfoList(cNameFilters, QDir::Files);
+        tFIList = cQFIL;
     }
-    qDebug() << Q_FUNC_INFO << url << query.toString() << cDir << tFIs;
-    if (tFIs.isEmpty())
+    qDebug() << Q_FUNC_INFO << url << query.toString() << cDir << tFIList;
+    if (tFIList.isEmpty())
         emit empty();
     else
-        processFiles(tFIs);
+        processFiles(tFIList);
 }
 
 void InputModule::startHotDir(const QUrl &url, const QUrlQuery &query)
@@ -79,21 +81,28 @@ void InputModule::startHttp(const QUrl &url, const QUrlQuery &query)
     Q_UNUSED(url); Q_UNUSED(query);
 }
 
-bool InputModule::processFiles(const QFileInfoList fis)
+bool InputModule::processFiles(const QFileInfoList &aFIList)
 {
-    emit allFiles(fis);
-    emit startProcessing(fis.count());
-    qInfo() << "===Processing Files: " << fis;
+    emit allFiles(aFIList);
+    emit startProcessing(aFIList.count());
+    PROGRESS("===Processing " + QString::number(aFIList.count()) + " Files");
     Count nProcessed = 0, nNull = 0;
-    foreach (const QFileInfo cFI, fis)
+    DETAIL(QQFileInfo::toListDebugStrings(aFIList).join('\n'));
+    foreach (const QFileInfo cFI, aFIList)
     {
         emit processing(cFI);
+        INFO("---Processing: " + cFI.baseName());
         const BaseErrorCode cEC = processFile(cFI);
         if (cEC.isError())
+        {
+            TWARN("###" + cEC.toString());
             emit processError(++nNull, cFI, cEC);
+        }
         else
+        {
             emit processed(++nProcessed, cFI);
-        qInfo() << nProcessed << cFI.fileName();
+        }
+//        qInfo() << nProcessed << cFI.fileName();
     }
     emit finishedProcessing(nProcessed);
     return 0 == nNull;
@@ -166,6 +175,5 @@ QDir InputModule::dir(const QUrl &url)
     const QString cPath(url.path());
     const QDir cDir(cPath);
     if (cDir.isReadable()) result = cDir;
-    qDebug() << Q_FUNC_INFO << result.absolutePath() << cPath;
     return result;
 }

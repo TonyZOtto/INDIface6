@@ -2,7 +2,7 @@
 #include "eIRexe.h"
 
 #include <QString>
-#include <QString>
+#include <QVersionNumber>
 
 #include "../eIRbase/AText.h"
 #include "../eIRcore/QQFileInfo.h"
@@ -24,6 +24,7 @@ public: // const
     FunctionInfo functionInfo() const;
     QQFileInfo fileInfo() const;
     unsigned fileLine() const;
+    QVersionNumber versionNumber() const;
     Log::Level level() const;
 
 private:
@@ -31,4 +32,5 @@ private:
     AText mFileName;
     unsigned mFileLine;
     Log::Level mLogLevel;
+    QVersionNumber mVersionNumber;
 };

@@ -28,6 +28,7 @@ HEADERS += \
     BaseUidCache.h \
     DualMap.h \
     IODevice.h \
+    ListT.h \
     MutexQueue.h \
     ObjectHelper.h \
     PointT.h \

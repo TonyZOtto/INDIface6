@@ -5,10 +5,11 @@
 #include "LogObject.h"
 #include "LogMacros.h"
 
+#define PROGRESS(msg) LOGMSG(Log::Progress, msg); LOGMSG(Log::TProgress, msg);
+#define INFO(msg) LOGMSG(Log::Info, msg); LOGMSG(Log::TInfo, msg);
+#define DETAIL(msg) LOGMSG(Log::Detail, msg); LOGMSG(Log::TDetail, msg);
 #define TRACE(msg) LOGMSG(Log::Trace, msg);
 #define TWARN(msg) LOGMSG(Log::Warning, msg);
-#define INFO(msg) LOGMSG(Log::Info, msg);
-#define PROGRESS(msg) LOGMSG(Log::Progress, msg); LOGMSG(Log::TProgress, msg);
 
 #define WPOINTER(typ, pexp) { if (nullptr==(typ*)(exp)) \
     LOGITEMF2(Log::TWarning, "'%\1' pointer to %2 is null", #pexp, #typ); }

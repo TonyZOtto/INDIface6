@@ -6,8 +6,8 @@
 #include <QString>
 #include <QVersionNumber>
 
-#include <AText.h>
-#include <Types.h>
+#include "AText.h"
+#include "Types.h"
 
 class EIRBASE_EXPORT VersionInfo : public QObject
 {
@@ -48,6 +48,9 @@ public: // non-const
              const WORD bld, const char * bnm, const char * app, const char * org);
     void company(const UText &co);
     void legal(const UText &leg);
+
+public: // static
+    static QVersionNumber appVersion();
 
 private:
     QString dottedString() const;
