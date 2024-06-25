@@ -4,6 +4,7 @@ CONFIG += cmdline
 CONFIG += c++17
 
 include(../console.pri)
+include(../../useLog.pri)
 include(../../useBase.pri)
 include(../../useCore.pri)
 include(../../useExe.pri)

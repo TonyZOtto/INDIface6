@@ -14,6 +14,7 @@ SUBDIRS += \
     eIRexe \
     eIRgui \
     eIRphoto \
+    eirLog
 
 
 
