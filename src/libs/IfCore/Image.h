@@ -25,6 +25,7 @@ public: // types
         $endType
     };
     Q_ENUM(Type)
+    static QString typeName(const Type aType);
 
 public: // ctors
     explicit Image(QObject *parent = nullptr);

@@ -1,10 +1,5 @@
 #include "ColorImage.h"
 
-ColorImage::ColorImage()
-{
-
-}
-
 ColorImage::ColorImage(const QImage &aQImage)
     : BaseImage(aQImage, ColorFormat)
 {

@@ -79,7 +79,7 @@ void MillisecondTime::nullify(void)
     mEpochMS = smNullMST;
 }
 
-qint64 MillisecondTime::base(void)
+EpochMilliseconds MillisecondTime::base(void)
 {
     return smBaseMST;
 }

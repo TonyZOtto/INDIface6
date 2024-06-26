@@ -17,11 +17,11 @@ public: // ctors
 
 public: // const
 
-
 public: // non-const
     bool mark(const KeyMap &aMarkSettings);
 
 private:
+    bool markInputFrame(const KeyMap &aMarkSettings);
     bool markMarkedFrame(const KeyMap &aMarkSettings);
     bool markDetectFrame(const KeyMap &aMarkSettings);
 

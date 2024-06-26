@@ -8,11 +8,10 @@
 class IFCORE_EXPORT ColorImage : public BaseImage
 {
 public:
-    ColorImage();
     ColorImage(const QImage &aQImage);
     ColorImage(const BaseImage &aBaseImage);
 
-#if 0
+#if 1
 public: // QMetaType
     ColorImage() = default;
     ~ColorImage() = default;
@@ -21,4 +20,4 @@ public: // QMetaType
 #endif
 };
 
-//Q_DECLARE_METATYPE(ColorImage);
+Q_DECLARE_METATYPE(ColorImage)

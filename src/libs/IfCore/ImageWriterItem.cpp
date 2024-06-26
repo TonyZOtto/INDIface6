@@ -24,8 +24,7 @@ ImageWriterItem::ImageWriterItem()
 }
 
 ImageWriterItem::ImageWriterItem(const ImageWriterItem &rhs)
-    : data{rhs.data}
-{}
+    : data{rhs.data} {}
 
 ImageWriterItem &ImageWriterItem::operator=(const ImageWriterItem &rhs)
 {
@@ -35,6 +34,14 @@ ImageWriterItem &ImageWriterItem::operator=(const ImageWriterItem &rhs)
 }
 
 ImageWriterItem::~ImageWriterItem() {}
+
+bool ImageWriterItem::isNull() const
+{
+    return data->Ident.isNull()
+            || data->Type == Image::$null
+            || (data->Bytes.isEmpty() && data->Image.isNull())
+            || ! data->FileInfo.isWritable();
+}
 
 void ImageWriterItem::set(const Ident &aIdent, const Image::Type &aType)
 {
@@ -65,7 +72,8 @@ BaseErrorCode ImageWriterItem::write()
 {
     BaseErrorCode result;
     if ( ! data->FileInfo.isWritable())
-        result = BaseErrorCode("IfCore/ImageWriterItem/FileInfoNotWritable");
+        result = BaseErrorCode("IfCore/ImageWriterItem/"
+                               "FileInfoNotWritable");
     else if (data->Bytes.isEmpty() && data->Image.isNull())
         result = BaseErrorCode("IfCore/ImageWriterItem/ImageNull");
     if ( ! result)
@@ -80,17 +88,20 @@ BaseErrorCode ImageWriterItem::write()
     {
         QFile tFile(data->FileInfo.absoluteFilePath());
         if ( ! tFile.open(QIODevice::WriteOnly))
-            result = BaseErrorCode("IfCore/ImageWriterItem/NotOpenForWrite");
+            result = BaseErrorCode("IfCore/ImageWriterItem/"
+                                   "NotOpenForWrite");
         if ( ! result)
         {
             const Count tBytesCount = data->Bytes.count();
             const Count tWriteCount = tFile.write(data->Bytes);
             if (tBytesCount != tWriteCount)
-                result = BaseErrorCode("IfCore/ImageWriterItem/WriteFailure",
-                    QString("Writing %1 to %2, Expected %3 bytes, Wrote %4 bytes")
-                                           .arg(data->Ident.key()(),
-                                                data->FileInfo.absoluteFilePath())
-                                           .arg(tBytesCount).arg(tWriteCount));
+                result = BaseErrorCode("IfCore/ImageWriterItem/"
+                                       "WriteFailure",
+                    QString("Writing %1 to %2, "
+                            "Expected %3 bytes, Wrote %4 bytes")
+                           .arg(data->Ident.key()(),
+                                data->FileInfo.absoluteFilePath())
+                           .arg(tBytesCount).arg(tWriteCount));
         }
     }
     return result;

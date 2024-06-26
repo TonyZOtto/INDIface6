@@ -42,6 +42,6 @@ void BaseCacheEntry::touch()
 
 void BaseCacheEntry::set(const Key &valueKey, const QVariant &value)
 {
-    mKeyMap.insert(valueKey, value);
+    mKeyMap.set(valueKey, value);
 }
 

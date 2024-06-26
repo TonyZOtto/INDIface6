@@ -34,7 +34,7 @@ const Key::List KeyMap::keys() const
     return mKeyVariantMap.keys();
 }
 
-void KeyMap::insert(const Key &key, const QVariant &var)
+void KeyMap::set(const Key &key, const QVariant &var)
 {
     mKeyVariantMap.insert(key, var);
 }
@@ -45,6 +45,6 @@ void KeyMap::insert(const KeyMap &other, const Key &groupKey)
     {
         const QVariant cVar = other.value(tKey);
         tKey.prepend(groupKey);
-        insert(tKey, cVar);
+        set(tKey, cVar);
     }
 }

@@ -66,7 +66,7 @@ const KeyMap Settings::map(const Key groupKey)
     {
         const Key cKey(cSKey);
         const QVariant cVar = QSettings::value(cSKey);
-        result.insert(cKey, cVar);
+        result.set(cKey, cVar);
     }
     if (groupKey.notNull()) endGroup();
     return result;

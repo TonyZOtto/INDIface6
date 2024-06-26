@@ -21,7 +21,11 @@ public:
     ImageWriterItem &operator=(const ImageWriterItem &);
     ~ImageWriterItem();
 
-public:
+public: // const
+    bool isNull() const;
+    bool notNull() const { return ! isNull(); }
+
+public: // non-const
     void set(const Ident &aIdent, const Image::Type &aType);
     void set(const char *aFormat, const int aQualty);
     void set(const QImage &aImage);

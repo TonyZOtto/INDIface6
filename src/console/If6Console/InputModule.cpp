@@ -142,12 +142,11 @@ BaseErrorCode InputModule::processFile(const QFileInfo fi)
             Ident tFrameIdent(fi.baseName());
             FrameData tFrameData(tFrameIdent);
             QVariant tColorImageVar = cColorImage.toVariant();
-            tFrameData.insert("Input/Source/URL", app()->inputMap().value("URL"));
-            tFrameData.insert("Input/Source/EMS", MillisecondTime::current().toString("DyyyyMMdd-Thhmmsszzz"));
-            tFrameData.insert("Input/Source/FileName", fi.baseName());
-            tFrameData.insert("Input/Source/FileBytes", tBytes);
-            tFrameData.insert("Input/Source/FileImage", tFileImage);
-            tFrameData.insert("Input/Source/ColorImage", tColorImageVar);
+            tFrameData.sourceUrl(app()->inputMap().value("URL").toUrl());
+            tFrameData.sourceFileInfo(fi);
+            tFrameData.sourceFileBytes(tBytes);
+            tFrameData.sourceFileImage(tFileImage);
+            tFrameData.sourceColorImage(cColorImage);
             const Uid cUid = app()->cache()->frame(tFrameData);
             mCacheUidQueue.enqueue(cUid);
         }

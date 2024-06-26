@@ -5,6 +5,8 @@
 #include <QtGlobal>
 #include <QDateTime>
 
+#include "Types.h"
+
 class EIRBASE_EXPORT MillisecondTime
 {
 public: // ctors
@@ -19,7 +21,7 @@ public: // const
     MillisecondTime delta(MillisecondTime ems=current()) const;
     QDateTime toDateTime(void) const;
     QString toString(const QString & format=QString()) const;
-    operator qint64(void) const;
+    operator EpochMilliseconds(void) const;
 
 public: // const
     void set(const MillisecondTime other);
@@ -28,7 +30,7 @@ public: // const
     void nullify(void);
 
 public: // static
-    static qint64 base(void);
+    static EpochMilliseconds base(void);
     static MillisecondTime null(void);
     static MillisecondTime deltaBase(MillisecondTime ems=current());
     static QString baseString(const QString & format=QString());
@@ -37,7 +39,7 @@ public: // static
     static MillisecondTime fromString(const QString & dateTime);
 
 private:
-    qint64 mEpochMS;
+    EpochMilliseconds mEpochMS;
     static const QDateTime smBaseDateTime;
     static const MillisecondTime smBaseMST;
     static const MillisecondTime smNullMST;
