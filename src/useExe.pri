@@ -1,4 +1,5 @@
 # {Eclipse6}/src/useExe.pri
+include(DESTDIR.pri)
 INCLUDEPATH *= $$LIBDIR/eIRexe
 LIBS *= -leIRexe6
 LIBS *= -L$$DESTDIR

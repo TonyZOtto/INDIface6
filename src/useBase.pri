@@ -1,4 +1,5 @@
 # {Eclipse6}/src/useBase.pri
+include(DESTDIR.pri)
 INCLUDEPATH *= $$LIBDIR/eIRbase
 LIBS *= -leIRbase6
 LIBS *= -L$$DESTDIR

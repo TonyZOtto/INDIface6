@@ -6,7 +6,6 @@ DEFINES += EIREXE_LIBRARY
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000
 CONFIG += c++17
 
-include(../libs.pri)
 include(../../useBase.pri)
 include(../../useCore.pri)
 
