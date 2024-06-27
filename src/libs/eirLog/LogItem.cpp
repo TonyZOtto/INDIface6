@@ -1,8 +1,28 @@
 #include "LogItem.h"
 
+#include <QString>
+#include <QStringList>
+
+#include "../eIRbase/Types.h"
+
+#include "Log.h"
+#include "LogContext.h"
+
 class LogItemData : public QSharedData
 {
 public:
+    LogContext              d_Context;
+    Log::Level              d_Level;
+    Log::LevelFlags         d_Flags;
+    EpochMilliseconds       d_TimestampEms;
+    Index                   d_Sequence;
+    QString                 d_Message;
+    QString                 d_Format;
+    QStringList             d_OutputStrings;
+    Log::ArgumentInfoList   d_Arguments;
+    QString                 d_DebugHead;
+    QStringList             d_DebugStrings;
+    QString                 d_DebugFoot;
 };
 
 LogItem::LogItem()

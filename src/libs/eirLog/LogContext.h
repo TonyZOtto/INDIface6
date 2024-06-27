@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QSharedDataPointer>
+#include <QMessageLogContext>
 
 class LogContextData;
 

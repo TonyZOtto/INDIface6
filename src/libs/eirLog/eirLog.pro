@@ -12,6 +12,7 @@ SOURCES += \
     LogContext.cpp \
     LogFormat.cpp \
     LogFormatTxtFile.cpp \
+    LogFunctionInfo.cpp \
     LogHeader.cpp \
     LogItem.cpp \
     LogOutput.cpp \
@@ -25,6 +26,7 @@ HEADERS += \
     LogContext.h \
     LogFormat.h \
     LogFormatTxtFile.h \
+    LogFunctionInfo.h \
     LogHeader.h \
     LogItem.h \
     LogOutput.h \

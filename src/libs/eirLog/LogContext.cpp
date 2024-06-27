@@ -1,8 +1,18 @@
 #include "LogContext.h"
 
+#include <QFileInfo>
+#include <QString>
+
+#include "../eIRbase/Types.h"
+
 class LogContextData : public QSharedData
 {
 public:
+    EpochMilliseconds   d_TimestampEms;
+    QString             d_QFuncInfo;
+    QFileInfo           d_FileInfo;
+    int                 d_FileLine;
+    QString             d_CategoryName;
 };
 
 LogContext::LogContext()
