@@ -8,33 +8,33 @@ CONFIG += c++17
 include(../libs.pri)
 
 SOURCES += \
-    Log.cpp \
-    LogContext.cpp \
-    LogFormat.cpp \
-    LogFormatTxtFile.cpp \
-    LogFunctionInfo.cpp \
-    LogHeader.cpp \
-    LogItem.cpp \
-    LogOutput.cpp \
-    LogOutputTroll.cpp \
-    LogOutputTxtFile.cpp \
-    Logger.cpp \
-    eirLog.cpp
+    ../../../ottoZcode/src/libs/ozLog/Log.cpp \
+    ../../../ottoZcode/src/libs/ozLog/LogContext.cpp \
+    ../../../ottoZcode/src/libs/ozLog/LogFormat.cpp \
+    ../../../ottoZcode/src/libs/ozLog/LogFormatTxtFile.cpp \
+    ../../../ottoZcode/src/libs/ozLog/LogFunctionInfo.cpp \
+    ../../../ottoZcode/src/libs/ozLog/LogHeader.cpp \
+    ../../../ottoZcode/src/libs/ozLog/LogItem.cpp \
+    ../../../ottoZcode/src/libs/ozLog/LogOutput.cpp \
+    ../../../ottoZcode/src/libs/ozLog/LogOutputTroll.cpp \
+    ../../../ottoZcode/src/libs/ozLog/LogOutputTxtFile.cpp \
+    ../../../ottoZcode/src/libs/ozLog/Logger.cpp \
+    eirLog.cpp \
 
 HEADERS += \
-    Log.h \
-    LogContext.h \
-    LogFormat.h \
-    LogFormatTxtFile.h \
-    LogFunctionInfo.h \
-    LogHeader.h \
-    LogItem.h \
-    LogOutput.h \
-    LogOutputTroll.h \
-    LogOutputTxtFile.h \
-    Logger.h \
+    ../../../ottoZcode/src/libs/ozLog/Log.h \
+    ../../../ottoZcode/src/libs/ozLog/LogContext.h \
+    ../../../ottoZcode/src/libs/ozLog/LogFormat.h \
+    ../../../ottoZcode/src/libs/ozLog/LogFormatTxtFile.h \
+    ../../../ottoZcode/src/libs/ozLog/LogFunctionInfo.h \
+    ../../../ottoZcode/src/libs/ozLog/LogHeader.h \
+    ../../../ottoZcode/src/libs/ozLog/LogItem.h \
+    ../../../ottoZcode/src/libs/ozLog/LogOutput.h \
+    ../../../ottoZcode/src/libs/ozLog/LogOutputTroll.h \
+    ../../../ottoZcode/src/libs/ozLog/LogOutputTxtFile.h \
+    ../../../ottoZcode/src/libs/ozLog/Logger.h \
     eirLog_global.h \
-    eirLog.h
+    eirLog.h \
 
 # Default rules for deployment.
 unix {
