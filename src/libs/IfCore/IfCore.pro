@@ -20,6 +20,7 @@ SOURCES += \
     ImageMarker.cpp \
     ImageWriterItem.cpp \
     ImageWriterManager.cpp \
+    ImageWriterOutput.cpp \
     ImageWriterThread.cpp   \
 
 
@@ -35,6 +36,7 @@ HEADERS += \
     ImageMarker.h \
     ImageWriterItem.h \
     ImageWriterManager.h \
+    ImageWriterOutput.h \
     ImageWriterThread.h \
 
 

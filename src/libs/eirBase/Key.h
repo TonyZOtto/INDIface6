@@ -32,6 +32,7 @@ public: // const
     bool notNull() const { return ! isNull(); }
     bool isValid(const Index ix) const;
     bool contains(const char ch) const;
+    bool startsWith(const Key aPrefixKey) const;
     Count count() const;
     KeySeg segment(const Index ix) const;
     KeySeg::List segments() const;

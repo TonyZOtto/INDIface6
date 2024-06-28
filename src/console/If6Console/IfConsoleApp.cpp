@@ -42,6 +42,7 @@ void IfConsoleApp::setup()
     settings()->setValue("Control/InitTime", QDateTime::currentDateTime()
                                                  .toString("DyyyyMMdd-Thhmmsszzz"));
     startLog();
+    readSettings();
     PROGRESS("Initialization & Setup Complete");
     QTimer::singleShot(100, this, &IfConsoleApp::run);
 }
@@ -98,6 +99,13 @@ void IfConsoleApp::startLog()
         emit logOpened(cLogUrlsString);
     }
 
+}
+
+void IfConsoleApp::readSettings()
+{
+    mInputMap = settingsMap("Input");
+    mMarkMap = settingsMap("Mark");
+    mOutputMap = settingsMap("Output");
 }
 
 #if 0

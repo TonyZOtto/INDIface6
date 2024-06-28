@@ -47,10 +47,12 @@ public: // pointers
     InputModule * inputModule();
     OutputModule * outputModule();
     QSettings::SettingsMap & inputMap();
+    QSettings::SettingsMap & markMap();
     QSettings::SettingsMap & outputMap();
 
 private slots:
     void startLog();
+    void readSettings();
 
 private:
     IfCache * mpCache;
@@ -61,6 +63,7 @@ private:
     OutputModule * mpOutputModule=nullptr;
     QSettings::SettingsMap mInputMap;
     QSettings::SettingsMap mOutputMap;
+    QSettings::SettingsMap mMarkMap;
 };
 
 inline IfCache *IfConsoleApp::cache() { return mpCache; }
@@ -69,4 +72,5 @@ inline QSettings *IfConsoleApp::settings() { Q_CHECK_PTR(mpSettings); return mpS
 inline InputModule *IfConsoleApp::inputModule() { Q_CHECK_PTR(mpInputModule); return mpInputModule; }
 inline OutputModule *IfConsoleApp::outputModule()  { Q_CHECK_PTR(mpOutputModule); return mpOutputModule; }
 inline QSettings::SettingsMap &IfConsoleApp::inputMap() { return mInputMap; }
+inline QSettings::SettingsMap &IfConsoleApp::markMap() { return mMarkMap; }
 inline QSettings::SettingsMap &IfConsoleApp::outputMap() { return mOutputMap; }

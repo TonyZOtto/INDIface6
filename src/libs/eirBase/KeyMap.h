@@ -19,6 +19,7 @@ public: // const
     bool contains(const Key &key) const;
     QVariant get(const Key &aKey) const;
     QVariant get(const Key &aKey, const QVariant &aDefault) const;
+    KeyMap extract(const Key &aGroupKey) const;
     const QVariant value(const Key &aKey) const;
     const QVariant value(const Key &aKey, const QVariant &aDefault) const;
     const Key::List keys() const;

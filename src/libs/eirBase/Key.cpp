@@ -25,6 +25,16 @@ bool Key::contains(const char ch) const
     return toString().contains(ch);
 }
 
+bool Key::startsWith(const Key aPrefixKey) const
+{
+    const Count cPrefixCount = aPrefixKey.count();
+    if (cPrefixCount > count()) return false;
+    for (Index ix = 0; ix < Index(cPrefixCount); ++ix)
+        if (aPrefixKey.segment(ix) != segment(ix))
+            return false;
+    return true;
+}
+
 Count Key::count() const
 {
     return mSegments.count();

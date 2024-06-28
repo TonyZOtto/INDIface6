@@ -19,6 +19,19 @@ QVariant KeyMap::get(const Key &aKey, const QVariant &aDefault) const
     return contains(aKey) ? value(aKey) : aDefault;
 }
 
+KeyMap KeyMap::extract(const Key &aGroupKey) const
+{
+    KeyMap result;
+    foreach (const Key cKey, keys())
+        if (cKey.startsWith(aGroupKey))
+        {
+            const KeySeg::List cSegList = cKey.segments();
+            const Key cNewKey(cSegList.mid(aGroupKey.count()));
+            result.set(cNewKey, value(cKey));
+        }
+    return result;
+}
+
 const QVariant KeyMap::value(const Key &aKey) const
 {
     return mKeyVariantMap.value(aKey);
