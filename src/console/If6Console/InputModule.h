@@ -35,6 +35,7 @@ signals:
     void processing(const QFileInfo &fi);
     void processed(const Count nProcessed, const QFileInfo &fi);
     void processError(const Count nNull, const QFileInfo &fi, const BaseErrorCode &ec);
+    void cachedFrame(const Uid aUid);
 
 public: // const
     QFileInfoList fileInfoList() const;

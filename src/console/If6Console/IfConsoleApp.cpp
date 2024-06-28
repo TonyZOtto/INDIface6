@@ -49,6 +49,8 @@ void IfConsoleApp::setup()
 void IfConsoleApp::run()
 {
     PROGRESS("Start Running");
+    connect(inputModule(), &InputModule::cachedFrame,
+            outputModule(), &OutputModule::frameCached);
     inputModule()->run();
     outputModule()->run();
 }

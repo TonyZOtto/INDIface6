@@ -15,3 +15,8 @@ void OutputModule::run()
 {
 
 }
+
+void OutputModule::frameCached(const Uid aUid)
+{
+    qInfo() << Q_FUNC_INFO << aUid.tail();
+}

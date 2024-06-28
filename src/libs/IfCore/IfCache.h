@@ -26,5 +26,5 @@ public: // const
 
 public: // non-const
     void image(const Key &key, const BaseImage &image);
-    Uid frame(const FrameData &frd);
+    Uid frame(const FrameData &aFrameData);
 };

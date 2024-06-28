@@ -31,7 +31,7 @@ void FrameData::settings(const KeyMap &aMarkFrameMap)
 {
     QVariant tValue;
     tValue.setValue(aMarkFrameMap);
-    set("Settings/Mark/Frame", tValue);
+    set("Settings/Mark", tValue);
 }
 
 void FrameData::sourceUrl(const QUrl &aUrl)

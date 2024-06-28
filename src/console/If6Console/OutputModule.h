@@ -3,6 +3,8 @@
 #include <QObject>
 #include "VirtualIfModule.h"
 
+#include <eirBase/Uid.h>
+
 class OutputModule : public VirtualIfModule
 {
     Q_OBJECT
@@ -12,6 +14,7 @@ public:
 public slots:
     virtual void initialize();
     virtual void run();
+    void frameCached(const Uid aUid);
 
 signals:
     void initialized(VirtualIfModule * pThis);

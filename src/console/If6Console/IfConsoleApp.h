@@ -6,6 +6,8 @@
 #include <QSettings>
 #include <QVariant>
 
+#include <eIRcore/MutexQueue.h>
+#include <eirBase/Uid.h>
 
 class CommandLine;
 class IfCache;
@@ -52,6 +54,7 @@ private slots:
 
 private:
     IfCache * mpCache;
+    MutexQueue<Uid> mInputQueue;
     CommandLine * mpCommandLine=nullptr;
     QSettings * mpSettings=nullptr;
     InputModule * mpInputModule=nullptr;

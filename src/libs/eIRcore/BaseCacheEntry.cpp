@@ -25,6 +25,11 @@ QVariant BaseCacheEntry::get(const Key &valueKey) const
     return mKeyMap.value(valueKey);
 }
 
+void BaseCacheEntry::uid(const Uid aUid)
+{
+    mIdent.uid(aUid);
+}
+
 void BaseCacheEntry::hold(void *holder)
 {
     mHolderList.append(holder);

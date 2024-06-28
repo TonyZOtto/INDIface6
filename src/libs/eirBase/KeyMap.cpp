@@ -34,6 +34,11 @@ const Key::List KeyMap::keys() const
     return mKeyVariantMap.keys();
 }
 
+void KeyMap::ident(const Ident &aIdent)
+{
+    mIdent = aIdent;
+}
+
 void KeyMap::set(const Key &key, const QVariant &var)
 {
     mKeyVariantMap.insert(key, var);

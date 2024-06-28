@@ -24,6 +24,7 @@ public: // const
     const Key::List keys() const;
 
 public: // non-const
+    void ident(const Ident &aIdent);
     void set(const Key &aKey, const QVariant &aValue);
     void insert(const KeyMap &other, const Key &groupKey=Key());
 

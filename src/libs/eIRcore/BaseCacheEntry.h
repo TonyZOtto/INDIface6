@@ -30,6 +30,7 @@ public: // const
     EpochMilliseconds lastTouch() const;
 
 public: // non-const
+    void uid(const Uid aUid);
     void ident(const Ident &i);
     void data(const QVariant &km);
     void map(const KeyMap &km);
