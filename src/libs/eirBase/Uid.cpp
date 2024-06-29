@@ -1,12 +1,19 @@
 #include "Uid.h"
 
+#include <MillisecondTime.h>
+
+QRandomGenerator64 Uid::smRandom64(quint32(MillisecondTime::current()));
+
 Uid::Uid() {;}
 
 Uid::Uid(const bool init)
-    : mUuid(init ? QUuid::createUuid() : QUuid())
 {
     if (init)
+    {
+        set(smRandom64(), smRandom64());
         variant(Variant7), version(QUuid::Random);
+    }
+//    qDebug() << Q_FUNC_INFO << init << mUuid.toByteArray();
 }
 
 bool Uid::isNull() const
@@ -24,6 +31,13 @@ AText Uid::tail() const
     return mUuid.toByteArray().right(14);
 }
 
+void Uid::set(const QWORD aHi64, const QWORD aLo64)
+{
+    Union tUnion;
+    tUnion.hi = aHi64, tUnion.lo = aLo64;
+    set(tUnion);
+}
+
 void Uid::set(const OWORD ow)
 {
     mUuid = QUuid::fromUInt128(ow);
@@ -39,8 +53,19 @@ void Uid::set(const QQBitArray bta)
     set(bta.toOWord());
 }
 
-void Uid::variant(const QUuid::Variant v)
+void Uid::variant(const QUuid::Variant aVariant)
 {
+#if 1
+    QByteArray tDebugBA = mUuid.toByteArray();
+    Union tUnion;
+    tUnion.u128 = mUuid.toUInt128();
+    WORD tW8 = tUnion.w8;
+    tW8 &= 0b1111111100011111;
+    tW8 |= (((WORD)aVariant) & 0b0000000000000111) << 5;
+    tUnion.w8 = tW8;
+    mUuid = QUuid::fromUInt128(tUnion.u128);
+//    qDebug() << Q_FUNC_INFO << tDebugBA << aVariant << mUuid.toByteArray();
+#else
     const QQBitArray cXBitMask = variantMask().toggled();
     QQBitArray tValueBits(BitCount);
     QQBitArray tUidBits(toOWord());
@@ -48,10 +73,22 @@ void Uid::variant(const QUuid::Variant v)
     tUidBits &= cXBitMask;
     tUidBits |= tValueBits;
     set(tUidBits);
+#endif
 }
 
-void Uid::version(const QUuid::Version v)
+void Uid::version(const QUuid::Version aVersion)
 {
+#if 1
+    QByteArray tDebugBA = mUuid.toByteArray();
+    Union tUnion;
+    tUnion.u128 = mUuid.toUInt128();
+    WORD tW6 = tUnion.w6;
+    tW6 &= 0b1111111100001111;
+    tW6 |= (((WORD)aVersion) & 0b0000000000001111) << 4;
+    tUnion.w6 = tW6;
+    mUuid = QUuid::fromUInt128(tUnion.u128);
+//    qDebug() << Q_FUNC_INFO << tDebugBA << aVersion << mUuid.toByteArray();
+#else
     const QQBitArray cXBitMask = versionMask().toggled();
     QQBitArray tValueBits(BitCount);
     QQBitArray tUidBits(toOWord());
@@ -59,6 +96,7 @@ void Uid::version(const QUuid::Version v)
     tUidBits &= cXBitMask;
     tUidBits |= tValueBits;
     set(tUidBits);
+#endif
 }
 
 Uid::Union Uid::toUnion() const

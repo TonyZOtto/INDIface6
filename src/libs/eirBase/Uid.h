@@ -1,8 +1,11 @@
 #pragma once
 #include "eIRbase.h"
 
-#include <QList>
 #include <QUuid>
+
+#include <QList>
+#include <QRandomGenerator64>
+
 
 #include "AText.h"
 #include "QQBitArray.h"
@@ -139,12 +142,12 @@ public: // const
     AText tail() const;
 
 public: // non-const
-    void set(const QWORD hi, const QWORD lo);
+    void set(const QWORD aHi64, const QWORD aLo64);
     void set(const OWORD ow);
     void set(const Union u);
     void set(const QQBitArray bta);
-    void variant(const QUuid::Variant v);
-    void version(const QUuid::Version v);
+    void variant(const QUuid::Variant aVariant);
+    void version(const QUuid::Version aVersion);
     void hi(const QWORD qw);
     void lo(const QWORD qw);
     void type(const Type t);
@@ -153,6 +156,7 @@ public: // non-const
     void value(const QWORD qw48);
 
 private: // static
+    static QRandomGenerator64 smRandom64;
     static QQBitArray variantMask();
     static QQBitArray versionMask();
     static Count variantBitCount()      { return 3; }

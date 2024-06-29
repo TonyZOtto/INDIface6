@@ -21,5 +21,6 @@ Uid IfCache::frame(const FrameData &aFrameData)
     tFrameData.ident(tIdent);
     tBCE.ident(tIdent);
     tBCE.map(tFrameData);
+    qDebug() << Q_FUNC_INFO << cCacheUid;
     return cCacheUid;
 }

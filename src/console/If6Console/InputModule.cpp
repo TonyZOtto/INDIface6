@@ -149,10 +149,10 @@ BaseErrorCode InputModule::processFile(const QFileInfo fi)
             tFrameData.sourceColorImage(cColorImage);
             const Uid cUid = app()->cache()->frame(tFrameData);
             mCacheUidQueue.enqueue(cUid);
+            qDebug() << Q_FUNC_INFO << "cachedFrame()" << cUid.tail();
             emit cachedFrame(cUid);
         }
     }
-    qDebug() << result.toString();
     return result;
 }
 
